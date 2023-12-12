@@ -1,0 +1,37 @@
+name: labcalc2
+description: "Laboratory Scientific Calculator"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+  mailto: ^2.0.0
+  package_info_plus: ^5.0.1
+  realm: ^1.6.1
+  url_launcher: ^6.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/absolute_deviation.png
+    - assets/images/arithmetic.png
+    - assets/images/hamonic.png
+    - assets/images/rms.png
+    - assets/images/squared_error.png
+
+  fonts:
+    - family: RopaSans
+      fonts:
+        - asset: assets/fonts/RopaSans-Regular.ttf
+        - asset: assets/fonts/RopaSans-Italic.ttf
+        - asset: assets/fonts/PTMono-Regular.ttf
