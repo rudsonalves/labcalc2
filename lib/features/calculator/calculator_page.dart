@@ -1,49 +1,72 @@
 import 'package:flutter/material.dart';
 
-import '../../common/themes/styles/app_text_styles.dart';
-import '../about/about_page.dart';
-import '../settings/settings_page.dart';
+import '../../common/singletons/app_settings.dart';
+import 'widgets/app_drawer.dart';
+import 'widgets/button_hub/button_hub.dart';
+import 'widgets/display/display_widget.dart';
+import 'widgets/status_bar/status_bar_widget.dart';
 
-class CalculatorPage extends StatelessWidget {
+class CalculatorPage extends StatefulWidget {
   const CalculatorPage({super.key});
 
   static const routeName = '/calculator';
 
   @override
+  State<CalculatorPage> createState() => _CalculatorPageState();
+}
+
+class _CalculatorPageState extends State<CalculatorPage> {
+  final _app = AppSettings.instance;
+
+  @override
   Widget build(BuildContext context) {
+    final colorSheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      drawer: NavigationDrawer(
-        onDestinationSelected: (index) {
-          if (index == 0) {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, SettingsPage.routeName);
-          } else if (index == 1) {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, AboutPage.routeName);
-          }
-        },
-        children: const [
-          NavigationDrawerDestination(
-            icon: Icon(Icons.settings),
-            label: Text(
-              'Settings',
-              style: AppTextStyle.textStyleNormal,
-            ),
-          ),
-          NavigationDrawerDestination(
-            icon: Icon(Icons.person),
-            label: Text(
-              'About',
-              style: AppTextStyle.textStyleNormal,
-            ),
-          )
-        ],
-      ),
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text('Laboratory Calculator'),
-        elevation: 10,
+        backgroundColor: colorSheme.primary,
       ),
-      body: const Center(child: Text('Calculator Page...')),
+      backgroundColor: colorSheme.primary,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            const Expanded(
+              flex: 4,
+              child: DisplayWidget(),
+            ),
+            Expanded(
+              flex: 1,
+              child: AnimatedBuilder(
+                  animation: Listenable.merge(
+                    [
+                      _app.fix$,
+                      _app.isRadians$,
+                      _app.truncate$,
+                      _app.mean$,
+                      _app.deviation$
+                    ],
+                  ),
+                  builder: (context, _) {
+                    print('I am listen...');
+                    return StatusBarWidget(
+                      fix: _app.fix,
+                      isRadians: _app.isRadians,
+                      truncate: _app.truncate,
+                      mean: _app.mean,
+                      deviation: _app.deviation,
+                    );
+                  }),
+            ),
+            const Expanded(
+              flex: 15,
+              child: ButtonHub(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

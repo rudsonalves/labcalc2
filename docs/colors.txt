@@ -1,0 +1,4 @@
+Primary: #003e56
+Secondary: #8093a1
+Tertiary: #6e9c93
+Neutral: #8f9193

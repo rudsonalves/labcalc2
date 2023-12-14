@@ -14,6 +14,7 @@ class AppSettings {
   ValueNotifier<int> fix$ = ValueNotifier(-1);
   ValueNotifier<bool> isRadians$ = ValueNotifier(true);
   ValueNotifier<bool> truncate$ = ValueNotifier(false);
+  ValueNotifier<bool> secondFunc$ = ValueNotifier(false);
 
   ThemeMode get themeMode => themeMode$.value;
   void toggleThemeMode() {
@@ -47,4 +48,7 @@ class AppSettings {
   bool get truncate => truncate$.value;
   void toggleIsRadians() => isRadians$.value = !isRadians$.value;
   void toggleTruncate() => truncate$.value = !truncate$.value;
+
+  bool get secondFunc => secondFunc$.value;
+  void toggleSecondFunc() => secondFunc$.value = !secondFunc$.value;
 }

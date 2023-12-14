@@ -25,12 +25,12 @@ class _MainAppState extends State<MainApp> {
           return MaterialApp(
             themeMode: appSettings.themeMode,
             theme: ThemeData(
-              fontFamily: 'RopaSans',
+              fontFamily: 'Roboto',
               useMaterial3: true,
               colorScheme: lightColorScheme,
             ),
             darkTheme: ThemeData(
-              fontFamily: 'RopaSans',
+              fontFamily: 'Roboto',
               useMaterial3: true,
               colorScheme: darkColorScheme,
             ),
