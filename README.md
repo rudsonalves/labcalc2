@@ -4,6 +4,23 @@ A new Flutter project.
 
 # Commits
 
+## 2024/12/15 - version 0.3.0:
+
+In this version marks a significant advancement in the project, introducing new functionalities for handling measurements and uncertainties, along with the implementation of unit tests to ensure greater robustness and reliability. Details of the changes are described below:
+
+* lib/common/models/measure.dart:
+  - addition of the Measure library.
+* lib/common/models/measure_functions.dart:
+  - addition of functions for the Measure library.
+* lib/common/singletons/app_settings.dart:
+  - ValueNotifier attributes of the class have been made final (constants);
+  - added the reset() method to restart the attributes of the AppSettings class. This was necessary for testing the Measure library and functions.
+* test/common/models/measure_test.dart:
+  - addition of unit testing for the Measure class, with 93% coverage.
+* test/common/models/measure_functions_test.dart:
+  - addition of unit testing for the functions in measure_functions, with 96% coverage.
+
+
 ## 2023/12/13 - version 0.2.0:
 
 This commit introduces significant improvements and important additions to the functionalities and interface of the scientific calculator, detailed as follows:

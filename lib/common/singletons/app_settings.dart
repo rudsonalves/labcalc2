@@ -7,14 +7,24 @@ class AppSettings {
   static final _instance = AppSettings._();
   static AppSettings get instance => _instance;
 
-  ValueNotifier<ThemeMode> themeMode$ = ValueNotifier(ThemeMode.dark);
-  ValueNotifier<TypeMean> mean$ = ValueNotifier(TypeMean.arithmetic);
-  ValueNotifier<TypeDeviation> deviation$ =
+  reset() {
+    themeMode$.value = ThemeMode.dark;
+    mean$.value = TypeMean.arithmetic;
+    deviation$.value = TypeDeviation.meanDeviation;
+    fix$.value = -1;
+    isRadians$.value = true;
+    truncate$.value = false;
+    secondFunc$.value = false;
+  }
+
+  final ValueNotifier<ThemeMode> themeMode$ = ValueNotifier(ThemeMode.dark);
+  final ValueNotifier<TypeMean> mean$ = ValueNotifier(TypeMean.arithmetic);
+  final ValueNotifier<TypeDeviation> deviation$ =
       ValueNotifier(TypeDeviation.meanDeviation);
-  ValueNotifier<int> fix$ = ValueNotifier(-1);
-  ValueNotifier<bool> isRadians$ = ValueNotifier(true);
-  ValueNotifier<bool> truncate$ = ValueNotifier(false);
-  ValueNotifier<bool> secondFunc$ = ValueNotifier(false);
+  final ValueNotifier<int> fix$ = ValueNotifier(-1);
+  final ValueNotifier<bool> isRadians$ = ValueNotifier(true);
+  final ValueNotifier<bool> truncate$ = ValueNotifier(false);
+  final ValueNotifier<bool> secondFunc$ = ValueNotifier(false);
 
   ThemeMode get themeMode => themeMode$.value;
   void toggleThemeMode() {
