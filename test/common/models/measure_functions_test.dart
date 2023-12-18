@@ -131,183 +131,190 @@ void main() {
 
   group('Numerics Functions:', () {
     test('abs', () {
-      expect(abs(2.35), 2.35);
+      expect(mathAbs(2.35), 2.35);
 
-      expect(abs(-2.35), 2.35);
+      expect(mathAbs(-2.35), 2.35);
     });
 
     test('numAdd', () {
-      expect(numAdd(2, 5), 7);
+      expect(addition(2, 5), 7);
 
       expect(
-          numAdd(Measure(2.35, .05), Measure(3.28, .03)), Measure(5.63, .08));
+          addition(Measure(2.35, .05), Measure(3.28, .03)), Measure(5.63, .08));
 
       expect(
-          numAdd(Measure(3.28, .03), Measure(2.35, .05)), Measure(5.63, .08));
+          addition(Measure(3.28, .03), Measure(2.35, .05)), Measure(5.63, .08));
 
-      expect(() => numAdd(2, Measure(2.35, .05)),
+      expect(() => addition(2, Measure(2.35, .05)),
           throwsA(isA<OperationNotAllowed>()));
 
-      expect(() => numAdd(Measure(2.35, .05), 2),
+      expect(() => addition(Measure(2.35, .05), 2),
           throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numSub', () {
-      expect(numSub(2, 5), -3);
+      expect(subtraction(2, 5), -3);
 
-      expect(numSub(Measure(2.35, .05), Measure(3.28, .03)),
+      expect(subtraction(Measure(2.35, .05), Measure(3.28, .03)),
           Measure(-0.9299999999999997, .08));
 
-      expect(numSub(Measure(3.28, .03), Measure(2.35, .05)),
+      expect(subtraction(Measure(3.28, .03), Measure(2.35, .05)),
           Measure(0.9299999999999997, .08));
 
-      expect(() => numSub(2, Measure(2.35, .05)),
+      expect(() => subtraction(2, Measure(2.35, .05)),
           throwsA(isA<OperationNotAllowed>()));
 
-      expect(() => numSub(Measure(2.35, .05), 2),
+      expect(() => subtraction(Measure(2.35, .05), 2),
           throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numMult', () {
-      expect(numMult(2, 5), 10);
+      expect(multiplication(2, 5), 10);
 
-      expect(numMult(Measure(2.35, .05), Measure(3.28, .03)),
+      expect(multiplication(Measure(2.35, .05), Measure(3.28, .03)),
           Measure(7.708, 0.2345));
 
-      expect(numMult(Measure(3.28, .03), Measure(2.35, .05)),
+      expect(multiplication(Measure(3.28, .03), Measure(2.35, .05)),
           Measure(7.708, 0.2345));
 
-      expect(numMult(2, Measure(2.35, .05)), Measure(4.7, .1));
+      expect(multiplication(2, Measure(2.35, .05)), Measure(4.7, .1));
 
-      expect(numMult(Measure(2.35, .05), 2), Measure(4.7, .1));
+      expect(multiplication(Measure(2.35, .05), 2), Measure(4.7, .1));
 
-      expect(() => numMult('2', Measure(2.35, .05)),
+      expect(() => multiplication('2', Measure(2.35, .05)),
           throwsA(isA<OperationNotAllowed>()));
 
-      expect(() => numMult(Measure(2.35, .05), '2'),
+      expect(() => multiplication(Measure(2.35, .05), '2'),
           throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numDiv', () {
-      expect(numDiv(2, 5), .4);
+      expect(division(2, 5), .4);
 
-      expect(numDiv(Measure(2.35, .05), Measure(3.28, .03)),
+      expect(division(Measure(2.35, .05), Measure(3.28, .03)),
           Measure(0.7164634146341464, 0.021796921475312314));
 
-      expect(numDiv(Measure(3.28, .03), Measure(2.35, .05)),
+      expect(division(Measure(3.28, .03), Measure(2.35, .05)),
           Measure(1.3957446808510636, 0.04246265278406518));
 
-      expect(numDiv(2, Measure(2.35, .05)),
+      expect(division(2, Measure(2.35, .05)),
           Measure(0.851063829787234, 0.018107741059302854));
 
-      expect(numDiv(Measure(2.35, .05), 2), Measure(1.175, 0.025));
+      expect(division(Measure(2.35, .05), 2), Measure(1.175, 0.025));
 
-      expect(() => numDiv('2', Measure(2.35, .05)),
+      expect(() => division('2', Measure(2.35, .05)),
           throwsA(isA<OperationNotAllowed>()));
 
-      expect(() => numDiv(Measure(2.35, .05), '2'),
+      expect(() => division(Measure(2.35, .05), '2'),
           throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numAbs', () {
-      expect(numAbs(5), 5);
+      expect(abs(5), 5);
 
-      expect(numAbs(-5), 5);
+      expect(abs(-5), 5);
 
-      expect(numAbs(Measure(2.35, .05)), Measure(2.35, .05));
+      expect(abs(Measure(2.35, .05)), Measure(2.35, .05));
 
-      expect(numAbs(Measure(-2.35, .05)), Measure(2.35, .05));
+      expect(abs(Measure(-2.35, .05)), Measure(2.35, .05));
 
-      expect(() => numAbs('Measure(-2.35, .05)'),
+      expect(() => abs('Measure(-2.35, .05)'),
           throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numLn', () {
-      expect(numLn(5), 1.6094379124341003);
+      expect(ln(5), 1.6094379124341003);
 
-      expect(numLn(Measure(12.5, .8)),
+      expect(ln(Measure(12.5, .8)),
           Measure(2.523676438515709, 0.06408759671199893));
 
-      expect(() => numLn('2'), throwsA(isA<OperationNotAllowed>()));
+      expect(() => ln('2'), throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numLog', () {
-      expect(numLog(5), 0.6989700043360187);
+      expect(log(5), 0.6989700043360187);
 
-      expect(numLog(Measure(12.5, .8)),
+      expect(log(Measure(12.5, .8)),
           Measure(1.0960187513566235, 0.027832889610462153));
 
-      expect(() => numLog('2'), throwsA(isA<OperationNotAllowed>()));
+      expect(() => log('2'), throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numPow', () {
-      expect(numPow(5, 3), 125);
+      expect(pow(5, 3), 125);
 
-      expect(numPow(Measure(1.25, .06), 3), Measure(1.953125, 0.28125));
+      expect(pow(Measure(1.25, .06), 3), Measure(1.953125, 0.28125));
 
-      expect(() => numPow('2', 3), throwsA(isA<OperationNotAllowed>()));
+      expect(() => pow('2', 3), throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numPowi', () {
-      expect(numPowi(5, 3), 1.7099759466766968);
+      expect(sqry(5, 3), 1.7099759466766968);
 
-      expect(numPowi(Measure(82.5, .6), 3),
+      expect(sqry(Measure(82.5, .6), 3),
           Measure(4.353293845586806, 0.010553439625664985));
 
-      expect(() => numPowi('2', 3), throwsA(isA<OperationNotAllowed>()));
+      expect(() => sqry('2', 3), throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numPow2', () {
-      expect(numPow2(5), 25);
+      expect(pow2(5), 25);
 
-      expect(numPow2(Measure(1.825, .006)),
-          Measure(3.330625, 0.021900000000000003));
+      expect(pow(5), 25);
 
-      expect(() => numPow2('2'), throwsA(isA<OperationNotAllowed>()));
+      expect(
+          pow2(Measure(1.825, .006)), Measure(3.330625, 0.021900000000000003));
+
+      expect(
+          pow(Measure(1.825, .006)), Measure(3.330625, 0.021900000000000003));
+
+      expect(() => pow2('2'), throwsA(isA<OperationNotAllowed>()));
+
+      expect(() => pow('2'), throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numPow3', () {
-      expect(numPow3(5), 125);
+      expect(pow3(5), 125);
 
-      expect(numPow3(Measure(1.825, .006)), Measure(6.078390625, 0.05995125));
+      expect(pow3(Measure(1.825, .006)), Measure(6.078390625, 0.05995125));
 
-      expect(() => numPow3('2'), throwsA(isA<OperationNotAllowed>()));
+      expect(() => pow3('2'), throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numPowi3', () {
-      expect(numPowi3(5), 1.7099759466766968);
+      expect(sqr3(5), 1.7099759466766968);
 
-      expect(numPowi3(Measure(82.5, .6)),
+      expect(sqr3(Measure(82.5, .6)),
           Measure(4.353293845586806, 0.010553439625664985));
 
-      expect(() => numPowi3('2'), throwsA(isA<OperationNotAllowed>()));
+      expect(() => sqr3('2'), throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numPow10', () {
-      expect(numPow10(5), 100000);
+      expect(pow10(5), 100000);
 
-      expect(numPow10(Measure(1.825, .006)),
+      expect(pow10(Measure(1.825, .006)),
           Measure(66.84077014274982, 0.9233806183176867));
 
-      expect(() => numPow10('2'), throwsA(isA<OperationNotAllowed>()));
+      expect(() => pow10('2'), throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numExp', () {
-      expect(numExp(5), 148.4131591025766);
+      expect(exp(5), 148.4131591025766);
 
-      expect(numExp(Measure(1.825, .006)),
+      expect(exp(Measure(1.825, .006)),
           Measure(6.20290666975016, 0.03721699341565188));
 
-      expect(() => numExp('2'), throwsA(isA<OperationNotAllowed>()));
+      expect(() => exp('2'), throwsA(isA<OperationNotAllowed>()));
     });
 
     test('numSqrt', () {
-      expect(numSqrt(5), 2.23606797749979);
+      expect(sqr(5), 2.23606797749979);
 
-      expect(numSqrt(Measure(2.32, .03)),
+      expect(sqr(Measure(2.32, .03)),
           Measure(1.5231546211727816, 0.009847982464479191));
 
-      expect(() => numSqrt('2'), throwsA(isA<OperationNotAllowed>()));
+      expect(() => sqr('2'), throwsA(isA<OperationNotAllowed>()));
     });
   });
 
@@ -373,206 +380,206 @@ void main() {
     });
 
     test('numSin(rad)', () {
-      expect(numSin(2.32), 0.7322314440302514);
+      expect(sin(2.32), 0.7322314440302514);
 
-      expect(numSin(-2.32), -0.7322314440302514);
+      expect(sin(-2.32), -0.7322314440302514);
 
-      expect(numSin(1.59), 0.9998156151342908);
+      expect(sin(1.59), 0.9998156151342908);
 
-      expect(numSin(Measure(2.32, .03)),
+      expect(sin(Measure(2.32, .03)),
           Measure(0.7319019645925077, 0.020428611801663));
 
-      expect(numSin(Measure(1.59, 0.06)),
+      expect(sin(Measure(1.59, 0.06)),
           Measure(0.9984325142269594, 0.0015674857730405556));
 
-      expect(numSin(Measure(1.55, 0.06)),
+      expect(sin(Measure(1.55, 0.06)),
           Measure(0.9983688760215716, 0.001631123978428295));
 
-      expect(numSin(Measure(-1.59, 0.06)),
+      expect(sin(Measure(-1.59, 0.06)),
           Measure(-0.9984325142269594, 0.0015674857730405556));
 
-      expect(numSin(Measure(-1.55, 0.06)),
+      expect(sin(Measure(-1.55, 0.06)),
           Measure(-0.9983688760215716, 0.001631123978428295));
     });
 
     test('numSin(deg)', () {
       AppSettings.instance.toggleIsRadians();
 
-      expect(numSin(35), 0.573576436351046);
+      expect(sin(35), 0.573576436351046);
 
-      expect(numSin(-35), -0.573576436351046);
+      expect(sin(-35), -0.573576436351046);
 
-      expect(numSin(128), 0.788010753606722);
+      expect(sin(128), 0.788010753606722);
 
-      expect(numSin(Measure(128, 2)),
+      expect(sin(Measure(128, 2)),
           Measure(0.7875307187469627, 0.02148627562798472));
 
-      expect(numSin(Measure(-128, 2)),
+      expect(sin(Measure(-128, 2)),
           Measure(-0.7875307187469627, 0.02148627562798472));
 
-      expect(numSin(Measure(35, 2)),
+      expect(sin(Measure(35, 2)),
           Measure(0.5732270290835376, 0.028587994068510647));
     });
 
     test('numCos(rad)', () {
-      expect(numCos(2.32), -0.6810558805071525);
+      expect(cos(2.32), -0.6810558805071525);
 
-      expect(numCos(-2.32), -0.6810558805071525);
+      expect(cos(-2.32), -0.6810558805071525);
 
-      expect(numCos(1.59), -0.01920249290169265);
+      expect(cos(1.59), -0.01920249290169265);
 
-      expect(numCos(Measure(0.61, .03)),
+      expect(cos(Measure(0.61, .03)),
           Measure(0.8192792038997398, 0.017183446015447135));
 
-      expect(numCos(Measure(3.12, 0.06)),
+      expect(cos(Measure(3.12, 0.06)),
           Measure(-0.9983365828580233, 0.0016634171419767085));
 
-      expect(numCos(Measure(3.16, 0.06)),
+      expect(cos(Measure(3.16, 0.06)),
           Measure(-0.9984638592284434, 0.00153614077155656));
 
-      expect(numCos(Measure(0.02, 0.06)),
+      expect(cos(Measure(0.02, 0.06)),
           Measure(0.9984008531513098, 0.0015991468486902805));
 
-      expect(numCos(Measure(-0.02, 0.06)),
+      expect(cos(Measure(-0.02, 0.06)),
           Measure(0.9984008531513098, 0.0015991468486902805));
     });
 
     test('numCos(deg)', () {
       AppSettings.instance.toggleIsRadians();
 
-      expect(numCos(28.5), 0.8788171126619654);
+      expect(cos(28.5), 0.8788171126619654);
 
-      expect(numCos(128.5), -0.6225146366376194);
+      expect(cos(128.5), -0.6225146366376194);
 
-      expect(numCos(-128.5), -0.6225146366376194);
+      expect(cos(-128.5), -0.6225146366376194);
 
-      expect(numCos(Measure(28.5, .8)),
+      expect(cos(Measure(28.5, .8)),
           Measure(0.8787314490932683, 0.006662176661147656));
 
-      expect(numCos(Measure(-28.5, .8)),
+      expect(cos(Measure(-28.5, .8)),
           Measure(0.8787314490932683, 0.006662176661147656));
 
-      expect(numCos(Measure(133.7, .5)),
+      expect(cos(Measure(133.7, .5)),
           Measure(-0.6908561043916263, 0.006308998462937865));
     });
 
     test('numTan(rad)', () {
-      expect(numTan(2.32), -1.07514150451941);
+      expect(tan(2.32), -1.07514150451941);
 
-      expect(numTan(-2.32), 1.07514150451941);
+      expect(tan(-2.32), 1.07514150451941);
 
-      expect(numTan(1.59), -52.06696965091235);
+      expect(tan(1.59), -52.06696965091235);
 
-      expect(numTan(Measure(0.61, .03)),
+      expect(tan(Measure(0.61, .03)),
           Measure(0.699856135491236, 0.04468768672972789));
     });
 
     test('numTan(deg)', () {
       AppSettings.instance.toggleIsRadians();
 
-      expect(numTan(128.5), -1.257172298918955);
+      expect(tan(128.5), -1.257172298918955);
 
-      expect(numTan(32.3), 0.6321737577491856);
+      expect(tan(32.3), 0.6321737577491856);
 
-      expect(numTan(-32.3), -0.6321737577491856);
+      expect(tan(-32.3), -0.6321737577491856);
 
-      expect(numTan(Measure(133.7, .5)),
+      expect(tan(Measure(133.7, .5)),
           Measure(-1.046607203275299, 0.018284637049493457));
     });
 
     test('numAcos(rad)', () {
-      expect(numAcos(.345), 1.2185575416978318);
+      expect(acos(.345), 1.2185575416978318);
 
-      expect(numAcos(-.762), 2.437192290781323);
+      expect(acos(-.762), 2.437192290781323);
 
-      expect(numAcos(Measure(.35, .03)),
+      expect(acos(Measure(.35, .03)),
           Measure(1.2130334349104512, 0.032033404589815184));
 
-      expect(numAcos(Measure(.324, .008)),
+      expect(acos(Measure(.324, .008)),
           Measure(1.2408295636269868, 0.008456285629688143));
 
-      expect(numAcos(Measure(-.35, .03)),
+      expect(acos(Measure(-.35, .03)),
           Measure(1.928559218679342, 0.032033404589815295));
     });
 
     test('numAcos(deg)', () {
       AppSettings.instance.toggleIsRadians();
 
-      expect(numAcos(.345), 69.81820423312259);
+      expect(acos(.345), 69.81820423312259);
 
-      expect(numAcos(-.762), 139.6408321235907);
+      expect(acos(-.762), 139.6408321235907);
 
-      expect(numAcos(Measure(.35, .03)),
+      expect(acos(Measure(.35, .03)),
           Measure(69.50169622862612, 1.83537888643141));
 
-      expect(numAcos(Measure(.324, .008)),
+      expect(acos(Measure(.324, .008)),
           Measure(71.09429709088599, 0.48450947693825835));
 
-      expect(numAcos(Measure(-.35, .03)),
+      expect(acos(Measure(-.35, .03)),
           Measure(110.4983037713739, 1.8353788864314162));
     });
 
     test('numAsin(rad)', () {
-      expect(numAsin(.345), 0.35223878509706474);
+      expect(asin(.345), 0.35223878509706474);
 
-      expect(numAsin(-.762), -0.8663959639864265);
+      expect(asin(-.762), -0.8663959639864265);
 
-      expect(numAsin(Measure(.35, .03)),
+      expect(asin(Measure(.35, .03)),
           Measure(0.3577628918844453, 0.03203340458981524));
 
-      expect(numAsin(Measure(.324, .008)),
+      expect(asin(Measure(.324, .008)),
           Measure(0.3299667631679098, 0.008456285629688254));
 
-      expect(numAsin(Measure(-.35, .03)),
+      expect(asin(Measure(-.35, .03)),
           Measure(-0.3577628918844453, 0.03203340458981524));
     });
 
     test('numAsin(deg)', () {
       AppSettings.instance.toggleIsRadians();
 
-      expect(numAsin(.345), 20.18179576687741);
+      expect(asin(.345), 20.18179576687741);
 
-      expect(numAsin(-.762), -49.6408321235907);
+      expect(asin(-.762), -49.6408321235907);
 
-      expect(numAsin(Measure(.35, .03)),
+      expect(asin(Measure(.35, .03)),
           Measure(20.498303771373887, 1.8353788864314131));
 
-      expect(numAsin(Measure(.324, .008)),
+      expect(asin(Measure(.324, .008)),
           Measure(18.905702909114012, 0.4845094769382647));
 
-      expect(numAsin(Measure(-.35, .03)),
+      expect(asin(Measure(-.35, .03)),
           Measure(-20.498303771373887, 1.8353788864314131));
     });
 
     test('numAtan(rad)', () {
-      expect(numAtan(.345), 0.3322135507465967);
+      expect(atan(.345), 0.3322135507465967);
 
-      expect(numAtan(-3.235), -1.2709946058035542);
+      expect(atan(-3.235), -1.2709946058035542);
 
-      expect(numAtan(Measure(.56, .03)),
+      expect(atan(Measure(.56, .03)),
           Measure(0.5101963448413402, 0.022837765336149923));
 
-      expect(numAtan(Measure(3.23, .08)),
+      expect(atan(Measure(3.23, .08)),
           Measure(1.270399665123803, 0.0070008114517278175));
 
-      expect(numAtan(Measure(-6.75, .05)),
+      expect(atan(Measure(-6.75, .05)),
           Measure(-1.4237101875733433, 0.0010738815102779853));
     });
 
     test('numAtan(deg)', () {
       AppSettings.instance.toggleIsRadians();
 
-      expect(numAtan(.345), 19.03443435483519);
+      expect(atan(.345), 19.03443435483519);
 
-      expect(numAtan(-3.235), -72.82262669643742);
+      expect(atan(-3.235), -72.82262669643742);
 
-      expect(numAtan(Measure(.56, .03)),
+      expect(atan(Measure(.56, .03)),
           Measure(29.232097282409946, 1.3085075672715605));
 
-      expect(numAtan(Measure(3.23, .08)),
+      expect(atan(Measure(3.23, .08)),
           Measure(72.78853910642704, 0.4011169493508588));
 
-      expect(numAtan(Measure(-6.75, .05)),
+      expect(atan(Measure(-6.75, .05)),
           Measure(-81.57258499773135, 0.061528878236063296));
     });
   });

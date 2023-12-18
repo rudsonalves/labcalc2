@@ -3,6 +3,33 @@
 A new Flutter project.
 
 # Commits
+## 2024/12/18b - version: 0.3.2
+
+This commit focuses on refactoring and reorganizing the code, bringing greater clarity and efficiency to the calculator's functionalities. The changes include the refactoring of the ButtonHub class into new, more specialized classes, as well as renaming functions for improved readability and maintainability. Details of the changes are as follows:
+
+* lib/common/models/measure/measure.dart:
+  - the pow10 function in measure_functions.dart was renamed to mathPow10, as it directly accesses the functions in math to define it.
+* lib/common/models/measure/measure_functions.dart:
+  - added an 'as math' to the math import;
+  - added a direct call to math.pi's pi;
+  - functions sqrt, pow, sin, cos, tan, asin, acos, atan, log, log10, exp, pow10, and abs had 'math.' added to their call;
+  - numAdd renamed to addition;
+  - numSub renamed to subtraction;
+  - numMult renamed to multiplication;
+  - numDiv renamed to division;
+  - numAbs, numLn, numLog, numPow, numPowi, numPow2, numPow3, numPowi3, numPow10, numExp, numSqrt, numCos, numSin, numTan, numAcos, numAsin, numAtan were renamed to abs, ln, log, pow, powi, pow2, pow3, sqr3, pow10, exp, sqr, cos, sin, tan, acos, asin, atan.
+* lib/features/calculator/widgets/button_hub/button_hub.dart:
+  - this code was refactored, generating the StringEdit, DisplayControl, and CreateButton classes;
+  - various methods were renamed from _nameButton to nameKey, aiming to manage key presses.
+* lib/features/calculator/widgets/button_hub/utilities/create_button.dart:
+  - class specialized in creating buttons.
+* lib/features/calculator/widgets/button_hub/utilities/display_control.dart:
+  - class specialized in controlling the cursor movement and the update of the display's TextEditingController.
+* lib/features/calculator/widgets/button_hub/utilities/string_edit.dart:
+  - class specialized in editing and manipulating the display string content.
+* test/common/models/measure_functions_test.dart:
+  - all tests were updated and tested.
+
 
 ## 2024/12/18 - version 0.3.1:
 This release introduces significant enhancements across various components of the calculator, including new functionalities and adjustments in styles and colors, detailed below:
