@@ -1,12 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:labcalc2/common/widgets/fix_spin_button.dart';
+import 'dart:developer';
 
-import '../../../../common/constants/constants.dart';
+import 'package:flutter/material.dart';
+
 import '../../../../common/models/display/display_controller.dart';
 import '../../../../common/models/key_model/key_model.dart';
 import '../../../../common/singletons/app_settings.dart';
 import '../../../../common/themes/colors/app_colors.dart';
+import '../../../../common/widgets/fix_spin_button.dart';
 import 'calc_button.dart';
+import 'utilities/create_button.dart';
+import 'utilities/display_control.dart';
+import 'utilities/string_edit.dart';
 
 enum DirectionKeys {
   left,
@@ -26,7 +30,7 @@ class _ButtonHubState extends State<ButtonHub> {
   final _app = AppSettings.instance;
   final _display = DisplayController.instance;
 
-  void _insertKey(KeyModel key) {
+  void insertKey(KeyModel key) {
     String text = _display.controller.text;
     TextSelection selection = _display.controller.selection;
 
@@ -45,51 +49,37 @@ class _ButtonHubState extends State<ButtonHub> {
 
     // If there is a text selection, replace the selection with the new character
     if (selection.isValid && startPositionSelection != endPositionSelection) {
-      text = _insertAtSelectionPosition(
+      text = StringEdit.insertAtSelectionPosition(
           text, startPositionSelection, key, endPositionSelection);
     } else {
       // Insert character at cursor position
-      text = _insertAtCurrentPosition(endPositionSelection, text, key);
+      text =
+          StringEdit.insertAtCurrentPosition(endPositionSelection, text, key);
     }
 
     if (key.label.contains('(x')) {
       int newStart = startPositionSelection + key.offset;
       int newEnd = newStart + 1;
-      _updateDisplay(
+      DisplayControl.updateDisplay(
+        _display.controller,
         text,
         TextSelection(baseOffset: newStart, extentOffset: newEnd),
       );
     } else {
       int newPosition = startPositionSelection + key.offset;
-      _updateDisplay(text, TextSelection.collapsed(offset: newPosition));
+      DisplayControl.updateDisplay(
+        _display.controller,
+        text,
+        TextSelection.collapsed(offset: newPosition),
+      );
     }
     _display.displayFocusNode.requestFocus();
   }
 
-  String _insertAtSelectionPosition(String text, int startPositionSelection,
-      KeyModel key, int endPositionSelection) {
-    text = text.substring(0, startPositionSelection) +
-        key.label +
-        text.substring(endPositionSelection, text.length);
-    return text;
-  }
-
-  String _insertAtCurrentPosition(
-      int endPositionSelection, String text, KeyModel key) {
-    if (endPositionSelection == text.length) {
-      text += key.label;
-    } else {
-      text = text.substring(0, endPositionSelection) +
-          key.label +
-          text.substring(endPositionSelection, text.length);
-    }
-    return text;
-  }
-
-  void _moveKeyButtons(DirectionKeys key) {
+  void moveKeyKeys(DirectionKeys key) {
     switch (key) {
       case DirectionKeys.left:
-        _moveCursorLeft();
+        DisplayControl.moveCursorLeft(_display.controller);
         break;
       case DirectionKeys.top:
         // TODO: Handle this case.
@@ -98,64 +88,15 @@ class _ButtonHubState extends State<ButtonHub> {
         // TODO: Handle this case.
         break;
       case DirectionKeys.right:
-        _moveCursorRight();
+        DisplayControl.moveCursorRight(_display.controller);
     }
   }
 
-  void _moveCursorLeft() {
-    String text = _display.controller.text;
-    int startSelection = _display.controller.selection.start;
-
-    RegExp regExp = RegExp(r',y|±dx|\(x');
-    RegExpMatch? match =
-        regExp.allMatches(text.substring(0, startSelection)).lastOrNull;
-
-    if (match != null) {
-      int startSelection = match.start + 1;
-      int offset = match.end - match.start - 1;
-      _updateDisplay(
-        text,
-        TextSelection(
-            baseOffset: startSelection, extentOffset: startSelection + offset),
-      );
-    } else {
-      _moveCursor(startSelection - 1);
-    }
-  }
-
-  void _moveCursorRight() {
-    String text = _display.controller.text;
-    int startSelection = _display.controller.selection.start;
-    int endSelection = _display.controller.selection.end;
-
-    RegExp regExp = RegExp(r'x,|x±|y\)|dx\)|x\)');
-    RegExpMatch? match = regExp.firstMatch(text.substring(endSelection));
-
-    if (match != null) {
-      startSelection = endSelection + match.start;
-      int offset = match.end - match.start - 1;
-
-      _updateDisplay(
-        text,
-        TextSelection(
-            baseOffset: startSelection, extentOffset: startSelection + offset),
-      );
-    } else {
-      _moveCursor(endSelection + 1);
-    }
-  }
-
-  void _moveCursor(int position) {
-    if (position < 0 || position > _display.controller.text.length) return;
-    _display.controller.selection =
-        TextSelection.fromPosition(TextPosition(offset: position));
-  }
-
-  void _clearButton() {
+  void clearKey() {
     _display.controller.text = '';
   }
 
-  void _pmButton(KeyModel key) {
+  void pmKey(KeyModel key) {
     String text = _display.controller.text;
     int startSelection = _display.controller.selection.start;
 
@@ -164,12 +105,16 @@ class _ButtonHubState extends State<ButtonHub> {
 
     if (match != null) {
       int newPosition = text.indexOf('±', startSelection);
-      _moveCursor(newPosition);
-      _moveCursorRight();
+      DisplayControl.moveCursor(_display.controller, newPosition);
+      DisplayControl.moveCursorRight(_display.controller);
     }
   }
 
-  void _backSpaceButton() {
+  void notImplementedKey(KeyModel key) {
+    log('Not implemented key: ${key.label}');
+  }
+
+  void backSpaceKey() {
     int position = _display.controller.selection.baseOffset;
     String text = _display.controller.text;
 
@@ -180,22 +125,27 @@ class _ButtonHubState extends State<ButtonHub> {
     String? newText;
     int newPosition;
 
-    (newText, newPosition) = _tryRemoveSpecialSequence(text, position);
+    (newText, newPosition) =
+        StringEdit.tryRemoveSpecialSequence(text, position);
 
     if (newText == null) {
       String lastCharacter = text.substring(position - 1, position);
       if (lastCharacter == '(' || lastCharacter == ')') {
-        _moveCursor(position - 1);
+        DisplayControl.moveCursor(_display.controller, position - 1);
         return;
       }
-      newText = _removeLastCharacter(text, position);
+      newText = StringEdit.removeLastCharacter(text, position);
       newPosition = position - 1;
     }
 
-    _updateDisplay(newText, TextSelection.collapsed(offset: newPosition));
+    DisplayControl.updateDisplay(
+      _display.controller,
+      newText,
+      TextSelection.collapsed(offset: newPosition),
+    );
   }
 
-  void _fixButton(KeyModel key) async {
+  void fixKey(KeyModel key) async {
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -217,99 +167,6 @@ class _ButtonHubState extends State<ButtonHub> {
         ],
       ),
     );
-  }
-
-  (String?, int) _tryRemoveSpecialSequence(String text, int position) {
-    for (String seq in removalSeq) {
-      int seqLength = seq.length;
-
-      int startPos = position - seqLength;
-      startPos = startPos < 0 ? 0 : startPos;
-
-      int endPos = position + (seqLength - 1);
-      endPos = endPos > text.length ? text.length : endPos;
-
-      String subString = text.substring(startPos, endPos);
-
-      if (subString.contains(seq)) {
-        int offset = subString.indexOf(seq);
-
-        text = text.substring(0, offset + startPos) +
-            text.substring(offset + startPos + seqLength);
-        position = offset + startPos;
-        return (text, position);
-      }
-    }
-    return (null, -1);
-  }
-
-  String _removeLastCharacter(text, position) {
-    return text.substring(0, position - 1) + text.substring(position);
-  }
-
-  void _updateDisplay(String text, TextSelection newSelection) {
-    _display.controller.text = text;
-    _display.controller.selection = newSelection;
-  }
-
-  List<Widget> _createDirectionalButtons() {
-    Map<String, DirectionKeys> directionsMap = {
-      '◀': DirectionKeys.left,
-      '▲': DirectionKeys.top,
-      '▼': DirectionKeys.bottom,
-      '▶': DirectionKeys.right,
-    };
-
-    return directionsMap.keys
-        .map((key) => CalcButton(
-              key,
-              buttonColor: AppColors.buttonDirectional,
-              buttonCallBack: (_) => _moveKeyButtons(directionsMap[key]!),
-            ))
-        .toList();
-  }
-
-  List<Widget> _createMemoryButtons() {
-    int aMemory = 'A'.runes.first;
-    int fMemory = 'E'.runes.first;
-
-    List<Widget> buttons = [];
-
-    for (int i = 0; i < 4; i++) {
-      buttons.add(
-        ListenableBuilder(
-          listenable: _app.secondFunc$,
-          builder: (context, _) {
-            return CalcButton(
-              !_app.secondFunc
-                  ? String.fromCharCode(aMemory + i)
-                  : String.fromCharCode(fMemory + i),
-              fontColor:
-                  !_app.secondFunc ? AppColors.fontBlack : AppColors.fontYellow,
-              buttonColor: AppColors.buttonMemories,
-              buttonCallBack: _insertKey,
-            );
-          },
-        ),
-      );
-    }
-
-    return buttons;
-  }
-
-  List<Widget> _createNumbersButtons(String numbers) {
-    List<Widget> buttons = [];
-    for (String number in numbers.split('')) {
-      buttons.add(
-        CalcButton(
-          number,
-          buttonColor: AppColors.buttonBasics,
-          buttonCallBack: _insertKey,
-        ),
-      );
-    }
-
-    return buttons;
   }
 
   @override
@@ -350,28 +207,27 @@ class _ButtonHubState extends State<ButtonHub> {
                     buttonCallBack: (_) => _app.toggleSecondFunc(),
                   );
                 }),
-            ..._createDirectionalButtons(),
+            ...CreateButton.directionals(moveKeyKeys),
             CalcButton(
               'STO',
-              // image: 'assets/images/buttons/sto.png',
               fontColor: AppColors.fontBlack,
               buttonColor: AppColors.buttonMemories,
-              buttonCallBack: _insertKey,
+              buttonCallBack: notImplementedKey,
             ),
-            ..._createMemoryButtons(),
+            ...CreateButton.memories(insertKey),
             CalcButton(
               '(x±dx)',
               image: 'assets/images/buttons/measure.png',
               fontColor: AppColors.fontWhite,
               buttonColor: AppColors.buttonMeasures,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
             CalcButton(
               '±',
               image: 'assets/images/buttons/pm.png',
               fontColor: AppColors.fontWhite,
               buttonColor: AppColors.buttonMeasures,
-              buttonCallBack: _pmButton,
+              buttonCallBack: pmKey,
             ),
             ListenableBuilder(
                 listenable: _app.truncate$,
@@ -398,7 +254,7 @@ class _ButtonHubState extends State<ButtonHub> {
                         ? AppColors.fontWhite
                         : AppColors.fontYellow,
                     buttonColor: const Color(0xFF3DD3F8),
-                    buttonCallBack: _insertKey,
+                    buttonCallBack: insertKey,
                   );
                 }),
             CalcButton(
@@ -406,13 +262,13 @@ class _ButtonHubState extends State<ButtonHub> {
               image: 'assets/images/buttons/xm.png',
               fontColor: AppColors.fontWhite,
               buttonColor: const Color(0xFF3DD3F8),
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
             CalcButton(
               'abs(x)',
               image: 'assets/images/buttons/abs.png',
               fontColor: AppColors.fontWhite,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
             ListenableBuilder(
               listenable: _app.secondFunc$,
@@ -425,7 +281,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: _insertKey,
+                  buttonCallBack: insertKey,
                 );
               },
             ),
@@ -440,7 +296,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: _insertKey,
+                  buttonCallBack: insertKey,
                 );
               },
             ),
@@ -448,13 +304,13 @@ class _ButtonHubState extends State<ButtonHub> {
               '-',
               image: 'assets/images/buttons/minusset.png',
               fontColor: AppColors.fontWhite,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
             CalcButton(
               'π',
               image: 'assets/images/buttons/pi.png',
               fontColor: AppColors.fontWhite,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
             ListenableBuilder(
               listenable: _app.isRadians$,
@@ -482,7 +338,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: _insertKey,
+                  buttonCallBack: insertKey,
                 );
               },
             ),
@@ -497,7 +353,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: _insertKey,
+                  buttonCallBack: insertKey,
                 );
               },
             ),
@@ -512,7 +368,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: _insertKey,
+                  buttonCallBack: insertKey,
                 );
               },
             ),
@@ -520,7 +376,7 @@ class _ButtonHubState extends State<ButtonHub> {
               'Fix',
               image: 'assets/images/buttons/fix.png',
               fontColor: AppColors.fontWhite,
-              buttonCallBack: _fixButton,
+              buttonCallBack: fixKey,
             ),
             ListenableBuilder(
               listenable: _app.secondFunc$,
@@ -533,7 +389,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: _insertKey,
+                  buttonCallBack: insertKey,
                 );
               },
             ),
@@ -548,7 +404,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: _insertKey,
+                  buttonCallBack: insertKey,
                 );
               },
             ),
@@ -563,7 +419,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: _insertKey,
+                  buttonCallBack: insertKey,
                 );
               },
             ),
@@ -571,80 +427,80 @@ class _ButtonHubState extends State<ButtonHub> {
               '(x)',
               image: 'assets/images/buttons/parentheses.png',
               fontColor: AppColors.fontWhite,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
             CalcButton(
-              '...',
+              '???',
               // image: 'assets/images/buttons/close.png',
               fontColor: AppColors.fontWhite,
-              buttonCallBack: _insertKey,
+              buttonCallBack: notImplementedKey,
             ),
-            ..._createNumbersButtons('789'),
+            ...CreateButton.numbers('789', insertKey),
             CalcButton(
               'BS',
               // image: 'assets/images/buttons/bs.png',
               buttonColor: AppColors.buttonClean,
               fontColor: AppColors.fontWhite,
-              buttonCallBack: (_) => _backSpaceButton(),
+              buttonCallBack: (_) => backSpaceKey(),
             ),
             CalcButton(
               'CLR',
               // image: 'assets/images/buttons/clr.png',
               buttonColor: AppColors.buttonClean,
               fontColor: AppColors.fontWhite,
-              buttonCallBack: (_) => _clearButton(),
+              buttonCallBack: (_) => clearKey(),
             ),
-            ..._createNumbersButtons('456'),
+            ...CreateButton.numbers('456', insertKey),
             CalcButton(
               '*',
               image: 'assets/images/buttons/times.png',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
             CalcButton(
               '/',
               image: 'assets/images/buttons/div.png',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
-            ..._createNumbersButtons('123'),
+            ...CreateButton.numbers('123', insertKey),
             CalcButton(
               '+',
               image: 'assets/images/buttons/plus.png',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
             CalcButton(
               '-',
               image: 'assets/images/buttons/minus.png',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
             CalcButton(
               '0',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
             CalcButton(
               '.',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
             CalcButton(
               'EE',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
             CalcButton(
               'ANS',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
             CalcButton(
               '=',
               image: 'assets/images/buttons/eq.png',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: _insertKey,
+              buttonCallBack: insertKey,
             ),
           ],
         );

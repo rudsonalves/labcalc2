@@ -136,12 +136,12 @@ class Measure {
         return '${value.toStringAsFixed(n)} ± ${delta.toStringAsFixed(n)}';
       } else {
         final int m = getOrder(value);
-        return '(${(value * pow10(m.toDouble())).toStringAsFixed(n - m)} ±'
-            ' ${(delta * pow10(m.toDouble())).toStringAsFixed(n - m)})E${-m}';
+        return '(${(value * mathPow10(m.toDouble())).toStringAsFixed(n - m)} ±'
+            ' ${(delta * mathPow10(m.toDouble())).toStringAsFixed(n - m)})E${-m}';
       }
     } else {
-      return '(${(value * pow10(n.toDouble())).toStringAsFixed(0)} ±'
-          ' ${(delta * pow10(n.toDouble())).toStringAsFixed(0)})E${-n}';
+      return '(${(value * mathPow10(n.toDouble())).toStringAsFixed(0)} ±'
+          ' ${(delta * mathPow10(n.toDouble())).toStringAsFixed(0)})E${-n}';
     }
   }
 

@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import '../../constants/constants.dart';
 import '../../singletons/app_settings.dart';
@@ -7,6 +7,8 @@ import 'measure.dart';
 bool isRadian() {
   return AppSettings.instance.isRadians;
 }
+
+const pi = math.pi;
 
 /*
 Statistical functions
@@ -71,7 +73,7 @@ double rmsMean(List<double> xs) {
   for (double v in xs) {
     s += v * v;
   }
-  return sqrt(s / xs.length);
+  return math.sqrt(s / xs.length);
 }
 
 /// Return a deviation using a Simple Mean Deviation model.
@@ -81,13 +83,15 @@ double simpleMeaDeviation(List<double> xs, double xm) {
 
 /// Return a deviation using a Sample Standard Deviation model.
 double sampleStandardDeviation(List<double> xs, double xm) {
-  return sqrt(xs.map((xi) => pow((xm - xi), 2)).reduce((a, b) => a + b)) /
+  return math.sqrt(
+          xs.map((xi) => math.pow((xm - xi), 2)).reduce((a, b) => a + b)) /
       (xs.length - 1);
 }
 
 /// Return a deviation using a Population Standard Deviation model.
 double popsStandardDeviation(List<double> xs, double xm) {
-  return sqrt(xs.map((xi) => pow((xm - xi), 2)).reduce((a, b) => a + b)) /
+  return math.sqrt(
+          xs.map((xi) => math.pow((xm - xi), 2)).reduce((a, b) => a + b)) /
       xs.length;
 }
 
@@ -143,12 +147,12 @@ Measure measureAbs(Measure m) {
 }
 
 Measure measurePow(Measure m, double n) {
-  final double r = pow(m.value, n).toDouble();
+  final double r = math.pow(m.value, n).toDouble();
   return Measure(r, (r * n * m.delta / m.value).abs());
 }
 
 Measure measureSqrt(Measure m) {
-  final double r = sqrt(m.value);
+  final double r = math.sqrt(m.value);
   return Measure(r, r.abs() * 0.5 * m.delta / m.value);
 }
 
@@ -161,11 +165,11 @@ Measure measureFunction(Measure m, Function function) {
 Measure measureSin(Measure m) {
   final double v0 = m.value + m.delta;
   final double v1 = m.value - m.delta;
-  final double s0 = sin(v0);
-  final double s1 = sin(v1);
+  final double s0 = math.sin(v0);
+  final double s1 = math.sin(v1);
   // Checks by the derivative if the function
   // is in a range of maximum/minimum
-  if (cos(v0) * cos(v1) < 0) {
+  if (math.cos(v0) * math.cos(v1) < 0) {
     if (s0 > 0) {
       // Is a maximum
       final double d0 = 1 - s0;
@@ -194,11 +198,11 @@ Measure measureSin(Measure m) {
 Measure measureCos(Measure m) {
   final double v0 = m.value + m.delta;
   final double v1 = m.value - m.delta;
-  final double s0 = cos(v0);
-  final double s1 = cos(v1);
+  final double s0 = math.cos(v0);
+  final double s1 = math.cos(v1);
   // Checks by the derivative if the function
   // is in a range of maximum/minimum
-  if (sin(v0) * sin(v1) < 0) {
+  if (math.sin(v0) * math.sin(v1) < 0) {
     if (s0 > 0) {
       // Is a maximum
       final double d0 = 1 - s0;
@@ -225,50 +229,50 @@ Measure measureCos(Measure m) {
 }
 
 Measure measureTan(Measure m) {
-  return measureFunction(m, tan);
+  return measureFunction(m, math.tan);
 }
 
 Measure measureLn(Measure m) {
-  return measureFunction(m, log);
+  return measureFunction(m, math.log);
 }
 
 Measure measureLog(Measure m) {
-  return measureFunction(m, log10);
+  return measureFunction(m, mathLog10);
 }
 
 Measure measureAcos(Measure m) {
-  return measureFunction(m, acos);
+  return measureFunction(m, math.acos);
 }
 
 Measure measureAsin(Measure m) {
-  return measureFunction(m, asin);
+  return measureFunction(m, math.asin);
 }
 
 Measure measureAtan(Measure m) {
-  return measureFunction(m, atan);
+  return measureFunction(m, math.atan);
 }
 
 Measure measureExp(Measure m) {
-  return measureFunction(m, exp);
+  return measureFunction(m, math.exp);
 }
 
 Measure measurePow10(Measure m) {
-  return measureFunction(m, pow10);
+  return measureFunction(m, mathPow10);
 }
 
 /*
  Some functions
 */
-double log10(double value) {
-  return log(value) / log(10);
+double mathLog10(double value) {
+  return math.log(value) / math.log(10);
 }
 
-double abs(double value) {
+double mathAbs(double value) {
   return value.abs();
 }
 
-double pow10(double value) {
-  return pow(10, value).toDouble();
+double mathPow10(double value) {
+  return math.pow(10, value).toDouble();
 }
 
 /* ---------------------------------------
@@ -278,7 +282,7 @@ double pow10(double value) {
  Basics operations
 */
 /// Return A + B
-dynamic numAdd(dynamic A, dynamic B) {
+dynamic addition(dynamic A, dynamic B) {
   if (((A is Measure) && (B is num)) || ((A is num) && (B is Measure))) {
     throw OperationNotAllowed();
   }
@@ -286,7 +290,7 @@ dynamic numAdd(dynamic A, dynamic B) {
 }
 
 /// Return A - B
-dynamic numSub(dynamic A, dynamic B) {
+dynamic subtraction(dynamic A, dynamic B) {
   if (((A is Measure) && (B is num)) || ((A is num) && (B is Measure))) {
     throw OperationNotAllowed();
   }
@@ -294,7 +298,7 @@ dynamic numSub(dynamic A, dynamic B) {
 }
 
 /// Return A*B
-dynamic numMult(dynamic A, dynamic B) {
+dynamic multiplication(dynamic A, dynamic B) {
   if ((A.runtimeType == B.runtimeType) || ((A is num) && (B is num))) {
     return A * B;
   } else if (A is num && B is Measure) {
@@ -306,7 +310,7 @@ dynamic numMult(dynamic A, dynamic B) {
 }
 
 /// Return A/B
-dynamic numDiv(dynamic A, dynamic B) {
+dynamic division(dynamic A, dynamic B) {
   if ((A.runtimeType == B.runtimeType) || ((A is num) && (B is num))) {
     return A / B;
   } else if (A is num && B is Measure) {
@@ -324,11 +328,11 @@ dynamic numDiv(dynamic A, dynamic B) {
 
 /// This function returns the absolute value of a Measure/double of an argument
 /// value
-dynamic numAbs(dynamic value) {
+dynamic abs(dynamic value) {
   if (value is Measure) {
     return measureAbs(value);
   } else if (value is num) {
-    return abs(value.toDouble());
+    return mathAbs(value.toDouble());
   } else {
     throw OperationNotAllowed();
   }
@@ -336,110 +340,102 @@ dynamic numAbs(dynamic value) {
 
 /// This function returns the natural logarithm of a Measure/double of an
 /// argument value
-dynamic numLn(dynamic value) {
+dynamic ln(dynamic value) {
   if (value is Measure) {
     return measureLn(value);
   } else if (value is num) {
-    return log(value);
+    return math.log(value);
   } else {
     throw OperationNotAllowed();
   }
 }
 
 /// This function returns the logarithm base 10 of a Measure/double of an argument value
-dynamic numLog(dynamic value) {
+dynamic log(dynamic value) {
   if (value is Measure) {
     return measureLog(value);
   } else if (value is num) {
-    return log10(value.toDouble());
+    return mathLog10(value.toDouble());
   } else {
     throw OperationNotAllowed();
   }
 }
 
 /// This function returns the power of 'p' of a Measure/double of an argument value
-dynamic numPow(dynamic value, double p) {
+dynamic pow(dynamic value, [double p = 2]) {
   if (value is Measure) {
     return measurePow(value, p);
   } else if (value is num) {
-    return pow(value, p);
+    return math.pow(value, p);
   } else {
     throw OperationNotAllowed();
   }
 }
 
 /// This function return the power 1/p of a Measure/double of an argument value
-dynamic numPowi(dynamic value, double p) {
+dynamic sqry(dynamic value, double p) {
   if (value is Measure) {
     return measurePow(value, 1 / p);
   } else if (value is num) {
-    return pow(value, 1 / p);
+    return math.pow(value, 1 / p);
   } else {
     throw OperationNotAllowed();
   }
 }
 
 /// This function return the power 2 of a Measure/double of an argument value
-dynamic numPow2(dynamic value) {
-  if (value is Measure) {
-    return measurePow(value, 2);
-  } else if (value is num) {
-    return pow(value, 2);
-  } else {
-    throw OperationNotAllowed();
-  }
-}
+dynamic pow2(dynamic value) => pow(value);
 
 /// This function return the power 3 of a Measure/double of an argument value
-dynamic numPow3(dynamic value) {
+dynamic pow3(dynamic value) {
   if (value is Measure) {
     return measurePow(value, 3);
   } else if (value is num) {
-    return pow(value, 3);
+    return math.pow(value, 3);
   } else {
     throw OperationNotAllowed();
   }
 }
 
 /// This function return the power 1/3 of a Measure/double of an argument value
-dynamic numPowi3(dynamic value) {
+dynamic sqr3(dynamic value) {
   if (value is Measure) {
     return measurePow(value, 1 / 3.0);
   } else if (value is num) {
-    return pow(value, 1 / 3.0);
+    return math.pow(value, 1 / 3.0);
   } else {
     throw OperationNotAllowed();
   }
 }
 
 /// This function return the power 10 of a Measure/double of an argument value
-dynamic numPow10(dynamic value) {
+dynamic pow10(dynamic value) {
   if (value is Measure) {
     return measurePow10(value);
   } else if (value is num) {
-    return pow10(value.toDouble());
+    return mathPow10(value.toDouble());
   } else {
     throw OperationNotAllowed();
   }
 }
 
 /// This function return the exponent of a Measure/double of an argument value
-dynamic numExp(dynamic value) {
+dynamic exp(dynamic value) {
   if (value is Measure) {
     return measureExp(value);
   } else if (value is num) {
-    return exp(value);
+    return math.exp(value);
   } else {
     throw OperationNotAllowed();
   }
 }
 
 /// This function return the square root of a Measure/double of an argument value
-dynamic numSqrt(dynamic value) {
+dynamic sqr(dynamic value) {
   if (value is Measure) {
     return measureSqrt(value);
   } else if (value is num) {
-    return sqrt(value);
+    return math.sqrt(value);
   } else {
     throw OperationNotAllowed();
   }
@@ -452,17 +448,17 @@ dynamic _trigonometricFunction(dynamic angle, Function func) {
   final value = !isRadian() ? angle * pi / 180 : angle;
   if (value is Measure) {
     switch (func) {
-      case sin:
+      case math.sin:
         return measureSin(value);
-      case cos:
+      case math.cos:
         return measureCos(value);
-      case tan:
+      case math.tan:
         return measureTan(value);
       default:
         throw OperationNotAllowed();
     }
   } else if (value is num) {
-    if (func == sin || func == cos || func == tan) {
+    if (func == math.sin || func == math.cos || func == math.tan) {
       return func(value.toDouble());
     } else {
       throw OperationNotAllowed();
@@ -473,38 +469,38 @@ dynamic _trigonometricFunction(dynamic angle, Function func) {
 }
 
 /// This function return the cosine of a Measure/double of an argument value in degree
-dynamic numCos(dynamic value) {
-  return _trigonometricFunction(value, cos);
+dynamic cos(dynamic value) {
+  return _trigonometricFunction(value, math.cos);
 }
 
 /// This function return the sine of a Measure/double of an argument value in degree
-dynamic numSin(dynamic value) {
-  return _trigonometricFunction(value, sin);
+dynamic sin(dynamic value) {
+  return _trigonometricFunction(value, math.sin);
 }
 
 /// This function return the tangent of a Measure/double of an argument value in degree
-dynamic numTan(dynamic value) {
-  return _trigonometricFunction(value, tan);
+dynamic tan(dynamic value) {
+  return _trigonometricFunction(value, math.tan);
 }
 
 dynamic _trigonometricInverseFunction(dynamic value, Function func) {
   late dynamic angle;
   if (value is Measure) {
     switch (func) {
-      case asin:
+      case math.asin:
         angle = measureAsin(value);
         break;
-      case acos:
+      case math.acos:
         angle = measureAcos(value);
         break;
-      case atan:
+      case math.atan:
         angle = measureAtan(value);
         break;
       default:
         throw OperationNotAllowed();
     }
   } else if (value is num) {
-    if ([asin, acos, atan].contains(func)) {
+    if ([math.asin, math.acos, math.atan].contains(func)) {
       angle = func(value.toDouble());
     } else {
       throw OperationNotAllowed();
@@ -516,16 +512,16 @@ dynamic _trigonometricInverseFunction(dynamic value, Function func) {
 }
 
 /// This function return the arc-cosine in degree of a Measure/double of an argument value
-dynamic numAcos(dynamic value) {
-  return _trigonometricInverseFunction(value, acos);
+dynamic acos(dynamic value) {
+  return _trigonometricInverseFunction(value, math.acos);
 }
 
 /// This function return the arc-sine in degree of a Measure/double of an argument value
-dynamic numAsin(dynamic value) {
-  return _trigonometricInverseFunction(value, asin);
+dynamic asin(dynamic value) {
+  return _trigonometricInverseFunction(value, math.asin);
 }
 
 /// This function return the arc-tangent in degree of a Measure/double of an argument value
-dynamic numAtan(dynamic value) {
-  return _trigonometricInverseFunction(value, atan);
+dynamic atan(dynamic value) {
+  return _trigonometricInverseFunction(value, math.atan);
 }
