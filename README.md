@@ -4,6 +4,52 @@ A new Flutter project.
 
 # Commits
 
+## 2024/12/18 - version 0.3.1:
+This release introduces significant enhancements across various components of the calculator, including new functionalities and adjustments in styles and colors, detailed below:
+
+* lib/common/constants/constants.dart:
+  - addition of the calculator's command list, removalSeq, in descending order of length. This list is used in the backspace method.
+* lib/common/models/display/display_controller.dart:
+  - this class will manage the TextEditingController and the stack of commands passed to the calculator, stackLines$.
+* lib/common/models/key_model/key_model.dart:
+  - this class manages the keys and offsets of the buttons.
+* lib/common/themes/colors/app_colors.dart:
+  - added the fontBlue color.
+* lib/common/themes/styles/app_text_styles.dart:
+  - adjusted letter sizes in textStyleDisplay and textStyleSecondDisplay styles.
+* lib/common/widgets/fix_spin_button.dart:
+  - added a specific SpinButton for the fix button.
+* lib/features/calculator/widgets/button_hub/button_hub.dart:
+  - the following methods were implemented:
+    - _insertKey(KeyModel key);
+    - _insertAtSelectionPosition(String text, int startPositionSelection, KeyModel key, int endPositionSelection);
+    - _insertAtCurrentPosition(int endPositionSelection, String text, KeyModel key);
+    - _moveKeyButtons(DirectionKeys key);
+    - _moveCursorLeft();
+    - _moveCursorRight();
+    - _moveCursor(int position);
+    - _clearButton();
+    - _pmButton(KeyModel key);
+    - _backSpaceButton();
+    - _fixButton(KeyModel key);
+    - (String?, int) _tryRemoveSpecialSequence(String text, int position);
+    - _removeLastCharacter(text, position);
+    - _updateDisplay(String text, TextSelection newSelection);
+    - List<Widget> _createDirectionalButtons();
+    - List<Widget> _createMemoryButtons();
+    - List<Widget> _createNumbersButtons(String numbers).
+* lib/features/calculator/widgets/button_hub/calc_button.dart:
+  - adjusted to use the KeyModel class.
+* lib/features/calculator/widgets/display/display_widget.dart:
+  - some adjustments made to the DisplayWidget.
+* lib/features/calculator/widgets/status_bar/status_bar_widget.dart:
+  - adjustments in the representation of fix.
+* lib/features/settings/settings_page.dart:
+  - now using the FixSpinButton.
+* lib/main_app.dart:
+  - adjustments to the colors of the textSelectionTheme.
+
+
 ## 2024/12/15 - version 0.3.0:
 
 In this version marks a significant advancement in the project, introducing new functionalities for handling measurements and uncertainties, along with the implementation of unit tests to ensure greater robustness and reliability. Details of the changes are described below:

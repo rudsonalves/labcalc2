@@ -29,7 +29,7 @@ class _StatusBarWidgetState extends State<StatusBarWidget> {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Center(
         child: Text(
-          'Fix: ${widget.fix}'
+          'Fix: ${widget.fix == -1 ? 'off' : '${widget.fix}'}'
           '    ${widget.isRadians ? 'RAD' : 'DEG'}'
           '    Trunc: ${widget.truncate ? 'on' : 'off'}'
           '    Mean: ${meanSignature[widget.mean]} ±'

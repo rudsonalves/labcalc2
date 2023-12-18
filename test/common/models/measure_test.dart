@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:labcalc2/common/models/measure.dart';
+import 'package:labcalc2/common/models/measure/measure.dart';
 
 void main() {
   final Measure a = Measure(3.43, .04);

@@ -17,14 +17,13 @@ class AppSettings {
     secondFunc$.value = false;
   }
 
-  final ValueNotifier<ThemeMode> themeMode$ = ValueNotifier(ThemeMode.dark);
-  final ValueNotifier<TypeMean> mean$ = ValueNotifier(TypeMean.arithmetic);
-  final ValueNotifier<TypeDeviation> deviation$ =
-      ValueNotifier(TypeDeviation.meanDeviation);
-  final ValueNotifier<int> fix$ = ValueNotifier(-1);
-  final ValueNotifier<bool> isRadians$ = ValueNotifier(true);
-  final ValueNotifier<bool> truncate$ = ValueNotifier(false);
-  final ValueNotifier<bool> secondFunc$ = ValueNotifier(false);
+  final themeMode$ = ValueNotifier<ThemeMode>(ThemeMode.dark);
+  final mean$ = ValueNotifier<TypeMean>(TypeMean.arithmetic);
+  final deviation$ = ValueNotifier<TypeDeviation>(TypeDeviation.meanDeviation);
+  final fix$ = ValueNotifier<int>(-1);
+  final isRadians$ = ValueNotifier<bool>(true);
+  final truncate$ = ValueNotifier<bool>(false);
+  final secondFunc$ = ValueNotifier<bool>(false);
 
   ThemeMode get themeMode => themeMode$.value;
   void toggleThemeMode() {

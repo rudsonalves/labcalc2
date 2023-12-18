@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'common/singletons/app_settings.dart';
+import 'common/themes/colors/app_colors.dart';
 import 'common/themes/colors/color_schemes.g.dart';
 import 'features/about/about_page.dart';
 import 'features/calculator/calculator_page.dart';
@@ -28,11 +29,21 @@ class _MainAppState extends State<MainApp> {
               fontFamily: 'Roboto',
               useMaterial3: true,
               colorScheme: lightColorScheme,
+              textSelectionTheme: const TextSelectionThemeData(
+                selectionColor: AppColors.fontBlue, // Cor da seleção de texto
+                selectionHandleColor:
+                    AppColors.fontYellow, // Cor das alças de seleção de texto
+              ),
             ),
             darkTheme: ThemeData(
               fontFamily: 'Roboto',
               useMaterial3: true,
               colorScheme: darkColorScheme,
+              textSelectionTheme: const TextSelectionThemeData(
+                selectionColor: AppColors.fontBlue, // Cor da seleção de texto
+                selectionHandleColor:
+                    AppColors.fontYellow, // Cor das alças de seleção de texto
+              ),
             ),
             debugShowCheckedModeBanner: false,
             initialRoute: SplashPage.routeName,

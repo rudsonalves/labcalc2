@@ -50,7 +50,6 @@ class _CalculatorPageState extends State<CalculatorPage> {
                     ],
                   ),
                   builder: (context, _) {
-                    print('I am listen...');
                     return StatusBarWidget(
                       fix: _app.fix,
                       isRadians: _app.isRadians,
