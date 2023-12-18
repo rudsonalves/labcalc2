@@ -487,7 +487,7 @@ class _ButtonHubState extends State<ButtonHub> {
               buttonCallBack: insertKey,
             ),
             CalcButton(
-              'EE',
+              'e',
               buttonColor: AppColors.buttonBasics,
               buttonCallBack: insertKey,
             ),

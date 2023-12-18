@@ -3,6 +3,22 @@
 A new Flutter project.
 
 # Commits
+
+## 2024/12/18c - version: 0.4.0:
+
+This release introduces significant advancements in mathematical expression processing, including the creation of a function map and improvements in expression parsing. These changes aim to enhance the functionality and efficiency of the calculator. Details of the changes:
+
+* lib/common/models/math_expression/function_map.dart:
+  - creates a function map;
+  - declares the CallFunction class, to register a function.
+* lib/common/models/math_expression/math_expression.dart:
+  - declares the MathExpression class to parse a string into a List<dynamic>, with numeric values, Measure, operators, and functions;
+* lib/features/calculator/widgets/button_hub/button_hub.dart:
+  - changed EE to 'e', used in scientific notations.
+* test/common/models/math_expression/math_expression_test.dart:
+  - added tests for the parsing of functions and expressions.
+
+  
 ## 2024/12/18b - version: 0.3.2
 
 This commit focuses on refactoring and reorganizing the code, bringing greater clarity and efficiency to the calculator's functionalities. The changes include the refactoring of the ButtonHub class into new, more specialized classes, as well as renaming functions for improved readability and maintainability. Details of the changes are as follows:
