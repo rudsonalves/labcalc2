@@ -2,8 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:labcalc2/common/constants/constants.dart';
-import 'package:labcalc2/common/models/measure.dart';
-import 'package:labcalc2/common/models/measure_functions.dart';
+import 'package:labcalc2/common/models/measure/measure.dart';
+import 'package:labcalc2/common/models/measure/measure_functions.dart';
 import 'package:labcalc2/common/singletons/app_settings.dart';
 
 void main() {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../common/constants/constants.dart';
 import '../../common/singletons/app_settings.dart';
 import '../../common/themes/styles/app_text_styles.dart';
+import '../../common/widgets/fix_spin_button.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -123,32 +124,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 onChanged: (value) => appSettings.toggleTruncate(),
               ),
             ),
-            ListenableBuilder(
-              listenable: appSettings.fix$,
-              builder: (context, child) => Padding(
-                padding: const EdgeInsets.only(left: 32),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Fix value:',
-                      style: AppTextStyle.textStyleNormal,
-                    ),
-                    IconButton(
-                      onPressed: appSettings.decrementFix,
-                      icon: const Icon(Icons.arrow_back_ios),
-                    ),
-                    Text(
-                      appSettings.fix.toString(),
-                      style: AppTextStyle.textStyleMedium,
-                    ),
-                    IconButton(
-                      onPressed: appSettings.incrementFix,
-                      icon: const Icon(Icons.arrow_forward_ios),
-                    ),
-                  ],
-                ),
-              ),
+            Padding(
+              padding: const EdgeInsets.only(left: 32),
+              child: FixSpinButton(appSettings: appSettings),
             ),
             ListenableBuilder(
               listenable: appSettings.themeMode$,

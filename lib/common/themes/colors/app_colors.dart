@@ -13,4 +13,5 @@ class AppColors {
   static const fontBlack = Colors.black;
   static const fontYellow = Colors.yellowAccent;
   static const fontGreen = Colors.greenAccent;
+  static const fontBlue = Colors.blue;
 }

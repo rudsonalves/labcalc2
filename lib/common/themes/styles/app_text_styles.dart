@@ -17,7 +17,12 @@ class AppTextStyle {
   );
 
   static const textStyleDisplay = TextStyle(
-    fontSize: 24,
+    fontSize: 18,
+    fontWeight: FontWeight.w400,
+  );
+
+  static const textStyleSecondDisplay = TextStyle(
+    fontSize: 14,
     fontWeight: FontWeight.w400,
   );
 

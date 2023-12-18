@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import '../constants/constants.dart';
-import '../singletons/app_settings.dart';
+import '../../constants/constants.dart';
+import '../../singletons/app_settings.dart';
 import 'measure.dart';
 
 bool isRadian() {
