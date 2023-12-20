@@ -6,6 +6,7 @@ import '../../../../common/themes/styles/app_text_styles.dart';
 
 class CalcButton extends StatelessWidget {
   final String? image;
+  final IconData? iconData;
   final Color buttonColor;
   final Color fontColor;
   final void Function(KeyModel key) buttonCallBack;
@@ -15,6 +16,7 @@ class CalcButton extends StatelessWidget {
     String label, {
     Key? key,
     this.image,
+    this.iconData,
     this.buttonColor = Colors.grey,
     this.fontColor = Colors.black,
     required this.buttonCallBack,
@@ -33,17 +35,19 @@ class CalcButton extends StatelessWidget {
         splashColor: buttonColor.lighter(20),
         borderRadius: BorderRadius.circular(5),
         child: Center(
-          child: image == null
-              ? Text(
-                  keyModel.label,
-                  style: AppTextStyle.textStyleButton.copyWith(
-                    color: fontColor,
-                  ),
-                )
-              : Image.asset(
+          child: image != null
+              ? Image.asset(
                   image!,
                   color: fontColor,
-                ),
+                )
+              : iconData != null
+                  ? Icon(iconData)
+                  : Text(
+                      keyModel.label,
+                      style: AppTextStyle.textStyleButton.copyWith(
+                        color: fontColor,
+                      ),
+                    ),
         ),
       ),
     );

@@ -16,13 +16,20 @@ class AppTextStyle {
     fontWeight: FontWeight.w400,
   );
 
-  static const textStyleDisplay = TextStyle(
+  static const textStyleBold = TextStyle(
     fontSize: 18,
+    fontWeight: FontWeight.w700,
+  );
+
+  static const textStyleDisplay = TextStyle(
+    // fontFamily: 'RobotoMono',
+    fontSize: 22,
     fontWeight: FontWeight.w400,
   );
 
   static const textStyleSecondDisplay = TextStyle(
-    fontSize: 14,
+    // fontFamily: 'RobotoMono',
+    fontSize: 15,
     fontWeight: FontWeight.w400,
   );
 

@@ -12,15 +12,25 @@ class DisplayWidget extends StatefulWidget {
 }
 
 class _DisplayWidgetState extends State<DisplayWidget> {
-  final List<String> _displayLines = [];
   final _display = DisplayController.instance;
-
-  List<String> get displayLines => _displayLines;
+  double _fontSize = AppTextStyle.textStyleDisplay.fontSize!;
 
   @override
   void initState() {
     super.initState();
     _display.init();
+    _display.controller.addListener(_adjustFontSize);
+  }
+
+  void _adjustFontSize() {
+    setState(() {
+      int lenght = _display.controller.text.length;
+      if (lenght > 54) {
+        _fontSize = 16;
+      } else {
+        _fontSize = AppTextStyle.textStyleDisplay.fontSize!;
+      }
+    });
   }
 
   @override
@@ -32,10 +42,9 @@ class _DisplayWidgetState extends State<DisplayWidget> {
   @override
   Widget build(BuildContext context) {
     final colorSheme = Theme.of(context).colorScheme;
-    List<String> lines = ['25*sin(1.234)', '18*(1+3)', 'atan(1.234)'];
 
     return Container(
-      padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 0),
+      padding: const EdgeInsets.only(top: 2, left: 8, right: 8, bottom: 0),
       alignment: Alignment.bottomRight,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
@@ -50,30 +59,43 @@ class _DisplayWidgetState extends State<DisplayWidget> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Expanded(
-            child: ListView.builder(
-              itemCount: lines.length,
-              itemBuilder: (context, index) {
-                return Text(
-                  lines[index],
-                  style: AppTextStyle.textStyleSecondDisplay,
-                  textAlign: TextAlign.right,
+            flex: 10,
+            child: ListenableBuilder(
+              listenable: _display.secondary$,
+              builder: (context, _) {
+                return ListView.builder(
+                  controller: _display.scrollController,
+                  itemCount: _display.secondary.length,
+                  itemBuilder: (context, index) {
+                    return Text(
+                      _display.secondary[index],
+                      style: AppTextStyle.textStyleSecondDisplay,
+                      textAlign: TextAlign.right,
+                    );
+                  },
                 );
               },
             ),
           ),
-          TextField(
-            controller: _display.controller,
-            focusNode: _display.displayFocusNode,
-            cursorColor: AppColors.fontYellow,
-            readOnly: true,
-            showCursor: true,
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              hintText: '0',
+          Expanded(
+            flex: 20,
+            child: TextField(
+              scrollPadding: const EdgeInsets.all(0),
+              controller: _display.controller,
+              focusNode: _display.displayFocusNode,
+              cursorColor: AppColors.fontYellow,
+              readOnly: true,
+              showCursor: true,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                hintText: '0',
+              ),
+              textAlign: TextAlign.right,
+              maxLines: 3,
+              style: AppTextStyle.textStyleDisplay.copyWith(
+                fontSize: _fontSize,
+              ),
             ),
-            textAlign: TextAlign.right,
-            maxLines: 2,
-            style: AppTextStyle.textStyleDisplay,
           ),
         ],
       ),

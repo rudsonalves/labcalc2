@@ -1,13 +1,16 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:labcalc2/common/models/math_expression/math_expression.dart';
 
 import '../../../../common/models/display/display_controller.dart';
 import '../../../../common/models/key_model/key_model.dart';
 import '../../../../common/singletons/app_settings.dart';
 import '../../../../common/themes/colors/app_colors.dart';
+import '../../../../common/themes/styles/app_button_styles.dart';
 import '../../../../common/widgets/fix_spin_button.dart';
 import 'calc_button.dart';
+import 'reset_button.dart';
 import 'utilities/create_button.dart';
 import 'utilities/display_control.dart';
 import 'utilities/string_edit.dart';
@@ -32,33 +35,28 @@ class _ButtonHubState extends State<ButtonHub> {
 
   void insertKey(KeyModel key) {
     String text = _display.controller.text;
-    TextSelection selection = _display.controller.selection;
+    TextSelection selection;
+    int startSelection;
+    int endSelection;
 
-    int startPositionSelection = selection.start;
-    int endPositionSelection = selection.end;
-
-    startPositionSelection =
-        startPositionSelection == -1 ? 0 : startPositionSelection;
-    endPositionSelection =
-        endPositionSelection == -1 ? 0 : endPositionSelection;
+    (startSelection, endSelection, selection) = selectionPositions();
 
     if (text == '0') {
       text = '';
-      startPositionSelection = endPositionSelection = 0;
+      startSelection = endSelection = 0;
     }
 
     // If there is a text selection, replace the selection with the new character
-    if (selection.isValid && startPositionSelection != endPositionSelection) {
+    if (selection.isValid && startSelection != endSelection) {
       text = StringEdit.insertAtSelectionPosition(
-          text, startPositionSelection, key, endPositionSelection);
+          text, startSelection, key, endSelection);
     } else {
       // Insert character at cursor position
-      text =
-          StringEdit.insertAtCurrentPosition(endPositionSelection, text, key);
+      text = StringEdit.insertAtCurrentPosition(endSelection, text, key);
     }
 
     if (key.label.contains('(x')) {
-      int newStart = startPositionSelection + key.offset;
+      int newStart = startSelection + key.offset;
       int newEnd = newStart + 1;
       DisplayControl.updateDisplay(
         _display.controller,
@@ -66,7 +64,7 @@ class _ButtonHubState extends State<ButtonHub> {
         TextSelection(baseOffset: newStart, extentOffset: newEnd),
       );
     } else {
-      int newPosition = startPositionSelection + key.offset;
+      int newPosition = startSelection + key.offset;
       DisplayControl.updateDisplay(
         _display.controller,
         text,
@@ -74,6 +72,47 @@ class _ButtonHubState extends State<ButtonHub> {
       );
     }
     _display.displayFocusNode.requestFocus();
+  }
+
+  void insertEEKey(KeyModel key) {
+    String text = _display.controller.text;
+    int startSelection;
+
+    (startSelection, _, _) = selectionPositions();
+
+    if (startSelection - 1 >= 0) {
+      RegExp regExp = RegExp(r'\d');
+      if (regExp.hasMatch(text[startSelection - 1])) {
+        insertKey(KeyModel(label: 'e'));
+      }
+    }
+  }
+
+  void equalKey(KeyModel key) {
+    // process expression
+    String textExpression = _display.controller.text;
+    if (textExpression.isNotEmpty) {
+      MathExpression expression = MathExpression.parse(textExpression);
+
+      final result = expression.evaluation();
+      print(result);
+
+      // ik ok, insert expression in secondary display.
+      _display.addInSecondaryDisplay(textExpression);
+      _display.controller.clear();
+      _display.controller.text = result.toString();
+    }
+  }
+
+  (int, int, TextSelection) selectionPositions() {
+    TextSelection selection = _display.controller.selection;
+    int startSelection = selection.start;
+    int endSelection = selection.end;
+
+    startSelection = startSelection == -1 ? 0 : startSelection;
+    endSelection = endSelection == -1 ? 0 : endSelection;
+
+    return (startSelection, endSelection, selection);
   }
 
   void moveKeyKeys(DirectionKeys key) {
@@ -159,10 +198,13 @@ class _ButtonHubState extends State<ButtonHub> {
           ],
         ),
         actions: [
-          ElevatedButton.icon(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.close),
-            label: const Text('Close'),
+          Center(
+            child: ElevatedButton.icon(
+              style: AppButtonStyles.primaryButton(context),
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.close),
+              label: const Text('Close'),
+            ),
           ),
         ],
       ),
@@ -429,12 +471,7 @@ class _ButtonHubState extends State<ButtonHub> {
               fontColor: AppColors.fontWhite,
               buttonCallBack: insertKey,
             ),
-            CalcButton(
-              '???',
-              // image: 'assets/images/buttons/close.png',
-              fontColor: AppColors.fontWhite,
-              buttonCallBack: notImplementedKey,
-            ),
+            const ResetButton(),
             ...CreateButton.numbers('789', insertKey),
             CalcButton(
               'BS',
@@ -487,9 +524,9 @@ class _ButtonHubState extends State<ButtonHub> {
               buttonCallBack: insertKey,
             ),
             CalcButton(
-              'e',
+              'EE',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: insertKey,
+              buttonCallBack: insertEEKey,
             ),
             CalcButton(
               'ANS',
@@ -500,7 +537,7 @@ class _ButtonHubState extends State<ButtonHub> {
               '=',
               image: 'assets/images/buttons/eq.png',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: insertKey,
+              buttonCallBack: equalKey,
             ),
           ],
         );
