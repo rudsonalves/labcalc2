@@ -198,6 +198,70 @@ void main() {
         [-1e-2, '*', const CallFunction('abs', abs), '(', 3, '*', 1.5, ')'],
       );
     });
+
+    test('method evaluation', () {
+      MathExpression expression = MathExpression.parse('21*2/3-10/2*5');
+      expect(expression.evaluation(), -11);
+
+      expression = MathExpression.parse('5+8*9/2*5/9*8+21');
+      expect(expression.evaluation(), 186);
+
+      expression = MathExpression.parse('8+15-3+22-7');
+      expect(expression.evaluation(), 35);
+
+      expression = MathExpression.parse('10*2-3+5/2');
+      expect(expression.evaluation(), 19.5);
+
+      expression = MathExpression.parse('6*4*2*0.5');
+      expect(expression.evaluation(), 24);
+
+      expression = MathExpression.parse('100/4-5/2-10');
+      expect(expression.evaluation(), 12.5);
+
+      expression = MathExpression.parse('8*3/2-5+14/2+6');
+      expect(expression.evaluation(), 20);
+
+      expression = MathExpression.parse('8**3/2-5+14/2+6');
+      expect(
+          () => expression.evaluation(), throwsA(isA<MathExpressionError>()));
+    });
+
+    test('method evaluation with parentheses', () {
+      MathExpression expression = MathExpression.parse('(5+2*(6-2))');
+      expect(expression.evaluation(), 13);
+
+      expression = MathExpression.parse('(5+2*(6-2))+18/3*(10-3)');
+      expect(expression.evaluation(), 55);
+
+      expression = MathExpression.parse('(3+(4*5))/(2*3)');
+      expect(expression.evaluation(), 3.8333333333333335);
+
+      expression = MathExpression.parse('((2+3)*(3+4))/7');
+      expect(expression.evaluation(), 5);
+
+      expression = MathExpression.parse('18/(3*(2+1))');
+      expect(expression.evaluation(), 2);
+
+      expression = MathExpression.parse('(15-3*(2+4))');
+      expect(expression.evaluation(), -3);
+
+      expression = MathExpression.parse('(5*(3+2)-4)/(2+(3/1))');
+      expect(expression.evaluation(), 4.2);
+
+      expression = MathExpression.parse('5+3*(3+7)/2+(30+6)/(5+1)');
+      expect(expression.evaluation(), 26);
+
+      expression = MathExpression.parse('5+3*(3+7)/2+((30+6)/(5+1))');
+      expect(expression.evaluation(), 26);
+
+      expression = MathExpression.parse('(8*3/2)-((5+14)/(2+6)');
+      expect(
+          () => expression.evaluation(), throwsA(isA<MathExpressionError>()));
+
+      expression = MathExpression.parse('(8*3/2)-(5+14))/(2+6)');
+      expect(
+          () => expression.evaluation(), throwsA(isA<MathExpressionError>()));
+    });
   });
 }
 

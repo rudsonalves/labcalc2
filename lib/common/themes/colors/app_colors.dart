@@ -8,6 +8,7 @@ class AppColors {
   static const buttonMeasures = Colors.teal;
   static const buttonBasics = Colors.white70;
   static const buttonClean = Colors.red;
+  static const buttonReset = Color.fromARGB(255, 136, 60, 60);
 
   static const fontWhite = Colors.white;
   static const fontBlack = Colors.black;

@@ -4,6 +4,44 @@ A new Flutter project.
 
 # Commits
 
+## 2024/12/19 - version: 0.5.0
+
+This release of version 0.5.0 brings comprehensive improvements and new functionalities to the calculator, focusing on advanced manipulation of mathematical expressions and enhancements to the user interface. The changes include enhancements to display controls, additional styles, and the introduction of methods for evaluating mathematical expressions. Details of the changes:
+
+* lib/common/models/display/display_controller.dart:
+  - adjusted control of the secondary display;
+  - added method addInSecondaryDisplay, to add expressions to the secondary display;
+  - added method resetSecondaryDisplay, to reset the control of the secondary display;
+  - resetDisplay, added method to reset the entire display.
+* lib/common/models/math_expression/math_expression.dart:
+  - added the MathExpressionError error class;
+  - added the dynamic evaluation() method, to evaluate the mathematical expression;
+  - added the _findNextParentheses(List<dynamic> solve) method, to find the innermost pair of parentheses in an expression;
+  - added the _basicSolve(List<dynamic>) method to solve mathematical expressions without parentheses.
+* lib/common/themes/colors/app_colors.dart:
+  - added color for the reset button.
+* lib/common/themes/styles/app_button_styles.dart:
+  - added the primaryButton style for dialog buttons.
+* lib/common/themes/styles/app_text_styles.dart:
+  - added the textStyleBold text style;
+  - adjusted font sizes in some styles.
+* lib/features/calculator/widgets/button_hub/button_hub.dart:
+  - more adjustments in the insertKey method;
+  - added the insertEEKey method, for the 'EE' key;
+  - added the equalKey method, for the '=' key;
+  - added the (int, int, TextSelection) selectionPositions() method to load the selection information of the main display;
+  - mapped reset button for the calculator.
+* lib/features/calculator/widgets/button_hub/calc_button.dart:
+  - some adjustments in the CalcButton class for icon support.
+* lib/features/calculator/widgets/button_hub/reset_button.dart:
+  - addition of the ResetButton class to manage the interface reset process.
+* lib/features/calculator/widgets/display/display_widget.dart:
+  - added a font size control in the main display;
+  - adjustments in the display layout.
+* test/common/models/math_expression/math_expression_test.dart:
+  - addition of unit tests for the evaluation method with expressions with and without parentheses.
+
+
 ## 2024/12/18c - version: 0.4.0:
 
 This release introduces significant advancements in mathematical expression processing, including the creation of a function map and improvements in expression parsing. These changes aim to enhance the functionality and efficiency of the calculator. Details of the changes:
