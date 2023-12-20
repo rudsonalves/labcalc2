@@ -4,7 +4,34 @@ A new Flutter project.
 
 # Commits
 
-## 2024/12/19 - version: 0.5.0
+## 2023/12/20 - version: 0.5.1:
+
+This release enhances the mathematical expression processing and memory management of the calculator, introducing new methods for evaluation and data storage. Details of the changes:
+
+* lib/common/models/math_expression/math_expression.dart:
+  - in the parse method, support was added to accept the app's internal memories, functions with two variables, and Measure objects;
+  - added the _functionEvaluator method to apply functions to the passed expression;
+  - added the _measureEvaluator method to convert into Measure when the '±' token is encountered;
+  - added the _memoriesEvaluator method to convert the app's memories into their numeric values;
+  - the _basicSolve method applies these methods in the order _memoriesEvaluator -> _measureEvaluator -> _functionEvaluator. This ensures that all memories are applied, then the Measures are created, and finally the functions can be evaluated. Only after this will the remaining expression be solved.
+* lib/common/models/memories/memory.dart:
+  - added the Memory class to manage the app's memories.
+* lib/common/models/memories/app_memories.dart:
+  - added the singleton class AppMemories to manage the app's memories and possible constants.
+* lib/features/calculator/widgets/button_hub/button_hub.dart:
+  - the AppMemories class has been instantiated and is ready to be integrated into the app;
+  - the equalKey method is storing the successfully executed expression and its result in the Ans memory.
+* test/common/models/math_expression/math_expression_test.dart:
+  - added tests for trigonometric functions in rad and deg;
+  - added tests for functions with parameters;
+  - added tests for functions with Measure.
+* test/common/models/memories/app_memories_test.dart:
+  - added tests for the app's memories.
+* test/common/models/memories/memory_test.dart:
+  - added tests for the Memory class.
+
+
+## 2023/12/19 - version: 0.5.0
 
 This release of version 0.5.0 brings comprehensive improvements and new functionalities to the calculator, focusing on advanced manipulation of mathematical expressions and enhancements to the user interface. The changes include enhancements to display controls, additional styles, and the introduction of methods for evaluating mathematical expressions. Details of the changes:
 
@@ -42,7 +69,7 @@ This release of version 0.5.0 brings comprehensive improvements and new function
   - addition of unit tests for the evaluation method with expressions with and without parentheses.
 
 
-## 2024/12/18c - version: 0.4.0:
+## 2023/12/18c - version: 0.4.0:
 
 This release introduces significant advancements in mathematical expression processing, including the creation of a function map and improvements in expression parsing. These changes aim to enhance the functionality and efficiency of the calculator. Details of the changes:
 
@@ -57,7 +84,7 @@ This release introduces significant advancements in mathematical expression proc
   - added tests for the parsing of functions and expressions.
 
   
-## 2024/12/18b - version: 0.3.2
+## 2023/12/18b - version: 0.3.2
 
 This commit focuses on refactoring and reorganizing the code, bringing greater clarity and efficiency to the calculator's functionalities. The changes include the refactoring of the ButtonHub class into new, more specialized classes, as well as renaming functions for improved readability and maintainability. Details of the changes are as follows:
 
@@ -85,7 +112,7 @@ This commit focuses on refactoring and reorganizing the code, bringing greater c
   - all tests were updated and tested.
 
 
-## 2024/12/18 - version 0.3.1:
+## 2023/12/18 - version 0.3.1:
 This release introduces significant enhancements across various components of the calculator, including new functionalities and adjustments in styles and colors, detailed below:
 
 * lib/common/constants/constants.dart:
@@ -131,7 +158,7 @@ This release introduces significant enhancements across various components of th
   - adjustments to the colors of the textSelectionTheme.
 
 
-## 2024/12/15 - version 0.3.0:
+## 2023/12/15 - version 0.3.0:
 
 In this version marks a significant advancement in the project, introducing new functionalities for handling measurements and uncertainties, along with the implementation of unit tests to ensure greater robustness and reliability. Details of the changes are described below:
 

@@ -1,4 +1,7 @@
+import 'package:labcalc2/common/models/measure/measure.dart';
+
 import '../measure/measure_functions.dart';
+import '../memories/app_memories.dart';
 import 'function_map.dart';
 
 /// Mathematical expression error
@@ -37,14 +40,15 @@ class MathExpression {
         .replaceAll('-', '+-')
         .replaceAll('(+', '(')
         .replaceAll('e+-', 'e-')
-        .replaceAllMapped(RegExp(r'(?<=\D)\.(?=\d)'), (match) => '0.');
+        .replaceAllMapped(RegExp(r'(?<=\D)\.(?=\d)'), (match) => '0.')
+        .replaceAllMapped(RegExp(r'-(?=[A-Za-z])'), (match) => '-1*');
 
     newString = (newString[0] == '+') ? newString.substring(1) : newString;
 
     // Regex to capture numbers, functions, commas and other characters.
     RegExp regExp = RegExp(
         r'(-?\d+(\.\d+)?(e[+\-]?\d+)?)|'
-        r'(ln|abs|log|exp|sin|cos|tan|asin|acos|atan|pow10|pow3|powy|pow|sqr3|sqry|sqr)'
+        r'(ln|abs|log|exp|sin|cos|tan|asin|acos|atan|pow10|pow3|powy|pow|sqr3|sqry|sqr|Ans|xm)'
         r'|(\,)|(\S)',
         caseSensitive: true);
 
@@ -86,18 +90,33 @@ class MathExpression {
         if (start * end < 0) throw MathExpressionError();
 
         // evaluates the expression between the parentheses
-        dynamic result = _basicSolve(solve.sublist(start + 1, end));
+        List<dynamic> toSolve = solve.sublist(start + 1, end);
+        dynamic result;
+        // do not process expressions with only 1 element
+        if (toSolve.length == 1) {
+          result = toSolve.first;
+        } else if (toSolve.length == 3 && toSolve[1] == '±') {
+          result = _measureEvaluator(toSolve);
+        } else {
+          result = _basicSolve(solve.sublist(start + 1, end));
+        }
 
         // Remove the expression between the parentheses and replace it
         // with your result.
         solve.removeRange(start, end);
-        solve[start] = result;
+        if (result is List) {
+          // adds attributes to two-argument functions
+          solve.removeAt(start);
+          solve.insertAll(start, result);
+        } else {
+          solve[start] = result;
+        }
       }
 
       dynamic result = _basicSolve(solve);
 
       // Checks if the solution is valid.
-      // if (solve.length > 1) throw Exception('Solve return "$solve"');
+      if (result is List) throw Exception('evaluation return a list "$result"');
 
       return result;
     } catch (err) {
@@ -143,7 +162,14 @@ class MathExpression {
     return (startIndex, endIndex);
   }
 
-  dynamic _basicSolve(List<dynamic> solve) {
+  dynamic _basicSolve(List<dynamic> expression) {
+    // Apply the _memoriesEvaluator method to recover memories
+    List<dynamic> solve = _memoriesEvaluator(expression);
+    // Apply the _measureEvaluator method to conver measures
+    solve = _measureEvaluator(solve);
+    // Apply the _functionEvaluator method to resolve functions
+    solve = _functionEvaluator(solve);
+
     // Processes multiplications and divisions.
     while (solve.contains('*') | solve.contains('/')) {
       int prodIndex = solve.indexOf('*');
@@ -170,9 +196,105 @@ class MathExpression {
     }
 
     // Checks if the solution is valid.
-    if (solve.length > 1) throw Exception('Solve return "$solve"');
+    if (solve.length > 1) {
+      // checks if solve is a double argument of a function or Measure
+      if (solve.length == 3) {
+        if (solve[1] == ',' || solve[1] == '') {
+          return solve;
+        } else {
+          throw Exception('Solve return "$solve"');
+        }
+      } else {
+        throw Exception('Solve return "$solve"');
+      }
+    }
 
     return solve.first;
+  }
+
+  /// This method applies mathematical functions, declared as CallFunction,
+  /// on the elements of the passed dynamic list. The expression cannot contain
+  /// parentheses.
+  List<dynamic> _functionEvaluator(List<dynamic> expression) {
+    List<dynamic> solve = [];
+
+    int index = 0;
+
+    while (index < expression.length) {
+      final value = expression[index];
+
+      if (value is CallFunction) {
+        int numberOfParameters = value.numberOfParameters;
+
+        switch (numberOfParameters) {
+          case 1:
+            // advances to the first parameter
+            index++;
+            // calculates the result of the function and adds the return
+            // solve list
+            dynamic result = value.function(expression[index]);
+            solve.add(result);
+            break;
+          case 2:
+            // advances to the first parameter and collects it
+            index++;
+            dynamic parameter1 = expression[index];
+            // advances by skipping comma, then collects the second parameter.
+            index += 2;
+            dynamic parameter2 = expression[index];
+            // applies the parameters to the function and adds the result to
+            // the solve list
+            dynamic result = value.function(parameter1, parameter2);
+            solve.add(result);
+            break;
+          default:
+            throw MathExpressionError(
+                'incorrect number of parameters in the ${value.label} function');
+        }
+      } else {
+        // add to solve list
+        solve.add(value);
+      }
+      index++;
+    }
+
+    return solve;
+  }
+
+  /// This method transforms two numeric values separated by the '±' character
+  /// into a Measure
+  List<dynamic> _measureEvaluator(List<dynamic> expression) {
+    List<dynamic> solve = List.from(expression);
+
+    int tokenIndex = solve.indexOf('±');
+
+    while (tokenIndex != -1) {
+      final measure = Measure(solve[tokenIndex - 1], solve[tokenIndex + 1]);
+      solve.removeRange(tokenIndex - 1, tokenIndex + 1);
+      solve[tokenIndex - 1] = measure;
+
+      tokenIndex = solve.indexOf('±');
+    }
+
+    return solve;
+  }
+
+  /// This method replaces memory labels and pi with their numeric or
+  /// measurement values.
+  List<dynamic> _memoriesEvaluator(List<dynamic> expression) {
+    final memories = AppMemories.instante;
+
+    List<dynamic> solve = [];
+
+    for (dynamic value in expression) {
+      if (memoriesLabels.contains(value)) {
+        solve.add(memories.getValue(value));
+      } else {
+        solve.add(value);
+      }
+    }
+
+    return solve;
   }
 
   @override
