@@ -1,10 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:labcalc2/common/models/math_expression/math_expression.dart';
+import 'package:labcalc2/common/models/memories/app_memories.dart';
 
 import '../../../../common/models/display/display_controller.dart';
 import '../../../../common/models/key_model/key_model.dart';
+import '../../../../common/models/math_expression/math_expression.dart';
 import '../../../../common/singletons/app_settings.dart';
 import '../../../../common/themes/colors/app_colors.dart';
 import '../../../../common/themes/styles/app_button_styles.dart';
@@ -32,6 +33,14 @@ class ButtonHub extends StatefulWidget {
 class _ButtonHubState extends State<ButtonHub> {
   final _app = AppSettings.instance;
   final _display = DisplayController.instance;
+  final _memories = AppMemories.instante;
+  bool startedExpression = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _memories.init();
+  }
 
   void insertKey(KeyModel key) {
     String text = _display.controller.text;
@@ -71,6 +80,8 @@ class _ButtonHubState extends State<ButtonHub> {
         TextSelection.collapsed(offset: newPosition),
       );
     }
+
+    startedExpression = true;
     _display.displayFocusNode.requestFocus();
   }
 
@@ -89,19 +100,25 @@ class _ButtonHubState extends State<ButtonHub> {
   }
 
   void equalKey(KeyModel key) {
-    // process expression
-    String textExpression = _display.controller.text;
-    if (textExpression.isNotEmpty) {
-      MathExpression expression = MathExpression.parse(textExpression);
+    try {
+      // process expression
+      String textExpression = _display.controller.text;
+      if (textExpression.isNotEmpty) {
+        MathExpression expression = MathExpression.parse(textExpression);
 
-      final result = expression.evaluation();
-      print(result);
+        final result = expression.evaluation();
 
-      // ik ok, insert expression in secondary display.
-      _display.addInSecondaryDisplay(textExpression);
-      _display.controller.clear();
-      _display.controller.text = result.toString();
+        // if ok, insert expression in secondary display.
+        _display.addInSecondaryDisplay(textExpression);
+        _display.controller.clear();
+        _display.controller.text = result.toString();
+        _memories.setValue('Ans', result);
+      }
+    } catch (e) {
+      _display.controller.text = 'Error in expression';
     }
+
+    startedExpression = false;
   }
 
   (int, int, TextSelection) selectionPositions() {
@@ -529,7 +546,7 @@ class _ButtonHubState extends State<ButtonHub> {
               buttonCallBack: insertEEKey,
             ),
             CalcButton(
-              'ANS',
+              'Ans',
               buttonColor: AppColors.buttonBasics,
               buttonCallBack: insertKey,
             ),
