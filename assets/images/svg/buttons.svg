@@ -32,8 +32,8 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="0.9058367"
-     inkscape:cx="25.39089"
-     inkscape:cy="267.15632"
+     inkscape:cx="466.97159"
+     inkscape:cy="268.26027"
      inkscape:window-width="1920"
      inkscape:window-height="1043"
      inkscape:window-x="0"
@@ -419,6 +419,15 @@
     <path
        id="MJX-6-TEX-N-29"
        d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z" />
+    <path
+       id="MJX-6-TEX-N-28-7"
+       d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z" />
+    <path
+       id="MJX-6-TEX-N-22EF"
+       d="M78 250Q78 274 95 292T138 310Q162 310 180 294T199 251Q199 226 182 208T139 190T96 207T78 250ZM525 250Q525 274 542 292T585 310Q609 310 627 294T646 251Q646 226 629 208T586 190T543 207T525 250ZM972 250Q972 274 989 292T1032 310Q1056 310 1074 294T1093 251Q1093 226 1076 208T1033 190T990 207T972 250Z" />
+    <path
+       id="MJX-6-TEX-N-29-7"
+       d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z" />
   </defs>
   <g
      inkscape:label="Layer 1"
@@ -427,7 +436,7 @@
     <g
        data-mml-node="math"
        id="g7997"
-       transform="matrix(0.02824586,0,0,-0.02824586,958.98621,38.469003)"
+       transform="matrix(0.02824586,0,0,-0.02824586,858.97359,38.469003)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -493,7 +502,7 @@
        y="0"
        width="100%"
        height="100%"
-       transform="matrix(0.03229771,0,0,-0.03229771,-268.54205,36.246944)"
+       transform="matrix(0.03229771,0,0,-0.03229771,-368.55467,36.246944)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -506,7 +515,7 @@
        y="0"
        width="100%"
        height="100%"
-       transform="matrix(0.03229016,0,0,-0.03229016,-159.06058,36.210182)"
+       transform="matrix(0.03229016,0,0,-0.03229016,-259.0732,36.210182)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -514,7 +523,7 @@
     <g
        data-mml-node="mtext"
        id="g8083"
-       transform="matrix(0.03230052,0,0,-0.03230052,1238.3586,38.262911)"
+       transform="matrix(0.03230052,0,0,-0.03230052,1138.3449,38.262911)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -549,7 +558,7 @@
     <g
        data-mml-node="math"
        id="g8121"
-       transform="matrix(0.03229669,0,0,-0.03229669,1102.5751,36.618294)"
+       transform="matrix(0.03229669,0,0,-0.03229669,1002.5614,36.618294)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -584,7 +593,7 @@
     <g
        data-mml-node="mover"
        id="g8153"
-       transform="matrix(0.03229805,0,0,-0.03229805,1369.67,36.618328)"
+       transform="matrix(0.03229805,0,0,-0.03229805,1269.6563,36.618328)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -618,7 +627,7 @@
     <g
        data-mml-node="mtext"
        id="g8201"
-       transform="matrix(0.03229971,0,0,-0.03229971,1480.5186,38.45671)"
+       transform="matrix(0.03229971,0,0,-0.03229971,1380.5049,38.45671)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -653,7 +662,7 @@
     <g
        data-mml-node="mi"
        id="g8235"
-       transform="matrix(0.03229818,0,0,-0.03229818,1619.5385,38.424417)"
+       transform="matrix(0.03229818,0,0,-0.03229818,1519.5248,38.424417)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -679,7 +688,7 @@
     <g
        data-mml-node="msup"
        id="g8269"
-       transform="matrix(0.0322954,0,0,-0.0322954,1750.6254,38.069167)"
+       transform="matrix(0.0322954,0,0,-0.0322954,1650.6117,38.069167)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -713,7 +722,7 @@
     <g
        data-mml-node="mi"
        id="g8308"
-       transform="matrix(0.03229649,0,0,-0.03229649,1861.5908,39.005752)"
+       transform="matrix(0.03229649,0,0,-0.03229649,1761.5771,39.005752)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -748,7 +757,7 @@
     <g
        data-mml-node="msup"
        id="g8349"
-       transform="matrix(0.0322973,0,0,-0.0322973,1996.517,38.424417)"
+       transform="matrix(0.0322973,0,0,-0.0322973,1896.5033,38.424417)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -791,7 +800,7 @@
     <g
        data-mml-node="math"
        id="g8398"
-       transform="matrix(0.03229466,0,0,-0.03229466,-399.2069,36.211312)"
+       transform="matrix(0.03229466,0,0,-0.03229466,-499.21952,36.211312)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -843,7 +852,7 @@
        y="0"
        width="100%"
        height="100%"
-       transform="matrix(0.03230099,0,0,-0.03230099,2127.9632,38.069102)"
+       transform="matrix(0.03230099,0,0,-0.03230099,2027.9495,38.069102)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -851,7 +860,7 @@
     <g
        data-mml-node="mtext"
        id="g8457"
-       transform="matrix(0.03229784,0,0,-0.03229784,2242.036,38.424417)"
+       transform="matrix(0.03229784,0,0,-0.03229784,2142.0223,38.424417)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -886,7 +895,7 @@
     <g
        data-mml-node="mtext"
        id="g8494"
-       transform="matrix(0.03230052,0,0,-0.03230052,2379.9048,38.069109)"
+       transform="matrix(0.03230052,0,0,-0.03230052,2279.8911,38.069109)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -921,7 +930,7 @@
     <g
        data-mml-node="mi"
        id="g8531"
-       transform="matrix(0.03229127,0,0,-0.03229127,2517.5675,38.521287)"
+       transform="matrix(0.03229127,0,0,-0.03229127,2417.5538,38.521287)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -956,7 +965,7 @@
     <g
        data-mml-node="mi"
        id="g8568"
-       transform="matrix(0.03228662,0,0,-0.03228662,2777.8709,38.262982)"
+       transform="matrix(0.03228662,0,0,-0.03228662,2677.8572,38.262982)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -991,7 +1000,7 @@
     <g
        data-mml-node="msup"
        id="g8620"
-       transform="matrix(0.03230027,0,0,-0.03230027,2654.0279,38.424417)"
+       transform="matrix(0.03230027,0,0,-0.03230027,2554.0142,38.424417)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1064,7 +1073,7 @@
     <g
        data-mml-node="msup"
        id="g8694"
-       transform="matrix(0.03230027,0,0,-0.03230027,2905.1523,38.069115)"
+       transform="matrix(0.03230027,0,0,-0.03230027,2805.1386,38.069115)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1137,7 +1146,7 @@
     <g
        data-mml-node="mi"
        id="g8753"
-       transform="matrix(0.03229441,0,0,-0.03229441,3033.4455,38.521294)"
+       transform="matrix(0.03229441,0,0,-0.03229441,2933.4318,38.521294)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1172,7 +1181,7 @@
     <g
        data-mml-node="msup"
        id="g8805"
-       transform="matrix(0.03230027,0,0,-0.03230027,3159.4438,38.521318)"
+       transform="matrix(0.03230027,0,0,-0.03230027,3059.4301,38.521318)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1245,7 +1254,7 @@
     <g
        data-mml-node="mtext"
        id="g8864"
-       transform="matrix(0.03229127,0,0,-0.03229127,3285.7173,38.424417)"
+       transform="matrix(0.03229127,0,0,-0.03229127,3185.7036,38.424417)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1280,7 +1289,7 @@
     <g
        data-mml-node="msup"
        id="g8902"
-       transform="matrix(0.03230245,0,0,-0.03230245,3422.0732,39.264279)"
+       transform="matrix(0.03230245,0,0,-0.03230245,3322.0595,39.264279)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1314,7 +1323,7 @@
     <g
        data-mml-node="msqrt"
        id="g8946"
-       transform="matrix(0.03229844,0,0,-0.03229844,3523.5541,39.264175)"
+       transform="matrix(0.03229844,0,0,-0.03229844,3423.5404,39.264175)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1358,7 +1367,7 @@
     <g
        data-mml-node="msup"
        id="g8992"
-       transform="matrix(0.03229978,0,0,-0.03229978,3648.9609,39.264209)"
+       transform="matrix(0.03229978,0,0,-0.03229978,3548.9472,39.264209)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1392,7 +1401,7 @@
     <g
        data-mml-node="mroot"
        id="g9041"
-       transform="matrix(0.03229844,0,0,-0.03229844,3740.5139,39.264175)"
+       transform="matrix(0.03229844,0,0,-0.03229844,3640.5002,39.264175)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1449,7 +1458,7 @@
     <g
        data-mml-node="msup"
        id="g9094"
-       transform="matrix(0.0322954,0,0,-0.0322954,3854.444,39.264096)"
+       transform="matrix(0.0322954,0,0,-0.0322954,3754.4303,39.264096)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1483,7 +1492,7 @@
     <g
        data-mml-node="mroot"
        id="g9143"
-       transform="matrix(0.03229844,0,0,-0.03229844,3940.0187,39.264175)"
+       transform="matrix(0.03229844,0,0,-0.03229844,3840.005,39.264175)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1545,7 +1554,7 @@
        y="0"
        width="100%"
        height="100%"
-       transform="matrix(0.03229466,0,0,-0.03229466,-38.932194,36.211312)"
+       transform="matrix(0.03229466,0,0,-0.03229466,-188.68645,36.211312)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1558,7 +1567,7 @@
        y="0"
        width="100%"
        height="100%"
-       transform="matrix(0.03229466,0,0,-0.03229466,107.20856,36.211312)"
+       transform="matrix(0.03229466,0,0,-0.03229466,-42.545687,36.211312)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1571,7 +1580,7 @@
        y="0"
        width="100%"
        height="100%"
-       transform="matrix(0.03228624,0,0,-0.03228624,216.66874,36.209197)"
+       transform="matrix(0.03228624,0,0,-0.03228624,116.65612,36.209197)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1584,7 +1593,7 @@
        y="0"
        width="100%"
        height="100%"
-       transform="matrix(0.03229148,0,0,-0.03229148,363.4439,36.226661)"
+       transform="matrix(0.03229148,0,0,-0.03229148,263.43128,36.226661)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1597,7 +1606,7 @@
        y="0"
        width="100%"
        height="100%"
-       transform="matrix(0.03229771,0,0,-0.03229771,483.23091,36.22822)"
+       transform="matrix(0.03229771,0,0,-0.03229771,383.21829,36.22822)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1610,7 +1619,7 @@
        y="0"
        width="100%"
        height="100%"
-       transform="matrix(0.03229771,0,0,-0.03229771,628.1122,36.212072)"
+       transform="matrix(0.03229771,0,0,-0.03229771,528.09958,36.212072)"
        style="fill:#000000;stroke:#000000;stroke-width:0"
        inkscape:export-filename="/home/rudson/Documents/Projects/Flutter/labcalc2/assets/images/buttons/measure.png"
        inkscape:export-xdpi="64"
@@ -1623,12 +1632,12 @@
        y="0"
        width="100%"
        height="100%"
-       transform="matrix(0.03228657,0,0,-0.03228657,743.63934,35.05148)"
+       transform="matrix(0.03228657,0,0,-0.03228657,643.62672,35.05148)"
        style="fill:#000000;stroke:#000000;stroke-width:0" />
     <g
        data-mml-node="math"
        id="g1206"
-       transform="matrix(0.03278982,0,0,-0.03278982,17.098741,36.150472)"
+       transform="matrix(0.03278982,0,0,-0.03278982,-132.65547,36.150472)"
        style="fill:#000000;stroke:#000000;stroke-width:0">
       <g
          data-mml-node="mo"
@@ -1663,6 +1672,50 @@
            data-c="29"
            xlink:href="#MJX-6-TEX-N-29"
            id="use1202"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+    </g>
+    <g
+       data-mml-node="math"
+       id="g1216"
+       transform="matrix(0.03222499,0,0,-0.03222499,8.064703,36.51437)"
+       style="fill:#000000;stroke:#000000;stroke-width:0">
+      <g
+         data-mml-node="mo"
+         id="g1206-6">
+        <use
+           data-c="28"
+           xlink:href="#MJX-6-TEX-N-28-7"
+           id="use1204"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+      <g
+         data-mml-node="mo"
+         transform="translate(389)"
+         id="g1210">
+        <use
+           data-c="22EF"
+           xlink:href="#MJX-6-TEX-N-22EF"
+           id="use1208"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+      <g
+         data-mml-node="mo"
+         transform="translate(1561)"
+         id="g1214">
+        <use
+           data-c="29"
+           xlink:href="#MJX-6-TEX-N-29-7"
+           id="use1212"
            x="0"
            y="0"
            width="100%"

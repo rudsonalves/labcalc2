@@ -1,5 +1,4 @@
-import 'package:labcalc2/common/models/measure/measure.dart';
-
+import '../measure/measure.dart';
 import '../measure/measure_functions.dart';
 import '../memories/app_memories.dart';
 import 'function_map.dart';
@@ -41,7 +40,9 @@ class MathExpression {
         .replaceAll('(+', '(')
         .replaceAll('e+-', 'e-')
         .replaceAllMapped(RegExp(r'(?<=\D)\.(?=\d)'), (match) => '0.')
-        .replaceAllMapped(RegExp(r'-(?=[A-Za-z])'), (match) => '-1*');
+        .replaceAllMapped(RegExp(r'-(?=[A-Za-z])'), (match) => '-1*')
+        .replaceAllMapped(RegExp(r'(\d)π'), (match) => '${match[1]}*π')
+        .replaceAllMapped(RegExp(r'π([\d.])'), (match) => 'π*${match[1]}');
 
     newString = (newString[0] == '+') ? newString.substring(1) : newString;
 

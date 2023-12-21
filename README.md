@@ -4,6 +4,33 @@ A new Flutter project.
 
 # Commits
 
+## 2023/12/21 - 
+version: 0.8.0:
+
+In this version, we have made significant improvements in the usability and maintenance of the calculator's code, introducing constants and enhanced methods for handling mathematical expressions and memories. Details of the changes:
+
+* lib/common/constants/bottons_label.dart:
+  - a set of constant strings to represent the control strings of the calculator keys. These are necessary to prevent incorrect writing of these strings throughout the code, as well as to reduce the possibility of errors in eventual changes to these strings.
+* lib/common/constants/constants.dart:
+  - addition of the 'dx' label.
+* lib/common/models/math_expression/math_expression.dart:
+  - added two .replaceAllMapped lines to the string newExpression to replace the sequence \dπ with \d*π and π\d with π*\d. This allows the insertion of 2π, or vice versa, without the need to put the product sign between them.
+* lib/common/models/memories/app_memories.dart:
+  - 'Ans' and 'xm' have been replaced with the constants ansLabel and xmLabel;
+  - added calls via getters and setters for the memories.
+* lib/features/calculator/widgets/button_hub/button_hub.dart:
+  - improvements in the code of the insertKey method to encompass possible user inputs;
+  - preOperatorsKey adds the previous answer (Ans) if one of the operation keys is pressed.
+  - preAnsKey adds the previous answer (Ans) to the display if it is not null.
+  - preNumbersKey: this method was initially created to process the addition of numbers to the display, inserting new numbers pressed in normal mode, or clearing the display and then adding the numbers to the display. However, this behavior proved necessary for the insertion of functions and is now used for entering numbers, functions, and possibly memory values.
+  - pmMeasureKey, this method manages the press of the '±' key, moving through the elements of a Measure, or even creating one if executed between empty parentheses;
+  - the method _itsBetween returns true if the passed position is between the outermost characters of the ER passed as a pattern;
+  - the method _getMeasureElement(String text, int position) returns the Measure element not selected by the cursor. This method allows for switching between the elements of a Measure;
+  - _checkMeasureInCursor(String text, int position), this method checks if the cursor is within a Measure sentence and, if so, returns the start and end positions of the sentence;
+  - some more adjustments in the backSpaceKey method, to properly move through parentheses without breaking them in the expression;
+  - otherwise, this code has been commented and applied with the new constants declared in buttons_labels.
+
+
 ## 2023/12/20 - version: 0.5.1:
 
 This release enhances the mathematical expression processing and memory management of the calculator, introducing new methods for evaluation and data storage. Details of the changes:

@@ -74,5 +74,6 @@ const List<String> removalSeq = [
   '(x)',
   'ln',
   '()',
-  'EE'
+  'EE',
+  'dx',
 ];
