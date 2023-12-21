@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:labcalc2/common/singletons/app_settings.dart';
 
 import '../../../../../common/models/key_model/key_model.dart';
+import '../../../../../common/singletons/app_settings.dart';
 import '../../../../../common/themes/colors/app_colors.dart';
 import '../button_hub.dart';
 import '../calc_button.dart';
@@ -39,12 +39,17 @@ class CreateButton {
     void Function(KeyModel) buttonCallBack,
   ) {
     final app = AppSettings.instance;
+    // final memories = AppMemories.instante;
+
     int aMemory = 'A'.runes.first;
-    int fMemory = 'E'.runes.first;
+    int eMemory = 'E'.runes.first;
 
     List<Widget> buttons = [];
 
     for (int i = 0; i < 4; i++) {
+      // String label = !app.secondFunc
+      //     ? String.fromCharCode(aMemory + i)
+      //     : String.fromCharCode(eMemory + i);
       buttons.add(
         ListenableBuilder(
           listenable: app.secondFunc$,
@@ -52,7 +57,8 @@ class CreateButton {
             return CalcButton(
               !app.secondFunc
                   ? String.fromCharCode(aMemory + i)
-                  : String.fromCharCode(fMemory + i),
+                  : String.fromCharCode(eMemory + i),
+              tooltip: '', // memories.memories[label]!.value.toString(),
               fontColor:
                   !app.secondFunc ? AppColors.fontBlack : AppColors.fontYellow,
               buttonColor: AppColors.buttonMemories,

@@ -4,8 +4,35 @@ A new Flutter project.
 
 # Commits
 
-## 2023/12/21 - 
-version: 0.8.0:
+## 2023/12/21b - version: 0.9.0:
+
+This release introduces significant improvements in interacting with the expression history and managing memories, while laying the groundwork for additional functionalities. Details of the changes:
+
+* lib/common/models/display/display_controller.dart:
+  - _secondaryLine, secondaryLine: line from the secondary display to be posted on the primary display;
+  - downSecondLine and upSecondLine select the line of the secondary display above and below;
+  - selectHistoryLine scrolls to the selected line.
+* lib/common/models/memories/app_memories.dart:
+  - added the ValueNotifier<bool> storageOn$ to notify when the memory storage button is pressed.
+  - added the toggleStorageOn() method to switch the state of storageOn.
+* lib/common/themes/colors/app_colors.dart:
+  - added color for the STO button's font when enabled.
+* lib/features/calculator/widgets/button_hub/button_hub.dart:
+  - added the memoriesKey method to enable and disable the STO button;
+  - added the memoriesLettersKey method to manage input and access to memories. Implementation is still in progress;
+  - CalcButton for the STO button was wrapped with a ListenableBuilder to display the state change.
+* lib/features/calculator/widgets/button_hub/calc_button.dart:
+  - added support for Tooltips, but not yet implemented.
+* lib/features/calculator/widgets/button_hub/utilities/create_button.dart:
+  - minor changes for the addition of tooltips, but not yet completed.
+* lib/features/calculator/widgets/button_hub/utilities/display_utilities.dart: 
+  - class renamed from DisplayControl to DisplayUtilities, to avoid confusion with DisplayController and be more precise in its application;
+  - added the methods moveHistoryUp and moveHistoryDown to update the screen movement through the expression history.
+* lib/features/calculator/widgets/display/display_widget.dart:
+  - added a change in the color of the selected line from the expression history.
+
+
+## 2023/12/21 - version: 0.8.0:
 
 In this version, we have made significant improvements in the usability and maintenance of the calculator's code, introducing constants and enhanced methods for handling mathematical expressions and memories. Details of the changes:
 
