@@ -17,6 +17,59 @@ class DisplayController {
 
   List<String> get secondary => secondary$.value;
 
+  int _secondaryLine = -1;
+
+  int get secondaryLine => _secondaryLine;
+
+  String get downSecondLine {
+    // if there is no line selected, select the last one from the secondary list
+    if (_secondaryLine == -1) {
+      if (secondary.isNotEmpty) {
+        // select the last line from secondary list
+        _secondaryLine = secondary.length - 1;
+      } else {
+        // if the secondary list is empty return ''
+        return '';
+      }
+    } else if (_secondaryLine > 0) {
+      // select the next line
+      _secondaryLine--;
+    }
+    selectHistoryLine(_secondaryLine);
+    return secondary[_secondaryLine];
+  }
+
+  String get upSecondLine {
+    // if there is no line selected, select the last one from the secondary list
+    if (_secondaryLine == -1) {
+      if (secondary.isNotEmpty) {
+        // select the first line from secondary list
+        _secondaryLine = 0;
+      } else {
+        // if the secondary list is empty return ''
+        return '';
+      }
+    } else if (_secondaryLine < secondary.length - 1) {
+      // select the previous line
+      _secondaryLine++;
+    }
+    selectHistoryLine(_secondaryLine);
+    return secondary[_secondaryLine];
+  }
+
+  void selectHistoryLine(int index) {
+    if (_scrollController.hasClients && secondary.isNotEmpty) {
+      const itemHeight = 21.0;
+
+      final position = itemHeight * index;
+      _scrollController.animateTo(
+        position,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
   void init() {
     displayFocusNode = FocusNode();
   }
@@ -58,4 +111,6 @@ class DisplayController {
     resetSecondaryDisplay();
     controller.clear();
   }
+
+  void resetSecondLine() => _secondaryLine = -1;
 }

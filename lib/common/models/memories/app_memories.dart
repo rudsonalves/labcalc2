@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../../constants/buttons_label.dart';
 import '../measure/measure_functions.dart';
 import 'memory.dart';
@@ -22,8 +24,14 @@ class AppMemories {
   static AppMemories instante = _instance;
 
   final Map<String, Memory> _memories = {};
-
   Map<String, Memory> get memories => _memories;
+
+  final storageOn$ = ValueNotifier<bool>(false);
+  bool get storageOn => storageOn$.value;
+
+  void toogleStorageOn() {
+    storageOn$.value = !storageOn$.value;
+  }
 
   void init() {
     resetMemories();

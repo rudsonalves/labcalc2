@@ -14,7 +14,7 @@ import '../../../../common/widgets/fix_spin_button.dart';
 import 'calc_button.dart';
 import 'reset_button.dart';
 import 'utilities/create_button.dart';
-import 'utilities/display_control.dart';
+import 'utilities/display_utilities.dart';
 import 'utilities/string_edit.dart';
 
 enum DirectionKeys {
@@ -66,14 +66,14 @@ class _ButtonHubState extends State<ButtonHub> {
     if (key.label.contains('(x') || key.label.contains('x±')) {
       int newStart = startSelection + key.offset;
       int newEnd = newStart + 1;
-      DisplayControl.updateDisplay(
+      DisplayUtilities.updateDisplay(
         _display.controller,
         text,
         TextSelection(baseOffset: newStart, extentOffset: newEnd),
       );
     } else {
       int newPosition = startSelection + key.offset;
-      DisplayControl.updateDisplay(
+      DisplayUtilities.updateDisplay(
         _display.controller,
         text,
         TextSelection.collapsed(offset: newPosition),
@@ -150,6 +150,7 @@ class _ButtonHubState extends State<ButtonHub> {
         _display.controller.clear();
         _display.controller.text = result.toString();
         _memories.mAns = result;
+        _display.resetSecondLine();
       }
     } catch (e) {
       _display.controller.text = 'Error in expression';
@@ -172,16 +173,16 @@ class _ButtonHubState extends State<ButtonHub> {
   void moveKeyKeys(DirectionKeys key) {
     switch (key) {
       case DirectionKeys.left:
-        DisplayControl.moveCursorLeft(_display.controller);
+        DisplayUtilities.moveCursorLeft(_display.controller);
         break;
       case DirectionKeys.top:
-        // TODO: Handle this case.
+        DisplayUtilities.moveHistoryUp(_display);
         break;
       case DirectionKeys.bottom:
-        // TODO: Handle this case.
+        DisplayUtilities.modeHistoryDown(_display);
         break;
       case DirectionKeys.right:
-        DisplayControl.moveCursorRight(_display.controller);
+        DisplayUtilities.moveCursorRight(_display.controller);
     }
   }
 
@@ -208,7 +209,7 @@ class _ButtonHubState extends State<ButtonHub> {
         measureString,
         position - start,
       );
-      DisplayControl.updateDisplay(
+      DisplayUtilities.updateDisplay(
         _display.controller,
         text,
         TextSelection(
@@ -222,6 +223,23 @@ class _ButtonHubState extends State<ButtonHub> {
     if (_itsBetween(text, RegExp(r'\(\)'), position) ||
         _itsBetween(text, RegExp(r'\(x\)'), position)) {
       insertKey(KeyModel(label: measureInLabel, offset: 0));
+    }
+  }
+
+  void memoriesKey(KeyModel key) {
+    _memories.toogleStorageOn();
+    if (!_memories.storageOn) return;
+  }
+
+  void memoriesLettersKey(KeyModel key) {
+    if (!_memories.storageOn) {
+      insertKey(key);
+    } else {
+      _memories.toogleStorageOn();
+      equalKey(KeyModel(label: '='));
+      // executa um =
+      // pega o valor a adiciona a memória
+      // apresenta na tela 'valor -> A'
     }
   }
 
@@ -309,7 +327,7 @@ class _ButtonHubState extends State<ButtonHub> {
       // If the previous character is a close parenthesis, return the cursor
       // one character.
       if (lastCharacter == '(' || lastCharacter == ')') {
-        DisplayControl.moveCursor(_display.controller, position - 1);
+        DisplayUtilities.moveCursor(_display.controller, position - 1);
         return;
       }
       // Remove last charactere
@@ -318,7 +336,7 @@ class _ButtonHubState extends State<ButtonHub> {
     }
 
     // uodate display
-    DisplayControl.updateDisplay(
+    DisplayUtilities.updateDisplay(
       _display.controller,
       newText,
       TextSelection.collapsed(offset: newPosition),
@@ -395,14 +413,20 @@ class _ButtonHubState extends State<ButtonHub> {
             // Directionals Buttons
             ...CreateButton.directionals(moveKeyKeys),
             // STO Button
-            CalcButton(
-              stoLabel,
-              fontColor: AppColors.fontBlack,
-              buttonColor: AppColors.buttonMemories,
-              buttonCallBack: notImplementedKey,
-            ),
-            // Memories Buttons
-            ...CreateButton.memories(insertKey),
+            ListenableBuilder(
+                listenable: _memories.storageOn$,
+                builder: (context, _) {
+                  return CalcButton(
+                    stoLabel,
+                    fontColor: _memories.storageOn
+                        ? AppColors.fontAmber
+                        : AppColors.fontBlack,
+                    buttonColor: AppColors.buttonMemories,
+                    buttonCallBack: memoriesKey,
+                  );
+                }),
+            // Memories Buttons A-H
+            ...CreateButton.memories(memoriesLettersKey),
             // Measure Button
             CalcButton(
               measureLabel,

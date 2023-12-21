@@ -6,6 +6,7 @@ import '../../../../common/themes/styles/app_text_styles.dart';
 
 class CalcButton extends StatelessWidget {
   final String? image;
+  final String? tooltip;
   final IconData? iconData;
   final Color buttonColor;
   final Color fontColor;
@@ -15,6 +16,7 @@ class CalcButton extends StatelessWidget {
   CalcButton(
     String label, {
     Key? key,
+    this.tooltip,
     this.image,
     this.iconData,
     this.buttonColor = Colors.grey,
@@ -34,20 +36,23 @@ class CalcButton extends StatelessWidget {
         onTap: () => buttonCallBack(keyModel),
         splashColor: buttonColor.lighter(20),
         borderRadius: BorderRadius.circular(5),
-        child: Center(
-          child: image != null
-              ? Image.asset(
-                  image!,
-                  color: fontColor,
-                )
-              : iconData != null
-                  ? Icon(iconData)
-                  : Text(
-                      keyModel.label,
-                      style: AppTextStyle.textStyleButton.copyWith(
-                        color: fontColor,
+        child: Tooltip(
+          message: tooltip ?? '',
+          child: Center(
+            child: image != null
+                ? Image.asset(
+                    image!,
+                    color: fontColor,
+                  )
+                : iconData != null
+                    ? Icon(iconData)
+                    : Text(
+                        keyModel.label,
+                        style: AppTextStyle.textStyleButton.copyWith(
+                          color: fontColor,
+                        ),
                       ),
-                    ),
+          ),
         ),
       ),
     );

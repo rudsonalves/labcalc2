@@ -69,8 +69,13 @@ class _DisplayWidgetState extends State<DisplayWidget> {
                   itemBuilder: (context, index) {
                     return Text(
                       _display.secondary[index],
-                      style: AppTextStyle.textStyleSecondDisplay,
+                      style: AppTextStyle.textStyleSecondDisplay.copyWith(
+                        color: _display.secondaryLine == index
+                            ? AppColors.fontYellow
+                            : null,
+                      ),
                       textAlign: TextAlign.right,
+                      maxLines: 1,
                     );
                   },
                 );

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../common/models/display/display_controller.dart';
+
 /// class specialized in controlling courses and updating the display's
 /// TextEditingController
-class DisplayControl {
-  DisplayControl._();
+class DisplayUtilities {
+  DisplayUtilities._();
 
   static void moveCursorLeft(
     TextEditingController controller,
@@ -70,5 +72,29 @@ class DisplayControl {
     if (position < 0 || position > controller.text.length) return;
     controller.selection =
         TextSelection.fromPosition(TextPosition(offset: position));
+  }
+
+  static void moveHistoryUp(DisplayController display) {
+    String showExpression = display.downSecondLine;
+    if (showExpression.isEmpty) return;
+    updateDisplay(
+      display.controller,
+      showExpression,
+      TextSelection.fromPosition(
+        TextPosition(offset: showExpression.length),
+      ),
+    );
+  }
+
+  static void modeHistoryDown(DisplayController display) {
+    String showExpression = display.upSecondLine;
+    if (showExpression.isEmpty) return;
+    updateDisplay(
+      display.controller,
+      showExpression,
+      TextSelection.fromPosition(
+        TextPosition(offset: showExpression.length),
+      ),
+    );
   }
 }
