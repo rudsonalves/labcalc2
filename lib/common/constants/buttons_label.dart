@@ -1,5 +1,6 @@
 const ansLabel = 'Ans';
 const xmLabel = 'xm';
+const clearLabel = 'clear';
 const secondLabel = '2nd';
 const stoLabel = 'STO';
 const measureLabel = '(x±dx)';

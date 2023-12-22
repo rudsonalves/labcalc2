@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_color/flutter_color.dart';
+import 'package:labcalc2/common/models/measure/statistic.dart';
+import 'package:labcalc2/common/models/memories/app_memories.dart';
 import 'package:labcalc2/common/themes/styles/app_button_styles.dart';
 import 'package:labcalc2/common/themes/styles/app_text_styles.dart';
 
@@ -47,6 +49,8 @@ class _ResetButtonState extends State<ResetButton> {
 
   void _resetCalculator() {
     DisplayController.instance.resetDisplay();
+    AppMemories.instante.resetMemories();
+    StatisticController.instance.clear();
   }
 
   void _cancelResetTimer() {
@@ -151,7 +155,10 @@ class _ResetButtonState extends State<ResetButton> {
         splashColor: AppColors.buttonReset.lighter(20),
         borderRadius: BorderRadius.circular(5),
         child: const Center(
-          child: Icon(Icons.refresh_outlined),
+          child: Icon(
+            Icons.refresh_outlined,
+            color: AppColors.fontWhite,
+          ),
         ),
       ),
     );

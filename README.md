@@ -4,6 +4,58 @@ A new Flutter project.
 
 # Commits
 
+## 2023/12/22 - version: 0.9.1:
+
+In this update, we're introducing a range of enhancements and optimizations to the calculator's functionalities, particularly in mathematical expression processing, measure parsing, and statistical calculations, along with UI improvements. Here are the details:
+
+* lib/common/models/math_expression/math_expression.dart:
+  - added a filter to remove spaces in the mathematical expression;
+  - introduced the _constantsEvaluator method to evaluate constants before starting the resolution of mathematical expressions.
+* lib/common/models/measure/measure.dart:
+  - added the tryParse method, to parse a string into a Measure;
+  - modified outputs of the toString and toStringAsFixed methods to add parentheses.
+* lib/common/models/measure/measure_functions.dart:
+  - removed the dynamicStringParse method. No longer necessary.
+* lib/common/models/measure/statistic.dart:
+  - added a singleton StatisticController for statistical processing.
+* lib/common/models/memories/app_memories.dart:
+  - removed some unnecessary memories.
+* lib/common/singletons/app_settings.dart:
+  - AppSettings gained two more ValueNotifiers: expressionError$ and counter$. The former communicates errors in the mathematical expression, and the latter stores the number of elements in the statistical base.
+* lib/common/themes/colors/app_colors.dart:
+  - added some colors for fonts and buttons.
+* lib/features/calculator/calculator_page.dart:
+  - the theme selection button moved to the top bar of the main app page;
+  - the DisplayWidget was moved inside a ListenableBuilder to trigger a red border in case of an error in processing a mathematical expression;
+  - added a statistical counter display in the app's information bar.
+* lib/features/calculator/widgets/button_hub/button_hub.dart:
+  - added some comments to the code;
+  - adjusted the equalKey method to work with memories;
+  - in this method, an incorrect expression no longer clears the display but only lights up a red border to indicate an error in the operation.
+  - added the _formatResult method to apply truncation or adjust decimal places when fix is configured;
+  - made further adjustments in navigation with the pmMeasureKey method, now supporting scientific notation;
+  - completed the implementation of the memoriesLettersKey method;
+  - added the addStackKey method, to add new values to the statistical stack;
+  - added the removeStackKey method, to remove the last value from the stack;
+  - added the meanKey method to call the mean calculation;
+  - added the clearStatKey method to clear the statistical stack;
+  - added the _getCalculatorValue method to get the value from Ans, entered via display or evaluated from an expression on the display. These values are used in the entry of the statistical stack;
+  - more color adjustments on buttons, images, and icons.
+* lib/features/calculator/widgets/button_hub/calc_button.dart:
+  - added support to select color for icons in CalcButton.
+* lib/features/calculator/widgets/button_hub/reset_button.dart:
+  - added calls to erase memories and statistical functions in the _resetCalculator method;
+  - fixed the reset button icon color to white.
+* lib/features/calculator/widgets/button_hub/utilities/create_button.dart:
+  - adjusted the colors of some buttons.
+* lib/features/calculator/widgets/display/display_widget.dart:
+  - DisplayWidget now receives an errorMode boolean to trigger an error indicator border.
+* lib/features/calculator/widgets/status_bar/status_bar_widget.dart:
+  - completed the implementation of the statistical stack counter in the StatusBarWidget.
+* lib/features/settings/settings_page.dart:
+  - removed the theme selection button from the settings page.
+
+
 ## 2023/12/21b - version: 0.9.0:
 
 This release introduces significant improvements in interacting with the expression history and managing memories, while laying the groundwork for additional functionalities. Details of the changes:

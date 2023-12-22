@@ -24,6 +24,8 @@ class AppSettings {
   final isRadians$ = ValueNotifier<bool>(true);
   final truncate$ = ValueNotifier<bool>(false);
   final secondFunc$ = ValueNotifier<bool>(false);
+  final expressionError$ = ValueNotifier<bool>(false);
+  final counter$ = ValueNotifier<int>(0);
 
   ThemeMode get themeMode => themeMode$.value;
   void toggleThemeMode() {
@@ -35,6 +37,13 @@ class AppSettings {
       themeMode$.value = ThemeMode.dark;
     }
   }
+
+  int get counter => counter$.value;
+  void setCounter(int value) => counter$.value = value;
+
+  bool get expressionError => expressionError$.value;
+  void expressionErrorOn() => expressionError$.value = true;
+  void expressionErrorOff() => expressionError$.value = false;
 
   TypeMean get mean => mean$.value;
   set mean(TypeMean value) => mean$.value = value;

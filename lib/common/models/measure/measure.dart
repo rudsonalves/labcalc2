@@ -36,6 +36,23 @@ class Measure {
     }
   }
 
+  static Measure? tryParse(String text) {
+    try {
+      RegExp regExp = RegExp(r'(-?\d*\.?\d+(e[+\-]?\d+)?)');
+
+      final matches = regExp.allMatches(text.replaceAll(' ', '')).toList();
+
+      if (matches.length != 2) return null;
+
+      final value = double.parse(matches[0].group(0) ?? '');
+      final delta = double.parse(matches[1].group(0) ?? '');
+
+      return Measure(value, delta);
+    } catch (err) {
+      return null;
+    }
+  }
+
   /// operator +: declaration of the sum operation.
   Measure operator +(Measure other) =>
       Measure(value + other.value, delta + other.delta);
@@ -118,13 +135,13 @@ class Measure {
   /// representation of the Measure object.
   @override
   String toString() {
-    return '$value ± $delta';
+    return '($value ± $delta)';
   }
 
   /// toStringAsFixed: return a fixed decimal point representation of the
   /// Measure object.
   String toStringAsFixed(int fix) {
-    return '${value.toStringAsFixed(fix)} ± ${delta.toStringAsFixed(fix)}';
+    return '(${value.toStringAsFixed(fix)} ± ${delta.toStringAsFixed(fix)})';
   }
 
   /// truncate: return a truncated representation of the Measure object.

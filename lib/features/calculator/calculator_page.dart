@@ -27,15 +27,32 @@ class _CalculatorPageState extends State<CalculatorPage> {
       appBar: AppBar(
         title: const Text('Laboratory Calculator'),
         backgroundColor: colorSheme.primary,
+        actions: [
+          ListenableBuilder(
+            listenable: _app.themeMode$,
+            builder: (context, child) => IconButton(
+              onPressed: _app.toggleThemeMode,
+              icon: Icon(_app.themeMode == ThemeMode.dark
+                  ? Icons.dark_mode
+                  : _app.themeMode == ThemeMode.light
+                      ? Icons.light_mode
+                      : Icons.android),
+            ),
+          ),
+        ],
       ),
       backgroundColor: colorSheme.primary,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            const Expanded(
+            Expanded(
               flex: 4,
-              child: DisplayWidget(),
+              child: ListenableBuilder(
+                  listenable: _app.expressionError$,
+                  builder: (context, _) {
+                    return DisplayWidget(erroMode: _app.expressionError);
+                  }),
             ),
             Expanded(
               flex: 1,
@@ -46,7 +63,8 @@ class _CalculatorPageState extends State<CalculatorPage> {
                       _app.isRadians$,
                       _app.truncate$,
                       _app.mean$,
-                      _app.deviation$
+                      _app.deviation$,
+                      _app.counter$,
                     ],
                   ),
                   builder: (context, _) {
@@ -56,6 +74,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                       truncate: _app.truncate,
                       mean: _app.mean,
                       deviation: _app.deviation,
+                      counter: _app.counter,
                     );
                   }),
             ),

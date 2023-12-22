@@ -1,11 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import '../../../../common/constants/buttons_label.dart';
 import '../../../../common/models/display/display_controller.dart';
 import '../../../../common/models/key_model/key_model.dart';
 import '../../../../common/models/math_expression/math_expression.dart';
+import '../../../../common/models/measure/measure.dart';
+import '../../../../common/models/measure/statistic.dart';
 import '../../../../common/models/memories/app_memories.dart';
 import '../../../../common/singletons/app_settings.dart';
 import '../../../../common/themes/colors/app_colors.dart';
@@ -35,6 +35,8 @@ class _ButtonHubState extends State<ButtonHub> {
   final _app = AppSettings.instance;
   final _display = DisplayController.instance;
   final _memories = AppMemories.instante;
+  final _statistics = StatisticController.instance;
+
   bool editingMode = false;
 
   @override
@@ -84,6 +86,7 @@ class _ButtonHubState extends State<ButtonHub> {
     _display.displayFocusNode.requestFocus();
   }
 
+  /// Process operators key
   void preOperatorsKey(KeyModel key) {
     if (!editingMode && _memories.mAns != 0) {
       _display.controller.text = ansLabel;
@@ -94,6 +97,7 @@ class _ButtonHubState extends State<ButtonHub> {
     insertKey(key);
   }
 
+  /// Process Ans key
   void preAnsKey(KeyModel key) {
     if (!editingMode) {
       if (_memories.mAns != 0) {
@@ -108,16 +112,18 @@ class _ButtonHubState extends State<ButtonHub> {
     editingMode = true;
   }
 
+  /// Process a general keys
   void preNumbersKey(KeyModel key) {
     if (editingMode) {
       insertKey(key);
     } else {
-      //
+      // Clear display and inter a key
       _display.controller.clear();
       insertKey(key);
     }
   }
 
+  /// insert power of 10
   void insertEEKey(KeyModel key) {
     if (!editingMode) return;
 
@@ -134,12 +140,14 @@ class _ButtonHubState extends State<ButtonHub> {
     }
   }
 
+  /// Process expression in display
   void equalKey(KeyModel key) {
     if (!editingMode) return;
+    _app.expressionErrorOff();
+    String textExpression = _display.controller.text;
 
     try {
       // process expression
-      String textExpression = _display.controller.text;
       if (textExpression.isNotEmpty) {
         MathExpression expression = MathExpression.parse(textExpression);
 
@@ -148,15 +156,41 @@ class _ButtonHubState extends State<ButtonHub> {
         // if ok, insert expression in secondary display.
         _display.addInSecondaryDisplay(textExpression);
         _display.controller.clear();
-        _display.controller.text = result.toString();
+        _display.controller.text = _formatResult(result);
         _memories.mAns = result;
         _display.resetSecondLine();
+        if (_memories.storageOn) {
+          _memories.memories[key.label]!.value = result;
+          _memories.toogleStorageOn();
+          _display.controller.text = '${_formatResult(result)} ￫ ${key.label}';
+        }
+        editingMode = false;
       }
     } catch (e) {
-      _display.controller.text = 'Error in expression';
+      _app.expressionErrorOn();
+      _display.controller.text = textExpression;
+      editingMode = true;
     }
+  }
 
-    editingMode = false;
+  String _formatResult(dynamic value) {
+    if (value is double) {
+      if (_app.fix != -1) {
+        return value.toStringAsFixed(_app.fix);
+      }
+      return value.toString();
+    } else if (value is Measure) {
+      if (_app.truncate) {
+        return value.truncate();
+      } else {
+        if (_app.fix != -1) {
+          return value.toStringAsFixed(_app.fix);
+        }
+        return value.toString();
+      }
+    } else {
+      return 'Error!';
+    }
   }
 
   (int, int, TextSelection) _selectionPositions() {
@@ -170,6 +204,7 @@ class _ButtonHubState extends State<ButtonHub> {
     return (startSelection, endSelection, selection);
   }
 
+  /// Process movement keys
   void moveKeyKeys(DirectionKeys key) {
     switch (key) {
       case DirectionKeys.left:
@@ -186,6 +221,7 @@ class _ButtonHubState extends State<ButtonHub> {
     }
   }
 
+  /// clear display
   void clearKey() {
     editingMode = false;
     _display.controller.clear();
@@ -220,32 +256,116 @@ class _ButtonHubState extends State<ButtonHub> {
       return;
     }
 
-    if (_itsBetween(text, RegExp(r'\(\)'), position) ||
-        _itsBetween(text, RegExp(r'\(x\)'), position)) {
+    if (_itsBetweenRegExp(text, RegExp(r'\(\)'), position) ||
+        _itsBetweenRegExp(text, RegExp(r'\(x\)'), position)) {
       insertKey(KeyModel(label: measureInLabel, offset: 0));
     }
   }
 
-  void memoriesKey(KeyModel key) {
+  /// Storage display value in the memory
+  void storageMemoryKey(KeyModel key) {
     _memories.toogleStorageOn();
     if (!_memories.storageOn) return;
   }
 
+  /// Process letters memories keys
   void memoriesLettersKey(KeyModel key) {
     if (!_memories.storageOn) {
-      insertKey(key);
+      preNumbersKey(key);
     } else {
-      _memories.toogleStorageOn();
-      equalKey(KeyModel(label: '='));
-      // executa um =
-      // pega o valor a adiciona a memória
-      // apresenta na tela 'valor -> A'
+      equalKey(key);
     }
+  }
+
+  /// Add value in display to statistic stack
+  void addStackKey(KeyModel key) {
+    if (key.label == sumLabel) {
+      String text = _display.controller.text;
+
+      final value = _getCalculatorValue(text);
+      if (value != null) {
+        _statistics.add(value);
+        _display.controller.text = _statistics.values.toString();
+      } else {
+        if (!editingMode) {
+          _display.controller.clear();
+          _display.controller.text = _statistics.values.toString();
+        }
+        return;
+      }
+      editingMode = false;
+    }
+  }
+
+  /// Remove a value from statistic stack
+  void removeStakKey(KeyModel key) {
+    if (_statistics.isNotEmpty) {
+      _statistics.removeLast();
+      _display.controller.text = _statistics.values.toString();
+      _app.toggleSecondFunc();
+      editingMode = false;
+    }
+  }
+
+  /// Calculate and insert the mean in display
+  void meanKey(KeyModel key) {
+    if (key.label == xmLabel) {
+      if (_statistics.isEmpty) return;
+
+      if (!editingMode) {
+        _display.controller.clear();
+      }
+
+      String value = _statistics.mean.toString();
+      value = editingMode ? value = value.replaceAll(' ', '') : value;
+      insertKey(KeyModel(label: value, offset: value.length));
+    }
+  }
+
+  /// Clear statistic stack
+  void clearStatKey(KeyModel key) {
+    _statistics.clear();
+    editingMode = false;
+    _display.controller.text = '-- Statistics have been deleted --';
+    _app.toggleSecondFunc();
+  }
+
+  double? _getCalculatorValue(String text) {
+    if (text == '') return null;
+
+    if (!editingMode) {
+      if (_memories.mAns != 0) {
+        return _getValue(_memories.mAns);
+      }
+    } else {
+      final value = double.tryParse(text);
+      if (value != null) {
+        editingMode = false;
+        return value;
+      } else {
+        final measure = Measure.tryParse(text);
+        if (measure != null) {
+          editingMode = false;
+          return measure.value;
+        } else {
+          equalKey(KeyModel(label: '_'));
+          return _getValue(_memories.mAns);
+        }
+      }
+    }
+    return null;
+  }
+
+  double _getValue(dynamic value) {
+    if (value is Measure) {
+      return value.value;
+    }
+    return value;
   }
 
   // This method returns true if the position is between the outermost
   // characters in the pattern passed by an ER
-  bool _itsBetween(String text, RegExp pattern, int position) {
+  bool _itsBetweenRegExp(String text, RegExp pattern, int position) {
     final allMatches = pattern.allMatches(text);
     for (final match in allMatches) {
       int start = match.start;
@@ -260,7 +380,8 @@ class _ButtonHubState extends State<ButtonHub> {
 
   // This method returns the selection of the element outside the cursor
   (int, int) _getMeasureElement(String text, int position) {
-    RegExp regExp = RegExp(r'(\b\d*\.?\d+\b|x|dx)');
+    // RegExp regExp = RegExp(r'(\d*\.?\d+|x|dx)');
+    RegExp regExp = RegExp(r'(-?\d*\.?\d+(e[+\-]?\d+)?|x|dx)');
     Iterable<RegExpMatch> allMatches = regExp.allMatches(text);
     int start = -1;
     int end = -1;
@@ -280,7 +401,8 @@ class _ButtonHubState extends State<ButtonHub> {
   // Checks whether the cursor is within a measure sentence and, if so,
   // returns the start and end positions of the sentence.
   (int, int) _checkMeasureInCursor(String text, int position) {
-    RegExp regExp = RegExp(r'\((\d*\.?\d+|x)±(\d*\.?\d+|dx)\)');
+    RegExp regExp = RegExp(
+        r'\((-?\d*\.?\d+(e[+\-]?\d+)?|x)±(-?\d*\.?\d+(e[+\-]?\d+)?|dx)\)');
     Iterable<RegExpMatch> allMatches = regExp.allMatches(text);
 
     int start = -1;
@@ -296,11 +418,6 @@ class _ButtonHubState extends State<ButtonHub> {
     }
 
     return (start, end);
-  }
-
-  /// Not implemented keys
-  void notImplementedKey(KeyModel key) {
-    log('Not implemented key: ${key.label}');
   }
 
   /// This method processes the backspace key (BS). BS must remove entire
@@ -394,13 +511,13 @@ class _ButtonHubState extends State<ButtonHub> {
           crossAxisCount: 5,
           childAspectRatio: buttonWidth / buttonHeight,
           children: [
+            // ---------------------------------------------------------
             // 2nd Button
             ListenableBuilder(
                 listenable: _app.secondFunc$,
                 builder: (context, _) {
                   return CalcButton(
                     secondLabel,
-                    // image: 'assets/images/buttons/2nd.png',
                     fontColor: !_app.secondFunc
                         ? AppColors.fontWhite
                         : AppColors.fontYellow,
@@ -419,21 +536,22 @@ class _ButtonHubState extends State<ButtonHub> {
                   return CalcButton(
                     stoLabel,
                     fontColor: _memories.storageOn
-                        ? AppColors.fontAmber
-                        : AppColors.fontBlack,
+                        ? AppColors.fontOrange
+                        : AppColors.fontWhite,
                     buttonColor: AppColors.buttonMemories,
-                    buttonCallBack: memoriesKey,
+                    buttonCallBack: storageMemoryKey,
                   );
                 }),
             // Memories Buttons A-H
             ...CreateButton.memories(memoriesLettersKey),
+            // ---------------------------------------------------------
             // Measure Button
             CalcButton(
               measureLabel,
               image: 'assets/images/buttons/measure.png',
               fontColor: AppColors.fontWhite,
               buttonColor: AppColors.buttonMeasures,
-              buttonCallBack: insertKey,
+              buttonCallBack: preNumbersKey,
             ),
             // Measure pm Button
             CalcButton(
@@ -464,25 +582,35 @@ class _ButtonHubState extends State<ButtonHub> {
               builder: (context, _) {
                 return CalcButton(
                   !_app.secondFunc ? sumLabel : rstLabel,
+                  useImageColor: true,
                   image: !_app.secondFunc
-                      ? 'assets/images/buttons/sumx.png'
-                      : null,
+                      ? 'assets/images/buttons/addStack.png'
+                      : 'assets/images/buttons/removeStack.png',
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonColor: const Color(0xFF3DD3F8),
-                  buttonCallBack: insertKey,
+                  buttonColor: AppColors.buttonStatistics,
+                  buttonCallBack:
+                      !_app.secondFunc ? addStackKey : removeStakKey,
                 );
               },
             ),
             // xm Button
-            CalcButton(
-              xmLabel,
-              image: 'assets/images/buttons/xm.png',
-              fontColor: AppColors.fontWhite,
-              buttonColor: const Color(0xFF3DD3F8),
-              buttonCallBack: preNumbersKey,
-            ),
+            ListenableBuilder(
+                listenable: _app.secondFunc$,
+                builder: (context, _) {
+                  return CalcButton(
+                    !_app.secondFunc ? xmLabel : clearLabel,
+                    useImageColor: !_app.secondFunc ? false : true,
+                    image: !_app.secondFunc
+                        ? 'assets/images/buttons/xm.png'
+                        : 'assets/images/buttons/clearStack.png',
+                    fontColor: AppColors.fontWhite,
+                    buttonColor: AppColors.buttonStatistics,
+                    buttonCallBack: !_app.secondFunc ? meanKey : clearStatKey,
+                  );
+                }),
+            // ---------------------------------------------------------
             // Abs(x) Button
             CalcButton(
               absLabel,
@@ -536,6 +664,7 @@ class _ButtonHubState extends State<ButtonHub> {
               fontColor: AppColors.fontWhite,
               buttonCallBack: preNumbersKey,
             ),
+            // ---------------------------------------------------------
             // rad x deg Button
             ListenableBuilder(
               listenable: _app.isRadians$,
@@ -607,6 +736,7 @@ class _ButtonHubState extends State<ButtonHub> {
               fontColor: AppColors.fontWhite,
               buttonCallBack: fixKey,
             ),
+            // ---------------------------------------------------------
             // pow(x) and (sqr(x) Button)
             ListenableBuilder(
               listenable: _app.secondFunc$,
@@ -664,14 +794,17 @@ class _ButtonHubState extends State<ButtonHub> {
             ),
             // reset Button
             const ResetButton(),
+            // ---------------------------------------------------------
             // 7, 8, and 9 Buttons
             ...CreateButton.numbers('789', preNumbersKey),
             // BS Button
             CalcButton(
               bsLabel,
               // image: 'assets/images/buttons/bs.png',
+              iconData: Icons.backspace,
               buttonColor: AppColors.buttonClean,
               fontColor: AppColors.fontWhite,
+              iconColor: AppColors.fontWhite,
               buttonCallBack: (_) => backSpaceKey(),
             ),
             // CLR Button
@@ -682,6 +815,7 @@ class _ButtonHubState extends State<ButtonHub> {
               fontColor: AppColors.fontWhite,
               buttonCallBack: (_) => clearKey(),
             ),
+            // ---------------------------------------------------------
             // 4, 5, and 6 Buttons
             ...CreateButton.numbers('456', preNumbersKey),
             // * (multiplication) Button
@@ -698,6 +832,7 @@ class _ButtonHubState extends State<ButtonHub> {
               buttonColor: AppColors.buttonBasics,
               buttonCallBack: preOperatorsKey,
             ),
+            // ---------------------------------------------------------
             // 1, 2, and 3 Buttons
             ...CreateButton.numbers('123', preNumbersKey),
             // + (adiction) Button
@@ -714,6 +849,7 @@ class _ButtonHubState extends State<ButtonHub> {
               buttonColor: AppColors.buttonBasics,
               buttonCallBack: preOperatorsKey,
             ),
+            // ---------------------------------------------------------
             // 0 Button
             CalcButton(
               '0',

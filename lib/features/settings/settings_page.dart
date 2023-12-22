@@ -128,29 +128,6 @@ class _SettingsPageState extends State<SettingsPage> {
               padding: const EdgeInsets.only(left: 32),
               child: FixSpinButton(appSettings: appSettings),
             ),
-            ListenableBuilder(
-              listenable: appSettings.themeMode$,
-              builder: (context, child) => Padding(
-                padding: const EdgeInsets.only(left: 32),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Theme Mode: ',
-                      style: AppTextStyle.textStyleNormal,
-                    ),
-                    IconButton(
-                      onPressed: appSettings.toggleThemeMode,
-                      icon: Icon(appSettings.themeMode == ThemeMode.dark
-                          ? Icons.dark_mode
-                          : appSettings.themeMode == ThemeMode.light
-                              ? Icons.light_mode
-                              : Icons.android),
-                    ),
-                  ],
-                ),
-              ),
-            ),
             const Spacer(),
           ],
         ),

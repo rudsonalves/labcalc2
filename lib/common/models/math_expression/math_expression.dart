@@ -35,6 +35,7 @@ class MathExpression {
 
     // Substitutions to handle special cases in the expression.
     String newString = strExpression
+        .replaceAll(' ', '')
         .replaceAll('-(', '-1*(')
         .replaceAll('-', '+-')
         .replaceAll('(+', '(')
@@ -164,8 +165,10 @@ class MathExpression {
   }
 
   dynamic _basicSolve(List<dynamic> expression) {
+    // Apply constants
+    List<dynamic> solve = _constantsEvaluator(expression);
     // Apply the _memoriesEvaluator method to recover memories
-    List<dynamic> solve = _memoriesEvaluator(expression);
+    solve = _memoriesEvaluator(solve);
     // Apply the _measureEvaluator method to conver measures
     solve = _measureEvaluator(solve);
     // Apply the _functionEvaluator method to resolve functions
@@ -211,6 +214,20 @@ class MathExpression {
     }
 
     return solve.first;
+  }
+
+  /// Replaces constants
+  List<dynamic> _constantsEvaluator(List<dynamic> expression) {
+    List<dynamic> solve = [];
+    for (dynamic value in expression) {
+      if (value == 'π') {
+        solve.add(pi);
+      } else {
+        solve.add(value);
+      }
+    }
+
+    return solve;
   }
 
   /// This method applies mathematical functions, declared as CallFunction,
