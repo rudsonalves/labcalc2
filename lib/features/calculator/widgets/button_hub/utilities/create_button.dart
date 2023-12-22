@@ -60,7 +60,7 @@ class CreateButton {
                   : String.fromCharCode(eMemory + i),
               tooltip: '', // memories.memories[label]!.value.toString(),
               fontColor:
-                  !app.secondFunc ? AppColors.fontBlack : AppColors.fontYellow,
+                  !app.secondFunc ? AppColors.fontWhite : AppColors.fontYellow,
               buttonColor: AppColors.buttonMemories,
               buttonCallBack: buttonCallBack,
             );
@@ -85,6 +85,7 @@ class CreateButton {
         .map((key) => CalcButton(
               key,
               buttonColor: AppColors.buttonDirectional,
+              fontColor: AppColors.fontBlack,
               buttonCallBack: (_) => moveKeyButtons(directionsMap[key]!),
             ))
         .toList();

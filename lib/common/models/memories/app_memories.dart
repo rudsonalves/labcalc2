@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/buttons_label.dart';
-import '../measure/measure_functions.dart';
 import 'memory.dart';
 
 const List<String> memoriesLabels = [
@@ -14,8 +13,6 @@ const List<String> memoriesLabels = [
   'G',
   'H',
   ansLabel,
-  xmLabel,
-  'π',
 ];
 
 class AppMemories {
@@ -44,7 +41,6 @@ class AppMemories {
         (element) => MapEntry(element, Memory(0)),
       ),
     );
-    setValue('π', pi);
   }
 
   dynamic getValue(String label) => _memories[label]!.value;

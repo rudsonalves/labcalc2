@@ -5,7 +5,12 @@ import '../../../../common/themes/colors/app_colors.dart';
 import '../../../../common/themes/styles/app_text_styles.dart';
 
 class DisplayWidget extends StatefulWidget {
-  const DisplayWidget({super.key});
+  final bool erroMode;
+
+  const DisplayWidget({
+    super.key,
+    required this.erroMode,
+  });
 
   @override
   State<DisplayWidget> createState() => _DisplayWidgetState();
@@ -50,8 +55,8 @@ class _DisplayWidgetState extends State<DisplayWidget> {
         borderRadius: BorderRadius.circular(5),
         color: colorSheme.outlineVariant,
         border: Border.all(
-          color: colorSheme.secondary,
-          width: 1,
+          color: widget.erroMode ? AppColors.fontRed : colorSheme.secondary,
+          width: widget.erroMode ? 3 : 1,
         ),
       ),
       child: Column(

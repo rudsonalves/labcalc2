@@ -10,6 +10,8 @@ class CalcButton extends StatelessWidget {
   final IconData? iconData;
   final Color buttonColor;
   final Color fontColor;
+  final bool useImageColor;
+  final Color? iconColor;
   final void Function(KeyModel key) buttonCallBack;
   final KeyModel keyModel;
 
@@ -19,6 +21,8 @@ class CalcButton extends StatelessWidget {
     this.tooltip,
     this.image,
     this.iconData,
+    this.iconColor,
+    this.useImageColor = false,
     this.buttonColor = Colors.grey,
     this.fontColor = Colors.black,
     required this.buttonCallBack,
@@ -42,10 +46,13 @@ class CalcButton extends StatelessWidget {
             child: image != null
                 ? Image.asset(
                     image!,
-                    color: fontColor,
+                    color: useImageColor ? null : fontColor,
                   )
                 : iconData != null
-                    ? Icon(iconData)
+                    ? Icon(
+                        iconData,
+                        color: iconColor,
+                      )
                     : Text(
                         keyModel.label,
                         style: AppTextStyle.textStyleButton.copyWith(

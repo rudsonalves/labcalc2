@@ -15,7 +15,7 @@ Statistical functions
 */
 /// Return a Measure mean and deviation using a mean and
 /// a deviation mathematical models.
-Measure calculateXm(List<double> xs) {
+Measure calculateXm(List<double> values) {
   final mean = AppSettings.instance.mean;
   final deviation = AppSettings.instance.deviation;
 
@@ -24,13 +24,13 @@ Measure calculateXm(List<double> xs) {
 
   switch (mean) {
     case TypeMean.arithmetic:
-      xm = arithmeticMean(xs);
+      xm = arithmeticMean(values);
       break;
     case TypeMean.harmonic:
-      xm = harmonicMean(xs);
+      xm = harmonicMean(values);
       break;
     case TypeMean.rms:
-      xm = rmsMean(xs);
+      xm = rmsMean(values);
       break;
     default:
       throw OperationNotAllowed();
@@ -38,13 +38,13 @@ Measure calculateXm(List<double> xs) {
 
   switch (deviation) {
     case TypeDeviation.meanDeviation:
-      dxm = simpleMeaDeviation(xs, xm);
+      dxm = simpleMeaDeviation(values, xm);
       break;
     case TypeDeviation.sampleStdDeviation:
-      dxm = sampleStandardDeviation(xs, xm);
+      dxm = sampleStandardDeviation(values, xm);
       break;
     case TypeDeviation.popStdDeviation:
-      dxm = popsStandardDeviation(xs, xm);
+      dxm = popsStandardDeviation(values, xm);
       break;
     default:
       throw OperationNotAllowed();
@@ -121,23 +121,6 @@ int getOrder(double value) {
 
   return n;
 }
-
-/// This function tries to parse the element to a double,
-/// otherwise it tries to parse map[element] to a double. If none of the parses
-/// are successful a log message is issued and the function return null.
-// dynamic dynamicStringParse(String element, Map<String, dynamic> map) {
-//   try {
-//     return double.parse(element);
-//   } on FormatException {
-//     if (map.keys.contains(element)) {
-//       return map[element];
-//     }
-//     return element;
-//   } catch (err) {
-//     dev.log('!!!!!!!!!!!!!Check this ERROR: $err - element: $element');
-//     return null;
-//   }
-// }
 
 /*
 Math functions of class Measure
