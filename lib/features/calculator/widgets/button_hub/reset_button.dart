@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_color/flutter_color.dart';
-import 'package:labcalc2/common/models/measure/statistic.dart';
-import 'package:labcalc2/common/models/memories/app_memories.dart';
-import 'package:labcalc2/common/themes/styles/app_button_styles.dart';
-import 'package:labcalc2/common/themes/styles/app_text_styles.dart';
 
 import '../../../../common/models/display/display_controller.dart';
+import '../../../../common/models/measure/statistic.dart';
+import '../../../../common/models/memories/app_memories.dart';
+import '../../../../common/singletons/app_settings.dart';
 import '../../../../common/themes/colors/app_colors.dart';
+import '../../../../common/themes/styles/app_button_styles.dart';
+import '../../../../common/themes/styles/app_text_styles.dart';
 
 class ResetButton extends StatefulWidget {
   const ResetButton({super.key});
@@ -51,6 +52,7 @@ class _ResetButtonState extends State<ResetButton> {
     DisplayController.instance.resetDisplay();
     AppMemories.instante.resetMemories();
     StatisticController.instance.clear();
+    AppSettings.instance.reset();
   }
 
   void _cancelResetTimer() {
