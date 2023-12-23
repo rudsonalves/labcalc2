@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:labcalc2/features/calculator/calculator_page.dart';
-import 'package:labcalc2/features/splash/splash_page_controller.dart';
-import 'package:labcalc2/features/splash/splash_page_state.dart';
+
+import '../calculator/calculator_page.dart';
+import 'splash_page_controller.dart';
+import 'splash_page_state.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

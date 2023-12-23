@@ -19,6 +19,21 @@ class _CalculatorPageState extends State<CalculatorPage> {
   final _app = AppSettings.instance;
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _app.updateAppSettings();
+    });
+  }
+
+  @override
+  void dispose() {
+    _app.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colorSheme = Theme.of(context).colorScheme;
 
