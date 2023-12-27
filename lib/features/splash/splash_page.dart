@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:labcalc2/common/themes/styles/app_text_styles.dart';
 
 import '../calculator/calculator_page.dart';
 import 'splash_page_controller.dart';
@@ -15,17 +16,22 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   final _splashController = SplashPageController();
+  double _opacity = 0.0;
 
   @override
   void initState() {
     super.initState();
 
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) { })
     _splashController.animation();
     _splashController.addListener(() {
       if (_splashController.state is SplashPageStateSuccess) {
         Navigator.pushReplacementNamed(context, CalculatorPage.routeName);
       }
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _opacity = 1.0;
+      });
     });
   }
 
@@ -37,9 +43,26 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Splash Page...'),
+        child: AnimatedOpacity(
+          opacity: _opacity,
+          duration: const Duration(milliseconds: 800),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/icons/labCalc.png',
+                scale: 3,
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'LabCalc2',
+                style: AppTextStyle.textStyleBig,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

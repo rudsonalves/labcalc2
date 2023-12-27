@@ -18,6 +18,8 @@ const Map<String, CallFunction> functionMap = {
   'sqr3': CallFunction('sqr3', sqr3),
   'sqry': CallFunction('sqry', sqry, 2),
   'sqr': CallFunction('sqr', sqr),
+  'pol': CallFunction('pol', pol, 2),
+  'rec': CallFunction('rec', rec, 2),
 };
 
 class CallFunction {

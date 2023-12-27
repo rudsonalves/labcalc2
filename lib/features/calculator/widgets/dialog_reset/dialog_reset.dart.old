@@ -1,72 +1,28 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_color/flutter_color.dart';
 
 import '../../../../common/models/display/display_controller.dart';
 import '../../../../common/models/measure/statistic.dart';
 import '../../../../common/models/memories/app_memories.dart';
 import '../../../../common/singletons/app_settings.dart';
-import '../../../../common/themes/colors/app_colors.dart';
 import '../../../../common/themes/styles/app_button_styles.dart';
 import '../../../../common/themes/styles/app_text_styles.dart';
 
-class ResetButton extends StatefulWidget {
-  const ResetButton({super.key});
+const int animationDelayMillisecond = 200;
+const int animationSec = 5;
 
-  @override
-  State<ResetButton> createState() => _ResetButtonState();
-}
+class DialogReset {
+  DialogReset();
 
-class _ResetButtonState extends State<ResetButton> {
   Timer? _timer;
   final _countdown = ValueNotifier<int>(5);
-  final int animationDelayMill = 200;
-  final int animationSec = 10;
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  void _stratTimer() {
-    _timer = Timer.periodic(
-      Duration(milliseconds: animationDelayMill),
-      (timer) {
-        if (_countdown.value > 0) {
-          _countdown.value--;
-        } else {
-          timer.cancel();
-          _resetCalculator();
-          Future.delayed(
-            Duration(milliseconds: animationDelayMill),
-            () => Navigator.of(context).pop(),
-          );
-        }
-      },
-    );
-  }
-
-  void _resetCalculator() {
-    DisplayController.instance.resetDisplay();
-    AppMemories.instante.resetMemories();
-    StatisticController.instance.clear();
-    AppSettings.instance.reset();
-  }
-
-  void _cancelResetTimer() {
-    // Cancels the timer if it is still active
-    if (_timer?.isActive ?? false) {
-      _timer?.cancel();
-    }
-  }
-
-  void _showResetDialog() {
-    int animationSteps = (1000 * animationSec) ~/ animationDelayMill;
+  void showResetDialog(BuildContext context) {
+    int animationSteps = (1000 * animationSec) ~/ animationDelayMillisecond;
     _countdown.value = animationSteps;
 
-    _stratTimer();
+    _stratTimer(context);
 
     showDialog(
       context: context,
@@ -130,7 +86,7 @@ class _ResetButtonState extends State<ResetButton> {
                   if (_timer?.isActive ?? false) {
                     _cancelResetTimer();
                     Future.delayed(
-                      Duration(milliseconds: animationDelayMill),
+                      const Duration(milliseconds: animationDelayMillisecond),
                       () => Navigator.of(context).pop(),
                     );
                   }
@@ -145,24 +101,39 @@ class _ResetButtonState extends State<ResetButton> {
     ).then((_) => _cancelResetTimer());
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Ink(
-      decoration: BoxDecoration(
-        color: AppColors.buttonReset,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: InkWell(
-        onTap: _showResetDialog,
-        splashColor: AppColors.buttonReset.lighter(20),
-        borderRadius: BorderRadius.circular(5),
-        child: const Center(
-          child: Icon(
-            Icons.refresh_outlined,
-            color: AppColors.fontWhite,
-          ),
-        ),
-      ),
+  void _stratTimer(BuildContext context) {
+    _timer = Timer.periodic(
+      const Duration(milliseconds: animationDelayMillisecond),
+      (timer) {
+        if (_countdown.value > 0) {
+          _countdown.value--;
+        } else {
+          timer.cancel();
+          _resetCalculator();
+          Future.delayed(
+            const Duration(milliseconds: animationDelayMillisecond),
+            () => Navigator.of(context).pop(),
+          );
+        }
+      },
     );
+  }
+
+  void _resetCalculator() {
+    if (_timer?.isActive ?? false) {
+      _timer?.cancel();
+    }
+
+    DisplayController.instance.resetDisplay();
+    AppMemories.instante.resetMemories();
+    StatisticController.instance.clear();
+    AppSettings.instance.reset();
+  }
+
+  void _cancelResetTimer() {
+    // Cancels the timer if it is still active
+    if (_timer?.isActive ?? false) {
+      _timer?.cancel();
+    }
   }
 }

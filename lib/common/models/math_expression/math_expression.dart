@@ -50,7 +50,7 @@ class MathExpression {
     // Regex to capture numbers, functions, commas and other characters.
     RegExp regExp = RegExp(
         r'(-?\d+(\.\d+)?(e[+\-]?\d+)?)|'
-        r'(ln|abs|log|exp|sin|cos|tan|asin|acos|atan|pow10|pow3|powy|pow|sqr3|sqry|sqr|Ans|xm)'
+        r'(ln|abs|log|exp|sin|cos|tan|asin|acos|atan|pow10|pow3|powy|pow|sqr3|sqry|sqr|Ans|xm|rec|pol)'
         r'|(\,)|(\S)',
         caseSensitive: true);
 

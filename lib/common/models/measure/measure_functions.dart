@@ -508,3 +508,63 @@ dynamic asin(dynamic value) {
 dynamic atan(dynamic value) {
   return _trigonometricInverseFunction(value, math.atan);
 }
+
+dynamic pol(dynamic x, dynamic y) {
+  dynamic r = sqr(pow(x) + pow(y));
+  dynamic o = atan(y / x);
+
+  return PolarRepresentation(r, o);
+}
+
+dynamic rec(dynamic r, dynamic o) {
+  dynamic x = r * cos(o);
+  dynamic y = r * sin(o);
+
+  return RectRepresentation(x, y);
+}
+
+class PolarRepresentation {
+  final dynamic radius;
+  final dynamic angle;
+
+  PolarRepresentation(
+    this.radius,
+    this.angle,
+  );
+
+  @override
+  String toString() {
+    if (isRadian()) {
+      dynamic newAngle = angle * 180.0 / pi;
+      return 'Polar(r: $radius, 𝚹: $newAngle°)';
+    }
+
+    return 'Polar(r: $radius, 𝚹: $angle)';
+  }
+
+  String toStringAsFixed(int precision) {
+    String strR = radius.toStringAsFixed(precision);
+
+    String strO = angle.toStringAsFixed(precision);
+    return 'Polar(r: $strR, 𝚹: $strO°)';
+  }
+}
+
+class RectRepresentation {
+  final dynamic x;
+  final dynamic y;
+
+  RectRepresentation(
+    this.x,
+    this.y,
+  );
+
+  @override
+  String toString() => 'Rect(x: $x, y: $y)';
+
+  String toStringAsFixed(int precision) {
+    String strX = x.toStringAsFixed(precision);
+    String strY = y.toStringAsFixed(precision);
+    return 'Rect(x: $strX, y: $strY)';
+  }
+}

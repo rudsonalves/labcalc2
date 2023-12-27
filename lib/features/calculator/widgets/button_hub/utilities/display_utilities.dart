@@ -13,7 +13,7 @@ class DisplayUtilities {
     String text = controller.text;
     int startSelection = controller.selection.start;
 
-    RegExp regExp = RegExp(r',y|±dx|\(x');
+    RegExp regExp = RegExp(r',y|±dx|,𝚹|\(x|\(r');
     RegExpMatch? match =
         regExp.allMatches(text.substring(0, startSelection)).lastOrNull;
 
@@ -38,7 +38,7 @@ class DisplayUtilities {
     int startSelection = controller.selection.start;
     int endSelection = controller.selection.end;
 
-    RegExp regExp = RegExp(r'x,|x±|y\)|dx\)|x\)');
+    RegExp regExp = RegExp(r'r,|x,|x±|y\)|dx\)|x\)|𝚹\)');
     RegExpMatch? match = regExp.firstMatch(text.substring(endSelection));
 
     if (match != null) {

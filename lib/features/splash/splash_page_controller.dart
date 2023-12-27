@@ -19,7 +19,7 @@ class SplashPageController extends ChangeNotifier {
     _changeState(SplashPageStateLoading());
     _repository.init();
     _repository.loadSettings();
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(milliseconds: 1500));
     _changeState(SplashPageStateSuccess());
   }
 }

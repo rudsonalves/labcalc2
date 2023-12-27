@@ -4,6 +4,54 @@ A new Flutter project.
 
 # Commits
 
+## 2023/12/26 - version: 0.9.3:
+
+This update of LabCalc2 brings significant improvements to the user interface, new functionalities, and lays the groundwork for future expansions. Details of the changes:
+
+* android/app/build.gradle: 
+  - added a keystore for the app and changed the build mode to release.
+* assets/images:
+  - added images for Pol/Rec buttons;
+  - added images for a 512x512 icon and a 1024x500 image for the Google Play console.
+* lib/common/constants/buttons_label.dart:
+  - added labels for the Pol and Rec buttons.
+* lib/common/constants/constants.dart:
+  - registered character sequences for the new Pol/Rec buttons in the removalSeq list.
+* lib/common/models/math_expression/function_map.dart:
+  - registered functions and parameter numbers for the new Pol/Rec buttons.
+* lib/common/models/math_expression/math_expression.dart:
+  - added new functions to the filters of the MathExpression class.
+* lib/common/models/measure/measure_functions.dart:
+  - created new functions dynamic pol(dynamic x, dynamic y) and dynamic rec(dynamic r, dynamic o) for the Pol/Rec buttons;
+  - Created PolarRepresentation and RectRepresentation classes to represent the outputs of the new buttons.
+* lib/common/models/measure/vector.dart:
+  - this class is a proposal for a future version with support for vectors and vector algebra. Currently, the code is not incorporated into LabCalc2.
+* lib/common/themes/styles/app_text_styles.dart:
+  - added new textStyleBig model for use in ...
+* lib/common/widgets/fix_spin_button.dart:
+  - fix button now shows an 'off' also in the SpinBox when fix is set to -1.
+* lib/features/calculator/widgets/app_drawer.dart:
+  - reset button has been moved to the app drawer;
+  - 'Future.delayed(Duration.zero, () => DialogReset.execute(context)' was necessary to wait for the drawer to close and take the context of the main page, instead of the drawer's context.
+* lib/features/calculator/widgets/button_hub/button_hub.dart:
+  - corrected cursor positioning filter in the insertKey method to support the new Pol/Rec functions;
+  - added filters in the insertKey method to remove possible repetitions of the operators '+-*/';
+  - adjusted the result outputs in the equalKey method to support the new functions;
+  - added the measureKey method to manage the entry of Measures in the equation. This prevents unnecessary successive openings of parentheses in the function;
+  - ResetButton replaced by Pol/Rec buttons on the keyboard.
+* lib/features/calculator/widgets/button_hub/utilities/display_utilities.dart:
+  - adjusted the regex in the moveCursorLeft/moveCursorRight methods to add support for movement through variables for the new functions.
+* lib/features/calculator/widgets/dialog_reset/dialog_reset.dart:
+  - this class now manages the call for the dialog that presents the calculator reset.
+* lib/features/calculator/widgets/dialog_reset/dialog_reset.dart.old:
+  - the old ResetButton class is still backed up at the moment but should be removed soon.
+* lib/features/splash/splash_page.dart:
+* lib/features/splash/splash_page_controller.dart:
+  - completed the SplashPage to display a simple page with the app's name and icon.
+* lib/main_app.dart:
+  - made another color adjustment.
+
+
 ## 2023/12/22b - version: 0.9.2:
 
 This release introduces improvements in the management of settings and data storage for the calculator, focusing on optimizing the persistence and retrieval of configuration information. Details of the changes:
