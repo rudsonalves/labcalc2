@@ -30,9 +30,9 @@ class _MainAppState extends State<MainApp> {
               useMaterial3: true,
               colorScheme: lightColorScheme,
               textSelectionTheme: const TextSelectionThemeData(
-                selectionColor: AppColors.fontBlue, // Cor da seleção de texto
+                selectionColor: AppColors.fontBlue, // Selection text color
                 selectionHandleColor:
-                    AppColors.fontYellow, // Cor das alças de seleção de texto
+                    AppColors.fontYellow, // Color of text selection handles
               ),
             ),
             darkTheme: ThemeData(
@@ -40,9 +40,9 @@ class _MainAppState extends State<MainApp> {
               useMaterial3: true,
               colorScheme: darkColorScheme,
               textSelectionTheme: const TextSelectionThemeData(
-                selectionColor: AppColors.fontBlue, // Cor da seleção de texto
+                selectionColor: AppColors.fontBlue, // Selection text color
                 selectionHandleColor:
-                    AppColors.fontYellow, // Cor das alças de seleção de texto
+                    AppColors.fontYellow, // Color of text selection handles
               ),
             ),
             debugShowCheckedModeBanner: false,

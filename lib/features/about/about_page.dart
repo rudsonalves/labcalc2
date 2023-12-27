@@ -5,7 +5,7 @@ import '../../common/themes/styles/app_text_styles.dart';
 import 'about_page_controller.dart';
 import 'about_page_state.dart';
 
-const pageUrl = 'https://jrblog.com.br/labcalc';
+const pageUrl = 'https://jrblog.com.br/labcalc2/';
 const email = 'alvesdev67@gmail.com';
 
 class AboutPage extends StatefulWidget {

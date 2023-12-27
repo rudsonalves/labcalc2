@@ -27,8 +27,10 @@ class FixSpinButton extends StatelessWidget {
         ListenableBuilder(
             listenable: appSettings.fix$,
             builder: (context, _) {
+              String fixString =
+                  (appSettings.fix != -1) ? appSettings.fix.toString() : 'off';
               return Text(
-                appSettings.fix.toString(),
+                fixString,
                 style: AppTextStyle.textStyleMedium,
               );
             }),

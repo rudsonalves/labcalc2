@@ -5,6 +5,7 @@ import '../../../../common/models/display/display_controller.dart';
 import '../../../../common/models/key_model/key_model.dart';
 import '../../../../common/models/math_expression/math_expression.dart';
 import '../../../../common/models/measure/measure.dart';
+import '../../../../common/models/measure/measure_functions.dart';
 import '../../../../common/models/measure/statistic.dart';
 import '../../../../common/models/memories/app_memories.dart';
 import '../../../../common/singletons/app_settings.dart';
@@ -12,7 +13,6 @@ import '../../../../common/themes/colors/app_colors.dart';
 import '../../../../common/themes/styles/app_button_styles.dart';
 import '../../../../common/widgets/fix_spin_button.dart';
 import 'calc_button.dart';
-import 'reset_button.dart';
 import 'utilities/create_button.dart';
 import 'utilities/display_utilities.dart';
 import 'utilities/string_edit.dart';
@@ -65,7 +65,9 @@ class _ButtonHubState extends State<ButtonHub> {
       text = StringEdit.insertAtCurrentPosition(endSelection, text, key);
     }
 
-    if (key.label.contains('(x') || key.label.contains('x±')) {
+    if (key.label.contains('(x') ||
+        key.label.contains('x±') ||
+        key.label.contains('(r,')) {
       int newStart = startSelection + key.offset;
       int newEnd = newStart + 1;
       DisplayUtilities.updateDisplay(
@@ -74,7 +76,28 @@ class _ButtonHubState extends State<ButtonHub> {
         TextSelection(baseOffset: newStart, extentOffset: newEnd),
       );
     } else {
-      int newPosition = startSelection + key.offset;
+      int lenght = text.length;
+      text = text.replaceAll('++', '+');
+      text = text.replaceAll('--', '-');
+      text = text.replaceAll('+-', '-');
+      text = text.replaceAll('-+', '+');
+      text = text.replaceAll('**', '*');
+      text = text.replaceAll('/*', '*');
+      text = text.replaceAll('//', '/');
+      text = text.replaceAll('*/', '/');
+      text = text.replaceAll('+/', '/');
+      text = text.replaceAll('/+', '+');
+      text = text.replaceAll('-/', '/');
+      text = text.replaceAll('/-', '-');
+      text = text.replaceAll('+*', '*');
+      text = text.replaceAll('*+', '+');
+      text = text.replaceAll('-*', '*');
+      text = text.replaceAll('*-', '-');
+
+      int newPosition = startSelection;
+      if (text.length == lenght) {
+        newPosition += key.offset;
+      }
       DisplayUtilities.updateDisplay(
         _display.controller,
         text,
@@ -157,7 +180,9 @@ class _ButtonHubState extends State<ButtonHub> {
         _display.addInSecondaryDisplay(textExpression);
         _display.controller.clear();
         _display.controller.text = _formatResult(result);
-        _memories.mAns = result;
+        if (result is double || result is Measure) {
+          _memories.mAns = result;
+        }
         _display.resetSecondLine();
         if (_memories.storageOn) {
           _memories.memories[key.label]!.value = result;
@@ -188,6 +213,11 @@ class _ButtonHubState extends State<ButtonHub> {
         }
         return value.toString();
       }
+    } else if (value is PolarRepresentation || value is RectRepresentation) {
+      if (_app.fix != -1) {
+        return value.toStringAsFixed(_app.fix);
+      }
+      return value.toString();
     } else {
       return 'Error!';
     }
@@ -212,9 +242,11 @@ class _ButtonHubState extends State<ButtonHub> {
         break;
       case DirectionKeys.top:
         DisplayUtilities.moveHistoryUp(_display);
+        if (_display.controller.text.isNotEmpty) editingMode = true;
         break;
       case DirectionKeys.bottom:
         DisplayUtilities.modeHistoryDown(_display);
+        if (_display.controller.text.isNotEmpty) editingMode = true;
         break;
       case DirectionKeys.right:
         DisplayUtilities.moveCursorRight(_display.controller);
@@ -225,6 +257,26 @@ class _ButtonHubState extends State<ButtonHub> {
   void clearKey() {
     editingMode = false;
     _display.controller.clear();
+  }
+
+  /// this method manages the '(x±dx)' key click.
+  void measureKey(KeyModel key) {
+    String text = _display.controller.text;
+    int position = _display.controller.selection.start;
+
+    final KeyModel newKey =
+        _itsBetweenRegExp(text, RegExp(r'\(\)'), position) ||
+                _itsBetweenRegExp(text, RegExp(r'\(x\)'), position)
+            ? KeyModel(label: measureInLabel, offset: 0)
+            : key;
+
+    if (editingMode) {
+      insertKey(newKey);
+    } else {
+      // Clear display and inter a key
+      _display.controller.clear();
+      insertKey(newKey);
+    }
   }
 
   /// this method manages the '±' key click, moving through the elements of
@@ -551,7 +603,7 @@ class _ButtonHubState extends State<ButtonHub> {
               image: 'assets/images/buttons/measure.png',
               fontColor: AppColors.fontWhite,
               buttonColor: AppColors.buttonMeasures,
-              buttonCallBack: preNumbersKey,
+              buttonCallBack: measureKey,
             ),
             // Measure pm Button
             CalcButton(
@@ -792,8 +844,20 @@ class _ButtonHubState extends State<ButtonHub> {
               fontColor: AppColors.fontWhite,
               buttonCallBack: insertKey,
             ),
-            // reset Button
-            const ResetButton(),
+            // Pol/Rec Button
+            ListenableBuilder(
+              listenable: _app.secondFunc$,
+              builder: (context, _) => CalcButton(
+                _app.secondFunc ? recLabel : polLabel,
+                image: _app.secondFunc
+                    ? 'assets/images/buttons/rec.png'
+                    : 'assets/images/buttons/pol.png',
+                fontColor: !_app.secondFunc
+                    ? AppColors.fontWhite
+                    : AppColors.fontYellow,
+                buttonCallBack: preNumbersKey,
+              ),
+            ),
             // ---------------------------------------------------------
             // 7, 8, and 9 Buttons
             ...CreateButton.numbers('789', preNumbersKey),

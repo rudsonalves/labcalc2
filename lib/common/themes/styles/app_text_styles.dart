@@ -38,4 +38,10 @@ class AppTextStyle {
     fontSize: 26,
     fontWeight: FontWeight.w400,
   );
+
+  static const textStyleBig = TextStyle(
+    fontFamily: 'HedvigLettersSerif',
+    fontSize: 46,
+    fontWeight: FontWeight.w400,
+  );
 }

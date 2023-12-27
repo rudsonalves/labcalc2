@@ -22,6 +22,14 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+// keytool: inserted lines >>>
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+// keytool: inserted lines <<<
+
 android {
     namespace "br.com.jrblog.labcalc2"
     compileSdkVersion flutter.compileSdkVersion
@@ -51,11 +59,25 @@ android {
         versionName flutterVersionName
     }
 
+    // keytool: inserted lines >>>
+    signingConfigs {
+       release {
+           keyAlias keystoreProperties['keyAlias']
+           keyPassword keystoreProperties['keyPassword']
+           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+           storePassword keystoreProperties['storePassword']
+       }
+     }
+    // keytool: inserted lines <<<
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            // keytool: changed lines >>>
+            signingConfig signingConfigs.release
+            // signingConfig signingConfigs.debug
+            // keytool: changed lines <<<
         }
     }
 }

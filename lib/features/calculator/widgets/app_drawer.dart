@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import '../../../common/themes/styles/app_text_styles.dart';
 import '../../about/about_page.dart';
 import '../../settings/settings_page.dart';
+import 'dialog_reset/dialog_reset.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
   const AppDrawer({
     super.key,
   });
 
+  @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     return NavigationDrawer(
@@ -19,6 +25,12 @@ class AppDrawer extends StatelessWidget {
         } else if (index == 1) {
           Navigator.pop(context);
           Navigator.pushNamed(context, AboutPage.routeName);
+        } else if (index == 2) {
+          Navigator.pop(context);
+          Future.delayed(
+            Duration.zero,
+            () => DialogReset.execute(context),
+          );
         }
       },
       children: const [
@@ -35,7 +47,14 @@ class AppDrawer extends StatelessWidget {
             'About',
             style: AppTextStyle.textStyleNormal,
           ),
-        )
+        ),
+        NavigationDrawerDestination(
+          icon: Icon(Icons.restart_alt_outlined),
+          label: Text(
+            'Reset Calculator',
+            style: AppTextStyle.textStyleNormal,
+          ),
+        ),
       ],
     );
   }
