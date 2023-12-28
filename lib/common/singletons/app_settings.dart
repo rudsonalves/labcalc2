@@ -24,6 +24,15 @@ class AppSettings {
 
   bool _testMode = false;
 
+  String _version = '';
+
+  String get version => _version;
+
+  set version(String newVersion) {
+    _version = newVersion;
+    _updateSettings();
+  }
+
   // Initialize aplication settings
   void updateAppSettings() {
     loadRealmSettings();
@@ -136,6 +145,7 @@ class AppSettings {
     _intToMean(settings.mean);
     _intToDeviation(settings.deviation);
     fix$.value = settings.fix;
+    _version = settings.version;
 
     _isLoading = false;
   }
@@ -170,6 +180,7 @@ class AppSettings {
       mean: _meanToInt(),
       deviation: _deviationToInt(),
       fix: fix,
+      version: _version,
     );
   }
 }

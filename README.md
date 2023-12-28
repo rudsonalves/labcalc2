@@ -4,6 +4,24 @@ A new Flutter project.
 
 # Commits
 
+## 2023/12/28b - version: 1.0.4+6:
+
+This update of LabCalc introduces an initial system to detect app updates and inform users about the new features. This system is still in its early stage and will be further improved in future versions. The changes are as follows:
+
+* lib/common/models/app_settings_model.dart:
+* lib/database/settings_repository.dart:
+  - added the String attribute 'version' to manage the app version saved by Realm.
+* boot/common/singletons/app_settings.dart:
+  - added the String attribute '_version' to keep a copy of the app version at the last boot;
+  - the setter 'version(String newVersion)' updates the app version in Realm when changed.
+* lib/database/model/settings.dart:
+  - added the new String attribute 'version' to record the app version in Realm.
+* lib/features/calculator/calculator_page.dart:
+  - added a call to the 'updateMessage(context)' function to check if the app version stored in Realm is the same as the currently running version.
+* lib/features/calculator/widgets/update_message/update_message.dart:
+  - this function checks if the app version recorded in Realm is different from the installed version. If so, it means that the app has been updated, and a message with the new features is displayed. Otherwise, the dialog is simply closed.
+
+
 ## 2023/12/28 - version: 1.0.4+5:
 
 This version of LabCalc introduces key adjustments in branding, accessibility improvements, and optimizations for testing. The changes include:
