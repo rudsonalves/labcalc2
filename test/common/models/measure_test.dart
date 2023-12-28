@@ -124,12 +124,12 @@ void main() {
     });
 
     test('toString', () {
-      expect(a.toString(), '3.43 ± 0.04');
+      expect(a.toString(), '(3.43 ± 0.04)');
     });
 
     test('toStringAsFixed', () {
       final Measure a = Measure(3.43, .04);
-      expect((a * a).toStringAsFixed(5), '11.76490 ± 0.27440');
+      expect((a * a).toStringAsFixed(5), '(11.76490 ± 0.27440)');
     });
 
     test('Measure.fromString', () {

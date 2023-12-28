@@ -1,4 +1,4 @@
-Primary: #003e56
-Secondary: #8093a1
-Tertiary: #6e9c93
-Neutral: #8f9193
+Primary: #003e56    #00516f
+Secondary: #8093a1  #8093a0
+Tertiary: #6e9c93   #6e9c93
+Neutral: #8f9193    #8f9193

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../common/constants/constants.dart';
 import '../../common/singletons/app_settings.dart';
+import '../../common/themes/colors/app_colors.dart';
 import '../../common/themes/styles/app_text_styles.dart';
 import '../../common/widgets/fix_spin_button.dart';
 
@@ -34,7 +35,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
-        elevation: 10,
+        elevation: 5,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
@@ -51,18 +52,21 @@ class _SettingsPageState extends State<SettingsPage> {
               builder: (context, child) => Column(
                 children: [
                   RadioListTile<TypeMean>(
+                    activeColor: AppColors.darkPrimary,
                     title: const Text('Arithmetic Mean'),
                     value: TypeMean.arithmetic,
                     groupValue: appSettings.mean,
                     onChanged: _changeTypeMean,
                   ),
                   RadioListTile<TypeMean>(
+                    activeColor: AppColors.darkPrimary,
                     title: const Text('Harmonic Mean'),
                     value: TypeMean.harmonic,
                     groupValue: appSettings.mean,
                     onChanged: _changeTypeMean,
                   ),
                   RadioListTile<TypeMean>(
+                    activeColor: AppColors.darkPrimary,
                     title: const Text('Root Mean Square'),
                     value: TypeMean.rms,
                     groupValue: appSettings.mean,
@@ -81,18 +85,21 @@ class _SettingsPageState extends State<SettingsPage> {
               builder: (context, child) => Column(
                 children: [
                   RadioListTile<TypeDeviation>(
+                    activeColor: AppColors.darkPrimary,
                     title: const Text('Simple Mean Deviation'),
                     value: TypeDeviation.meanDeviation,
                     groupValue: appSettings.deviation,
                     onChanged: _changeTypeDeviation,
                   ),
                   RadioListTile<TypeDeviation>(
+                    activeColor: AppColors.darkPrimary,
                     title: const Text('Sampling Standard Deviation'),
                     value: TypeDeviation.sampleStdDeviation,
                     groupValue: appSettings.deviation,
                     onChanged: _changeTypeDeviation,
                   ),
                   RadioListTile<TypeDeviation>(
+                    activeColor: AppColors.darkPrimary,
                     title: const Text('Population Standard Deviation'),
                     value: TypeDeviation.popStdDeviation,
                     groupValue: appSettings.deviation,
@@ -109,6 +116,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ListenableBuilder(
               listenable: appSettings.isRadians$,
               builder: (context, child) => CheckboxListTile(
+                activeColor: AppColors.darkPrimary,
                 title: const Text('Trigonometry functions in radians mode'),
                 controlAffinity: ListTileControlAffinity.leading,
                 value: appSettings.isRadians,
@@ -118,6 +126,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ListenableBuilder(
               listenable: appSettings.truncate$,
               builder: (context, child) => CheckboxListTile(
+                activeColor: AppColors.darkPrimary,
                 title: const Text('Enable Measure truncate'),
                 controlAffinity: ListTileControlAffinity.leading,
                 value: appSettings.truncate,

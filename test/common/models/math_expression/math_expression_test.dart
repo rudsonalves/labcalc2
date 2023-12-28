@@ -8,7 +8,7 @@ import 'package:labcalc2/common/singletons/app_settings.dart';
 void main() {
   group('MathExpression:', () {
     setUp(() {
-      AppSettings.instance.reset();
+      AppSettings.instance.reset(true);
     });
 
     test('method parser', () {

@@ -4,6 +4,41 @@ A new Flutter project.
 
 # Commits
 
+## 2023/12/28 - version: 1.0.4+5:
+
+This version of LabCalc introduces key adjustments in branding, accessibility improvements, and optimizations for testing. The changes include:
+
+* android/app/build.gradle:
+* android/app/src/main/kotlin/br/com/jrblog/labcalc/MainActivity.kt:
+  - the app's name changed from br.com.jrblog.labcalc2 to br.com.jrblog.labcalc, due to registration on Google Play.
+* android/app/src/main/AndroidManifest.xml:
+  - added access to the app's page on the author's blog.
+* lib/common/constants/app_info.dart:
+  - this class is updated when generating new builds for the app, through the flutterbuild command, a personal script used for final testing.
+* lib/common/singletons/app_settings.dart:
+  - added a _testMode flag to indicate the test mode in AppSettings. This was necessary to avoid data recording during app testing.
+* lib/common/themes/colors/app_colors.dart:
+  - added AppColors.darkPrimary color to improve contrast on the Settings and About pages of the app.
+* lib/common/themes/colors/color_schemes.g.dart:
+  - additional color adjustments to improve contrast in the app.
+* lib/features/about/about_page.dart:
+  - page colors adjusted to improve contrast;
+  - with the addition of AppInfo.version, AboutPage has become a static page, not requiring state control.
+* lib/features/about/about_page_controller.dart:
+* lib/features/about/about_page_state.dart:
+  - these files were removed from the project as AboutPage no longer requires state control.
+* lib/features/settings/settings_page.dart:
+  - page colors adjusted to improve contrast.
+* pubspec.yaml:
+  - removed the package_info_plus package, no longer needed.
+* test/common/models/math_expression/math_expression_test.dart:
+* test/common/models/measure_functions_test.dart:
+* test/common/models/measure_test.dart:
+* test/common/models/memories/app_memories_test.dart:
+* test/common/models/memories/memory_test.dart:
+  - tests adjusted for the addition of realm to the project.
+
+
 ## 2023/12/26 - version: 0.9.3:
 
 This update of LabCalc2 brings significant improvements to the user interface, new functionalities, and lays the groundwork for future expansions. Details of the changes:

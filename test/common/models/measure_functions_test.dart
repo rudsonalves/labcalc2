@@ -48,8 +48,8 @@ void main() {
   });
 
   group('Measure statistic Mean:', () {
-    setUp(() {
-      AppSettings.instance.reset();
+    setUp(() async {
+      AppSettings.instance.reset(true);
     });
 
     test('calculateXm arithmetic ± meanDeviation;', () {
@@ -376,7 +376,7 @@ void main() {
 
   group('Numerics Trigonometric Functions:', () {
     setUp(() {
-      AppSettings.instance.reset();
+      AppSettings.instance.reset(true);
     });
 
     test('numSin(rad)', () {
