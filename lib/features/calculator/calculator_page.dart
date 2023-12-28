@@ -5,6 +5,7 @@ import 'widgets/app_drawer.dart';
 import 'widgets/button_hub/button_hub.dart';
 import 'widgets/display/display_widget.dart';
 import 'widgets/status_bar/status_bar_widget.dart';
+import 'widgets/updade_message/update_message.dart';
 
 class CalculatorPage extends StatefulWidget {
   const CalculatorPage({super.key});
@@ -24,6 +25,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _app.updateAppSettings();
+      updateMessage(context);
     });
   }
 

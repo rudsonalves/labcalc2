@@ -11,4 +11,5 @@ class _Settings {
   late int mean;
   late int deviation;
   late int fix;
+  late String version;
 }

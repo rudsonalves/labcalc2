@@ -4,12 +4,14 @@ class AppSettingsModel {
   int mean;
   int deviation;
   int fix;
+  String version;
 
   AppSettingsModel({
     this.themeMode = 'dark',
     this.mean = 0,
     this.deviation = 0,
     this.fix = -1,
+    this.version = '',
   });
 
   @override

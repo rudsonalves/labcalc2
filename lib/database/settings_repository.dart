@@ -37,6 +37,7 @@ class SettingsReposiroty {
         app.mean,
         app.deviation,
         app.fix,
+        app.version,
       );
 
       _realm.write(() => _realm.add(settings));
@@ -46,6 +47,7 @@ class SettingsReposiroty {
         settings.mean = app.mean;
         settings.deviation = app.deviation;
         settings.fix = app.fix;
+        settings.version = app.version;
       });
     }
   }
@@ -59,6 +61,7 @@ class SettingsReposiroty {
       _settings.mean = settings.mean;
       _settings.deviation = settings.deviation;
       _settings.fix = settings.fix;
+      _settings.version = settings.version;
     }
   }
 

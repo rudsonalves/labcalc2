@@ -17,6 +17,7 @@ class Settings extends _Settings
     int mean,
     int deviation,
     int fix,
+    String version,
   ) {
     if (!_defaultsSet) {
       _defaultsSet = RealmObjectBase.setDefaults<Settings>({
@@ -28,6 +29,7 @@ class Settings extends _Settings
     RealmObjectBase.set(this, 'mean', mean);
     RealmObjectBase.set(this, 'deviation', deviation);
     RealmObjectBase.set(this, 'fix', fix);
+    RealmObjectBase.set(this, 'version', version);
   }
 
   Settings._();
@@ -59,6 +61,11 @@ class Settings extends _Settings
   set fix(int value) => RealmObjectBase.set(this, 'fix', value);
 
   @override
+  String get version => RealmObjectBase.get<String>(this, 'version') as String;
+  @override
+  set version(String value) => RealmObjectBase.set(this, 'version', value);
+
+  @override
   Stream<RealmObjectChanges<Settings>> get changes =>
       RealmObjectBase.getChanges<Settings>(this);
 
@@ -75,6 +82,7 @@ class Settings extends _Settings
       SchemaProperty('mean', RealmPropertyType.int),
       SchemaProperty('deviation', RealmPropertyType.int),
       SchemaProperty('fix', RealmPropertyType.int),
+      SchemaProperty('version', RealmPropertyType.string),
     ]);
   }
 }
