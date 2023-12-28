@@ -1,4 +1,4 @@
-package br.com.jrblog.labcalc2
+package br.com.jrblog.labcalc
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -18,4 +18,6 @@ class AppColors {
   static const fontBlue = Colors.blue;
   static const fontOrange = Colors.orange;
   static const fontRed = Colors.red;
+
+  static const darkPrimary = Color.fromARGB(255, 101, 170, 207);
 }

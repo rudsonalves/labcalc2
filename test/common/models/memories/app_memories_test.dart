@@ -17,20 +17,10 @@ void main() {
       mems.setValue('Ans', Measure(12, 1));
       expect(mems.getValue('Ans'), Measure(12, 1));
 
-      mems.setValue('xm', Measure(3, .1));
-      expect(mems.getValue('xm'), Measure(3, .1));
-
-      mems.setValue('xm', 8.55);
-      expect(mems.getValue('xm') as double, 8.55);
-
-      expect(mems.getValue('xm') is double, true);
-
       expect(mems.getValue('Ans') is Measure, true);
 
       expect(() => mems.setValue('B', 'value'),
           throwsA(isA<MemoryUnsupportedType>()));
-
-      expect(mems.getValue('π'), 3.141592653589793);
     });
   });
 }

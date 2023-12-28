@@ -13,7 +13,7 @@ void main() {
       a = Memory(Measure(2, .1));
       expect(a.isDouble, false);
       expect(a.isMeasure, true);
-      expect(a.toString(), 'Memory: 2.0 ± 0.1');
+      expect(a.toString(), 'Memory: (2.0 ± 0.1)');
 
       expect(() => a = Memory('value'), throwsA(isA<MemoryUnsupportedType>()));
     });

@@ -11,25 +11,25 @@ class SettingsReposiroty {
   final AppSettingsModel _settings = AppSettingsModel();
   AppSettingsModel get settings => _settings;
 
-  late final Realm realm;
+  late final Realm _realm;
 
   void init() {
     _openRealm();
   }
 
   void dispose() {
-    realm.close();
+    _realm.close();
   }
 
   void _openRealm() {
     LocalConfiguration config = Configuration.local([Settings.schema]);
-    realm = Realm(config);
+    _realm = Realm(config);
   }
 
   void saveSettings(AppSettingsModel app) {
-    if (realm.isClosed) _openRealm();
+    if (_realm.isClosed) _openRealm();
 
-    Settings? settings = realm.find<Settings>(1);
+    Settings? settings = _realm.find<Settings>(1);
     if (settings == null) {
       Settings settings = Settings(
         1,
@@ -39,9 +39,9 @@ class SettingsReposiroty {
         app.fix,
       );
 
-      realm.write(() => realm.add(settings));
+      _realm.write(() => _realm.add(settings));
     } else {
-      realm.write(() {
+      _realm.write(() {
         settings.themeMode = app.themeMode;
         settings.mean = app.mean;
         settings.deviation = app.deviation;
@@ -51,9 +51,9 @@ class SettingsReposiroty {
   }
 
   void loadSettings() {
-    if (realm.isClosed) _openRealm();
+    if (_realm.isClosed) _openRealm();
 
-    Settings? settings = realm.find(1);
+    Settings? settings = _realm.find(1);
     if (settings != null) {
       _settings.themeMode = settings.themeMode;
       _settings.mean = settings.mean;

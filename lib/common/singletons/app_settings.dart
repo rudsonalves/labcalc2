@@ -22,6 +22,8 @@ class AppSettings {
   final _repository = SettingsReposiroty.instance;
   bool _isLoading = false;
 
+  bool _testMode = false;
+
   // Initialize aplication settings
   void updateAppSettings() {
     loadRealmSettings();
@@ -97,7 +99,7 @@ class AppSettings {
   void toggleSecondFunc() => secondFunc$.value = !secondFunc$.value;
 
   void _updateSettings() {
-    if (!_isLoading) {
+    if (!_isLoading && !_testMode) {
       _repository.saveSettings(toSettingsModel());
     }
   }
@@ -115,7 +117,8 @@ class AppSettings {
     _repository.dispose();
   }
 
-  reset() {
+  reset([bool testMode = false]) {
+    if (testMode) _testMode = testMode;
     themeMode = ThemeMode.dark;
     mean = TypeMean.arithmetic;
     deviation = TypeDeviation.meanDeviation;
@@ -123,7 +126,6 @@ class AppSettings {
     isRadians$.value = true;
     truncate$.value = false;
     secondFunc$.value = false;
-    _updateSettings();
   }
 
   void loadRealmSettings() {
