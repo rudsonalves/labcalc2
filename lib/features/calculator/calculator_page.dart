@@ -24,7 +24,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _app.updateAppSettings();
+      _app.loadRealmSettings();
       updateMessage(context);
     });
   }

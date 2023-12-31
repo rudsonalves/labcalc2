@@ -133,9 +133,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 onChanged: (value) => appSettings.toggleTruncate(),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 32),
-              child: FixSpinButton(appSettings: appSettings),
+            const Padding(
+              padding: EdgeInsets.only(left: 32),
+              child: FixSpinButton(),
             ),
             const Spacer(),
           ],

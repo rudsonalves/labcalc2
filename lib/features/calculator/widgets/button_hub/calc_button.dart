@@ -12,7 +12,8 @@ class CalcButton extends StatelessWidget {
   final Color fontColor;
   final bool useImageColor;
   final Color? iconColor;
-  final void Function(KeyModel key) buttonCallBack;
+  final void Function(KeyModel key) onPress;
+  final void Function()? onLongPress;
   final KeyModel keyModel;
 
   CalcButton(
@@ -25,7 +26,8 @@ class CalcButton extends StatelessWidget {
     this.useImageColor = false,
     this.buttonColor = Colors.grey,
     this.fontColor = Colors.black,
-    required this.buttonCallBack,
+    required this.onPress,
+    this.onLongPress,
   })  : keyModel = KeyModel.fromLabel(label),
         super(key: key);
 
@@ -37,7 +39,8 @@ class CalcButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: InkWell(
-        onTap: () => buttonCallBack(keyModel),
+        onTap: () => onPress(keyModel),
+        onLongPress: onLongPress,
         splashColor: buttonColor.lighter(20),
         borderRadius: BorderRadius.circular(5),
         child: Tooltip(

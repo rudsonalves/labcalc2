@@ -21,9 +21,12 @@ void updateMessage(BuildContext context) {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                    'This version of LabCalc introduces key adjustments in'
-                    ' branding, accessibility improvements, and optimizations for'
-                    ' testing. The changes include:'),
+                    'Welcome to LabCalc2, an innovative and powerful Scientific'
+                    ' Calculator designed to meet the needs of professionals'
+                    ' and students in the fields of science and engineering.'
+                    '\n\nLabCalc2 is not just a calculation tool; it\'s an'
+                    ' advanced platform for accurate and reliable uncertainty'
+                    ' analysis.\n\n'),
                 CheckboxListTile(
                   value: checkBox,
                   controlAffinity: ListTileControlAffinity.leading,

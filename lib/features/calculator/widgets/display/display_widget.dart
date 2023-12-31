@@ -30,7 +30,7 @@ class _DisplayWidgetState extends State<DisplayWidget> {
   void _adjustFontSize() {
     setState(() {
       int lenght = _display.controller.text.length;
-      if (lenght > 54) {
+      if (lenght > 64) {
         _fontSize = 16;
       } else {
         _fontSize = AppTextStyle.textStyleDisplay.fontSize!;

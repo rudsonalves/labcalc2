@@ -1,0 +1,21 @@
+# LabCalc2: Cálculos Científicos e Análise de Incertezas
+
+É com entusiasmo que anunciamos o lançamento do **LabCalc2**, uma Calculadora Científica inovadora e poderosa, projetada para atender às demandas de profissionais e estudantes das áreas de ciências e engenharia. O **LabCalc2** não é apenas uma ferramenta de cálculo; é uma plataforma avançada para análise precisa e confiável de incertezas.
+
+## Recursos Inovadores do **LabCalc2**
+
+- **Navegação Otimizada:** Sistema de navegação intuitivo, permitindo uma interação fácil com a expressão em edição e com o histórico de cálculos.
+- **Funcionalidades Matemáticas Abrangentes:** O **LabCalc2** oferece funções matemáticas essenciais, suportando números de precisão dupla e medidas com incertezas.
+- **Memórias para Resultados:** Armazene até 10 resultados diferentes para acesso rápido e eficiente.
+- **Modelos Estatísticos Diversificados:** Com 3 modelos para cálculo de médias e 3 para desvios médios, o **LabCalc2** é uma ferramenta indispensável para análises estatísticas e determinação de incertezas.
+- **Truncamento de Valor Final:** Obtenha resultados claros e precisos com a funcionalidade de truncamento de valor final.
+
+## Precisão e Rigor em Análise de Incertezas
+
+O **LabCalc2** destaca-se na análise de incertezas, seguindo as diretrizes do método numérico detalhadas no artigo “Medidas Mecânicas e Incertezas” (disponível em [Português](https://jrblog.com.br/medidas-mecanicas-e-incertezas-py_br/) e [Inglês](https://jrblog.com.br/mechanical-measurements-and-uncertainties-en/)). Esta metodologia modular é amplamente utilizada em laboratórios de Física no ensino superior, garantindo a combinação eficaz de teoria e prática.
+
+O **LabCalc2** é mais do que uma calculadora científica; é um aliado essencial para todos que buscam precisão e eficiência em cálculos complexos e análises de incertezas. Seja você um engenheiro, cientista, estudante ou professor, o **LabCalc2** está pronto para se tornar uma parte indispensável do seu dia a dia.
+
+
+
+
