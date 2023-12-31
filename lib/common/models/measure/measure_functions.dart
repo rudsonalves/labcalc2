@@ -548,6 +548,12 @@ class PolarRepresentation {
     String strO = angle.toStringAsFixed(precision);
     return 'Polar(r: $strR, 𝚹: $strO°)';
   }
+
+  /// toStringByFunc: return a fixed decimal point representation of the
+  /// Measure object.
+  String toStringByFunc(String Function(double) fixFunction) {
+    return 'Polar(r: ${fixFunction(radius)}, 𝚹: ${fixFunction(angle)})';
+  }
 }
 
 class RectRepresentation {
@@ -566,5 +572,11 @@ class RectRepresentation {
     String strX = x.toStringAsFixed(precision);
     String strY = y.toStringAsFixed(precision);
     return 'Rect(x: $strX, y: $strY)';
+  }
+
+  /// toStringByFunc: return a fixed decimal point representation of the
+  /// Measure object.
+  String toStringByFunc(String Function(double) fixFunction) {
+    return 'Rect(x: ${fixFunction(x)}, y: ${fixFunction(y)})';
   }
 }

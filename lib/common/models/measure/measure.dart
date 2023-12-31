@@ -135,13 +135,19 @@ class Measure {
   /// representation of the Measure object.
   @override
   String toString() {
-    return '($value ± $delta)';
+    return '($value±$delta)';
   }
 
   /// toStringAsFixed: return a fixed decimal point representation of the
   /// Measure object.
   String toStringAsFixed(int fix) {
-    return '(${value.toStringAsFixed(fix)} ± ${delta.toStringAsFixed(fix)})';
+    return '(${value.toStringAsFixed(fix)}±${delta.toStringAsFixed(fix)})';
+  }
+
+  /// toStringByFunc: return a fixed decimal point representation of the
+  /// Measure object.
+  String toStringByFunc(String Function(double) fixFunction) {
+    return '(${fixFunction(value)}±${fixFunction(delta)})';
   }
 
   /// truncate: return a truncated representation of the Measure object.
@@ -150,15 +156,15 @@ class Measure {
 
     if (n >= 0) {
       if (value.abs() > 1) {
-        return '${value.toStringAsFixed(n)} ± ${delta.toStringAsFixed(n)}';
+        return '${value.toStringAsFixed(n)}±${delta.toStringAsFixed(n)}';
       } else {
         final int m = getOrder(value);
-        return '(${(value * mathPow10(m.toDouble())).toStringAsFixed(n - m)} ±'
-            ' ${(delta * mathPow10(m.toDouble())).toStringAsFixed(n - m)})E${-m}';
+        return '(${(value * mathPow10(m.toDouble())).toStringAsFixed(n - m)}±'
+            '${(delta * mathPow10(m.toDouble())).toStringAsFixed(n - m)})E${-m}';
       }
     } else {
-      return '(${(value * mathPow10(n.toDouble())).toStringAsFixed(0)} ±'
-          ' ${(delta * mathPow10(n.toDouble())).toStringAsFixed(0)})E${-n}';
+      return '(${(value * mathPow10(n.toDouble())).toStringAsFixed(0)}±'
+          '${(delta * mathPow10(n.toDouble())).toStringAsFixed(0)})E${-n}';
     }
   }
 

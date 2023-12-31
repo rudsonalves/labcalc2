@@ -1,0 +1,20 @@
+# LabCalc2: Scientific Calculations and Uncertainty Analysis
+
+We are excited to announce the launch of LabCalc2, an innovative and powerful Scientific Calculator designed to meet the needs of professionals and students in the fields of science and engineering. LabCalc2 is not just a calculation tool; it's an advanced platform for accurate and reliable uncertainty analysis.
+
+## Innovative Features of LabCalc2
+
+- **Optimized Navigation:** An intuitive navigation system that allows easy interaction with both the expression being edited and the calculation history.
+- **Comprehensive Mathematical Functions:** LabCalc2 provides essential mathematical functions, supporting double-precision numbers and measurements with uncertainties.
+- **Memories for Results:** Store up to 10 different results for quick and efficient access.
+- **Diverse Statistical Models:** With 3 models for average calculation and 3 for mean deviations, LabCalc2 is an indispensable tool for statistical analyses and uncertainty determination.
+- **Final Value Truncation:** Obtain clear and precise results with the final value truncation feature.
+
+## Precision and Rigor in Uncertainty Analysis
+
+LabCalc2 excels in uncertainty analysis, adhering to the guidelines of the numerical method detailed in the article "Mechanical Measurements and Uncertainties" (available in [Portuguese](https://jrblog.com.br/medidas-mecanicas-e-incertezas-py_br/) and [English](https://jrblog.com.br/mechanical-measurements-and-uncertainties-en/)). This modular methodology is widely used in higher education physics laboratories, ensuring an effective combination of theory and practice.
+
+LabCalc2 is more than a scientific calculator; it is an essential ally for anyone seeking precision and efficiency in complex calculations and uncertainty analyses. Whether you are an engineer, scientist, student, or teacher, LabCalc2 is ready to become an indispensable part of your daily life.
+
+**Explore the power of LabCalc2 and transform the way you handle scientific calculations and uncertainty analyses!**
+

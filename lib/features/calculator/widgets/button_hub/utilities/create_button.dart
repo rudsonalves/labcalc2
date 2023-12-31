@@ -27,7 +27,7 @@ class CreateButton {
         CalcButton(
           number,
           buttonColor: AppColors.buttonBasics,
-          buttonCallBack: buttonCallBack,
+          onPress: buttonCallBack,
         ),
       );
     }
@@ -62,7 +62,7 @@ class CreateButton {
               fontColor:
                   !app.secondFunc ? AppColors.fontWhite : AppColors.fontYellow,
               buttonColor: AppColors.buttonMemories,
-              buttonCallBack: buttonCallBack,
+              onPress: buttonCallBack,
             );
           },
         ),
@@ -86,7 +86,7 @@ class CreateButton {
               key,
               buttonColor: AppColors.buttonDirectional,
               fontColor: AppColors.fontBlack,
-              buttonCallBack: (_) => moveKeyButtons(directionsMap[key]!),
+              onPress: (_) => moveKeyButtons(directionsMap[key]!),
             ))
         .toList();
   }

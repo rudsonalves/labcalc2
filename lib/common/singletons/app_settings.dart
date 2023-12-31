@@ -9,6 +9,9 @@ class AppSettings {
   static final _instance = AppSettings._();
   static AppSettings get instance => _instance;
 
+  static const int maxFix = 15;
+  static const int minFix = -1;
+
   final themeMode$ = ValueNotifier<ThemeMode>(ThemeMode.dark);
   final mean$ = ValueNotifier<TypeMean>(TypeMean.arithmetic);
   final deviation$ = ValueNotifier<TypeDeviation>(TypeDeviation.meanDeviation);
@@ -30,19 +33,14 @@ class AppSettings {
 
   set version(String newVersion) {
     _version = newVersion;
-    _updateSettings();
-  }
-
-  // Initialize aplication settings
-  void updateAppSettings() {
-    loadRealmSettings();
+    updateSettings();
   }
 
   // themeMode getter and setter
   ThemeMode get themeMode => themeMode$.value;
   set themeMode(ThemeMode mode) {
     themeMode$.value = mode;
-    _updateSettings();
+    updateSettings();
   }
 
   // themeMode toggle ThemeMode
@@ -54,21 +52,21 @@ class AppSettings {
     } else {
       themeMode$.value = ThemeMode.dark;
     }
-    _updateSettings();
+    updateSettings();
   }
 
   // Getter and Setter to mean
   TypeMean get mean => mean$.value;
   set mean(TypeMean value) {
     mean$.value = value;
-    _updateSettings();
+    updateSettings();
   }
 
   // Getter and setter to mean
   TypeDeviation get deviation => deviation$.value;
   set deviation(TypeDeviation value) {
     deviation$.value = value;
-    _updateSettings();
+    updateSettings();
   }
 
   int get counter => counter$.value;
@@ -79,22 +77,24 @@ class AppSettings {
   void expressionErrorOff() => expressionError$.value = false;
 
   int get fix => fix$.value;
-  void incrementFix() {
-    if (fix > 7) return;
-    fix$.value++;
-    _updateSettings();
+  void incrementFix([bool save = true]) {
+    if (fix < maxFix) {
+      fix$.value++;
+      if (save) updateSettings();
+    }
   }
 
-  void decrementFix() {
-    if (fix < 0) return;
-    fix$.value--;
-    _updateSettings();
+  void decrementFix([bool save = true]) {
+    if (fix > minFix) {
+      fix$.value--;
+      if (save) updateSettings();
+    }
   }
 
   set fix(int value) {
-    if (value >= -1 && value < 12) {
+    if (value >= minFix && value <= maxFix) {
       fix$.value = value;
-      _updateSettings();
+      updateSettings();
     }
   }
 
@@ -107,7 +107,7 @@ class AppSettings {
   bool get secondFunc => secondFunc$.value;
   void toggleSecondFunc() => secondFunc$.value = !secondFunc$.value;
 
-  void _updateSettings() {
+  void updateSettings() {
     if (!_isLoading && !_testMode) {
       _repository.saveSettings(toSettingsModel());
     }

@@ -23,7 +23,7 @@ class AppTextStyle {
 
   static const textStyleDisplay = TextStyle(
     // fontFamily: 'RobotoMono',
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: FontWeight.w400,
   );
 

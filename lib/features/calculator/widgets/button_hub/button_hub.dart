@@ -77,22 +77,8 @@ class _ButtonHubState extends State<ButtonHub> {
       );
     } else {
       int lenght = text.length;
-      text = text.replaceAll('++', '+');
-      text = text.replaceAll('--', '-');
-      text = text.replaceAll('+-', '-');
-      text = text.replaceAll('-+', '+');
-      text = text.replaceAll('**', '*');
-      text = text.replaceAll('/*', '*');
-      text = text.replaceAll('//', '/');
-      text = text.replaceAll('*/', '/');
-      text = text.replaceAll('+/', '/');
-      text = text.replaceAll('/+', '+');
-      text = text.replaceAll('-/', '/');
-      text = text.replaceAll('/-', '-');
-      text = text.replaceAll('+*', '*');
-      text = text.replaceAll('*+', '+');
-      text = text.replaceAll('-*', '*');
-      text = text.replaceAll('*-', '-');
+      // Remove operator repetitions
+      text = expressionBasicFilter(text);
 
       int newPosition = startSelection;
       if (text.length == lenght) {
@@ -107,6 +93,26 @@ class _ButtonHubState extends State<ButtonHub> {
 
     editingMode = true;
     _display.displayFocusNode.requestFocus();
+  }
+
+  String expressionBasicFilter(String text) {
+    return text
+        .replaceAll('++', '+')
+        .replaceAll('--', '-')
+        .replaceAll('+-', '-')
+        .replaceAll('-+', '+')
+        .replaceAll('**', '*')
+        .replaceAll('/*', '*')
+        .replaceAll('//', '/')
+        .replaceAll('*/', '/')
+        .replaceAll('+/', '/')
+        .replaceAll('/+', '+')
+        .replaceAll('-/', '/')
+        .replaceAll('/-', '-')
+        .replaceAll('+*', '*')
+        .replaceAll('*+', '+')
+        .replaceAll('-*', '*')
+        .replaceAll('*-', '-');
   }
 
   /// Process operators key
@@ -131,8 +137,7 @@ class _ButtonHubState extends State<ButtonHub> {
         return;
       }
     }
-    _display.controller.text = key.label;
-    editingMode = true;
+    insertKey(key);
   }
 
   /// Process a general keys
@@ -191,19 +196,20 @@ class _ButtonHubState extends State<ButtonHub> {
         }
         editingMode = false;
       }
-    } catch (e) {
+    } catch (err) {
       _app.expressionErrorOn();
       _display.controller.text = textExpression;
       editingMode = true;
     }
   }
 
+  // Format the output
   String _formatResult(dynamic value) {
     if (value is double) {
       if (_app.fix != -1) {
         return value.toStringAsFixed(_app.fix);
       }
-      return value.toString();
+      return _removeTrailingZeros(value);
     } else if (value is Measure) {
       if (_app.truncate) {
         return value.truncate();
@@ -211,18 +217,30 @@ class _ButtonHubState extends State<ButtonHub> {
         if (_app.fix != -1) {
           return value.toStringAsFixed(_app.fix);
         }
-        return value.toString();
+        return value.toStringByFunc(_removeTrailingZeros);
       }
     } else if (value is PolarRepresentation || value is RectRepresentation) {
       if (_app.fix != -1) {
         return value.toStringAsFixed(_app.fix);
       }
-      return value.toString();
+      return value.toStringByFunc(_removeTrailingZeros);
     } else {
       return 'Error!';
     }
   }
 
+  // Remove all tralling zeros from a double value string representation
+  String _removeTrailingZeros(double value) {
+    String cleanValue = value.toStringAsFixed(10);
+    if (cleanValue.contains('.')) {
+      cleanValue = cleanValue.replaceAll(RegExp(r'0*$'), '');
+      cleanValue = cleanValue.replaceAll(RegExp(r'\.$'), '');
+    }
+    return cleanValue;
+  }
+
+  // Returns the indices of the selected text and the TextSelection of the
+  // TextEditingController in _display.controller
   (int, int, TextSelection) _selectionPositions() {
     TextSelection selection = _display.controller.selection;
     int startSelection = selection.start;
@@ -325,6 +343,13 @@ class _ButtonHubState extends State<ButtonHub> {
     if (!_memories.storageOn) {
       preNumbersKey(key);
     } else {
+      if (!editingMode) {
+        clearKey();
+        editingMode = true;
+        insertKey(
+          KeyModel(label: 'Ans', offset: 3),
+        );
+      }
       equalKey(key);
     }
   }
@@ -346,6 +371,14 @@ class _ButtonHubState extends State<ButtonHub> {
         return;
       }
       editingMode = false;
+    }
+  }
+
+  void showStack() {
+    if (_statistics.isNotEmpty) {
+      editingMode = false;
+      _display.controller.clear();
+      _display.controller.text = _statistics.values.toString();
     }
   }
 
@@ -378,7 +411,7 @@ class _ButtonHubState extends State<ButtonHub> {
   void clearStatKey(KeyModel key) {
     _statistics.clear();
     editingMode = false;
-    _display.controller.text = '-- Statistics have been deleted --';
+    _display.controller.text = '-- Stat Stack is Clean --';
     _app.toggleSecondFunc();
   }
 
@@ -408,6 +441,7 @@ class _ButtonHubState extends State<ButtonHub> {
     return null;
   }
 
+  // returne a value of a Measure or a varlue from a double
   double _getValue(dynamic value) {
     if (value is Measure) {
       return value.value;
@@ -518,12 +552,11 @@ class _ButtonHubState extends State<ButtonHub> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Set Precision'),
-        content: Column(
+        content: const Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-                'Adjust the number of decimal places for display in results.'),
-            FixSpinButton(appSettings: _app),
+            Text('Adjust the number of decimal places for display in results.'),
+            FixSpinButton(),
           ],
         ),
         actions: [
@@ -576,11 +609,12 @@ class _ButtonHubState extends State<ButtonHub> {
                     buttonColor: !_app.secondFunc
                         ? AppColors.buttonSecondFunc
                         : AppColors.buttonSecondFunc.shade900,
-                    buttonCallBack: (_) => _app.toggleSecondFunc(),
+                    onPress: (_) => _app.toggleSecondFunc(),
                   );
                 }),
             // Directionals Buttons
             ...CreateButton.directionals(moveKeyKeys),
+            // ---------------------------------------------------------
             // STO Button
             ListenableBuilder(
                 listenable: _memories.storageOn$,
@@ -591,7 +625,7 @@ class _ButtonHubState extends State<ButtonHub> {
                         ? AppColors.fontOrange
                         : AppColors.fontWhite,
                     buttonColor: AppColors.buttonMemories,
-                    buttonCallBack: storageMemoryKey,
+                    onPress: storageMemoryKey,
                   );
                 }),
             // Memories Buttons A-H
@@ -603,7 +637,7 @@ class _ButtonHubState extends State<ButtonHub> {
               image: 'assets/images/buttons/measure.png',
               fontColor: AppColors.fontWhite,
               buttonColor: AppColors.buttonMeasures,
-              buttonCallBack: measureKey,
+              onPress: measureKey,
             ),
             // Measure pm Button
             CalcButton(
@@ -611,7 +645,7 @@ class _ButtonHubState extends State<ButtonHub> {
               image: 'assets/images/buttons/pm.png',
               fontColor: AppColors.fontWhite,
               buttonColor: AppColors.buttonMeasures,
-              buttonCallBack: pmMeasureKey,
+              onPress: pmMeasureKey,
             ),
             // Measure truncate Button
             ListenableBuilder(
@@ -624,7 +658,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   buttonColor: !_app.truncate
                       ? AppColors.buttonMeasures
                       : AppColors.buttonMeasures.shade900,
-                  buttonCallBack: (_) => _app.toggleTruncate(),
+                  onPress: (_) => _app.toggleTruncate(),
                 );
               },
             ),
@@ -642,8 +676,8 @@ class _ButtonHubState extends State<ButtonHub> {
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
                   buttonColor: AppColors.buttonStatistics,
-                  buttonCallBack:
-                      !_app.secondFunc ? addStackKey : removeStakKey,
+                  onPress: !_app.secondFunc ? addStackKey : removeStakKey,
+                  onLongPress: showStack,
                 );
               },
             ),
@@ -659,64 +693,17 @@ class _ButtonHubState extends State<ButtonHub> {
                         : 'assets/images/buttons/clearStack.png',
                     fontColor: AppColors.fontWhite,
                     buttonColor: AppColors.buttonStatistics,
-                    buttonCallBack: !_app.secondFunc ? meanKey : clearStatKey,
+                    onPress: !_app.secondFunc ? meanKey : clearStatKey,
                   );
                 }),
             // ---------------------------------------------------------
-            // Abs(x) Button
+            // Fix Button
             CalcButton(
-              absLabel,
-              image: 'assets/images/buttons/abs.png',
+              fixLabel,
+              image: 'assets/images/buttons/fix.png',
               fontColor: AppColors.fontWhite,
-              buttonCallBack: preNumbersKey,
+              onPress: fixKey,
             ),
-            // ln(x) and exp(x) Button
-            ListenableBuilder(
-              listenable: _app.secondFunc$,
-              builder: (context, _) {
-                return CalcButton(
-                  !_app.secondFunc ? lnLabel : expLabel,
-                  image: !_app.secondFunc
-                      ? 'assets/images/buttons/ln.png'
-                      : 'assets/images/buttons/ex.png',
-                  fontColor: !_app.secondFunc
-                      ? AppColors.fontWhite
-                      : AppColors.fontYellow,
-                  buttonCallBack: preNumbersKey,
-                );
-              },
-            ),
-            // Log(x) and pow10(x) Button
-            ListenableBuilder(
-              listenable: _app.secondFunc$,
-              builder: (context, _) {
-                return CalcButton(
-                  !_app.secondFunc ? logLabel : pow10Label,
-                  image: !_app.secondFunc
-                      ? 'assets/images/buttons/log.png'
-                      : 'assets/images/buttons/tenx.png',
-                  fontColor: !_app.secondFunc
-                      ? AppColors.fontWhite
-                      : AppColors.fontYellow,
-                  buttonCallBack: preNumbersKey,
-                );
-              },
-            ),
-            // - (minus) Button
-            CalcButton(
-              '-',
-              image: 'assets/images/buttons/minusset.png',
-              fontColor: AppColors.fontWhite,
-              buttonCallBack: insertKey,
-            ),
-            // π (pi) Button
-            CalcButton(
-              piLabel,
-              image: 'assets/images/buttons/pi.png',
-              fontColor: AppColors.fontWhite,
-              buttonCallBack: preNumbersKey,
-            ),
-            // ---------------------------------------------------------
             // rad x deg Button
             ListenableBuilder(
               listenable: _app.isRadians$,
@@ -729,10 +716,39 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: _app.isRadians
                       ? AppColors.fontWhite
                       : AppColors.fontGreen,
-                  buttonCallBack: (_) => _app.toggleIsRadians(),
+                  onPress: (_) => _app.toggleIsRadians(),
                 );
               },
             ),
+            // π (pi) Button
+            CalcButton(
+              piLabel,
+              image: 'assets/images/buttons/pi.png',
+              fontColor: AppColors.fontWhite,
+              onPress: preNumbersKey,
+            ),
+            // Abs(x) Button
+            CalcButton(
+              absLabel,
+              image: 'assets/images/buttons/abs.png',
+              fontColor: AppColors.fontWhite,
+              onPress: preNumbersKey,
+            ),
+            // Pol/Rec Button
+            ListenableBuilder(
+              listenable: _app.secondFunc$,
+              builder: (context, _) => CalcButton(
+                _app.secondFunc ? recLabel : polLabel,
+                image: _app.secondFunc
+                    ? 'assets/images/buttons/rec.png'
+                    : 'assets/images/buttons/pol.png',
+                fontColor: !_app.secondFunc
+                    ? AppColors.fontWhite
+                    : AppColors.fontYellow,
+                onPress: preNumbersKey,
+              ),
+            ),
+            // ---------------------------------------------------------
             // sin(x) and asin(x) Button
             ListenableBuilder(
               listenable: _app.secondFunc$,
@@ -745,7 +761,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: preNumbersKey,
+                  onPress: preNumbersKey,
                 );
               },
             ),
@@ -761,7 +777,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: preNumbersKey,
+                  onPress: preNumbersKey,
                 );
               },
             ),
@@ -777,16 +793,41 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: preNumbersKey,
+                  onPress: preNumbersKey,
                 );
               },
             ),
-            // Fix Button
-            CalcButton(
-              fixLabel,
-              image: 'assets/images/buttons/fix.png',
-              fontColor: AppColors.fontWhite,
-              buttonCallBack: fixKey,
+            // ln(x) and exp(x) Button
+            ListenableBuilder(
+              listenable: _app.secondFunc$,
+              builder: (context, _) {
+                return CalcButton(
+                  !_app.secondFunc ? lnLabel : expLabel,
+                  image: !_app.secondFunc
+                      ? 'assets/images/buttons/ln.png'
+                      : 'assets/images/buttons/ex.png',
+                  fontColor: !_app.secondFunc
+                      ? AppColors.fontWhite
+                      : AppColors.fontYellow,
+                  onPress: preNumbersKey,
+                );
+              },
+            ),
+            // Log(x) and pow10(x) Button
+            ListenableBuilder(
+              listenable: _app.secondFunc$,
+              builder: (context, _) {
+                return CalcButton(
+                  !_app.secondFunc ? logLabel : pow10Label,
+                  image: !_app.secondFunc
+                      ? 'assets/images/buttons/log.png'
+                      : 'assets/images/buttons/tenx.png',
+                  fontColor: !_app.secondFunc
+                      ? AppColors.fontWhite
+                      : AppColors.fontYellow,
+                  onPress: preNumbersKey,
+                );
+              },
             ),
             // ---------------------------------------------------------
             // pow(x) and (sqr(x) Button)
@@ -801,7 +842,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: preNumbersKey,
+                  onPress: preNumbersKey,
                 );
               },
             ),
@@ -817,7 +858,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: preNumbersKey,
+                  onPress: preNumbersKey,
                 );
               },
             ),
@@ -833,7 +874,7 @@ class _ButtonHubState extends State<ButtonHub> {
                   fontColor: !_app.secondFunc
                       ? AppColors.fontWhite
                       : AppColors.fontYellow,
-                  buttonCallBack: preNumbersKey,
+                  onPress: preNumbersKey,
                 );
               },
             ),
@@ -842,21 +883,14 @@ class _ButtonHubState extends State<ButtonHub> {
               parenthesesLabel,
               image: 'assets/images/buttons/parentheses.png',
               fontColor: AppColors.fontWhite,
-              buttonCallBack: insertKey,
+              onPress: insertKey,
             ),
-            // Pol/Rec Button
-            ListenableBuilder(
-              listenable: _app.secondFunc$,
-              builder: (context, _) => CalcButton(
-                _app.secondFunc ? recLabel : polLabel,
-                image: _app.secondFunc
-                    ? 'assets/images/buttons/rec.png'
-                    : 'assets/images/buttons/pol.png',
-                fontColor: !_app.secondFunc
-                    ? AppColors.fontWhite
-                    : AppColors.fontYellow,
-                buttonCallBack: preNumbersKey,
-              ),
+            // - (minus) Button
+            CalcButton(
+              '-',
+              image: 'assets/images/buttons/minusset.png',
+              fontColor: AppColors.fontWhite,
+              onPress: insertKey,
             ),
             // ---------------------------------------------------------
             // 7, 8, and 9 Buttons
@@ -869,7 +903,7 @@ class _ButtonHubState extends State<ButtonHub> {
               buttonColor: AppColors.buttonClean,
               fontColor: AppColors.fontWhite,
               iconColor: AppColors.fontWhite,
-              buttonCallBack: (_) => backSpaceKey(),
+              onPress: (_) => backSpaceKey(),
             ),
             // CLR Button
             CalcButton(
@@ -877,7 +911,7 @@ class _ButtonHubState extends State<ButtonHub> {
               // image: 'assets/images/buttons/clr.png',
               buttonColor: AppColors.buttonClean,
               fontColor: AppColors.fontWhite,
-              buttonCallBack: (_) => clearKey(),
+              onPress: (_) => clearKey(),
             ),
             // ---------------------------------------------------------
             // 4, 5, and 6 Buttons
@@ -887,14 +921,14 @@ class _ButtonHubState extends State<ButtonHub> {
               '*',
               image: 'assets/images/buttons/times.png',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: preOperatorsKey,
+              onPress: preOperatorsKey,
             ),
             // / (division) Button
             CalcButton(
               '/',
               image: 'assets/images/buttons/div.png',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: preOperatorsKey,
+              onPress: preOperatorsKey,
             ),
             // ---------------------------------------------------------
             // 1, 2, and 3 Buttons
@@ -904,46 +938,46 @@ class _ButtonHubState extends State<ButtonHub> {
               '+',
               image: 'assets/images/buttons/plus.png',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: preOperatorsKey,
+              onPress: preOperatorsKey,
             ),
             // - (subtraction) Button
             CalcButton(
               '-',
               image: 'assets/images/buttons/minus.png',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: preOperatorsKey,
+              onPress: preOperatorsKey,
             ),
             // ---------------------------------------------------------
             // 0 Button
             CalcButton(
               '0',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: preNumbersKey,
+              onPress: preNumbersKey,
             ),
             // . (point) Button
             CalcButton(
               '.',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: preNumbersKey,
+              onPress: preNumbersKey,
             ),
             // EE Button
             CalcButton(
               'EE',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: insertEEKey,
+              onPress: insertEEKey,
             ),
             // Ans Button
             CalcButton(
               ansLabel,
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: preAnsKey,
+              onPress: preAnsKey,
             ),
             // = Button
             CalcButton(
               '=',
               image: 'assets/images/buttons/eq.png',
               buttonColor: AppColors.buttonBasics,
-              buttonCallBack: equalKey,
+              onPress: equalKey,
             ),
           ],
         );

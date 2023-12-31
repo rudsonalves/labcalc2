@@ -4,6 +4,44 @@ A new Flutter project.
 
 # Commits
 
+## 2023/12/31 - version: 1.0.4+7:
+
+This version of LabCalc introduces significant enhancements, with a special highlight on the inclusion of the Privacy Policy in the About page, meeting Google's requirements. The changes also include improvements in usability and functionality of the app. The changes are as follows:
+
+* android/build.gradle:
+  - updated ext.kotlin_version to 1.9.22.
+* lib/common/constants/buttons_label.dart:
+  - corrected an error in the pow10 function label.
+* lib/common/models/measure/measure.dart:
+  - removed spaces around the '±' character in toString... and truncate() methods;
+  - added the method toStringByFunc(String Function(double) fixFunction) to print a Measure after applying a filter function fixFunction to its elements.
+* lib/common/models/measure/measure_functions.dart:
+  - added the method toStringByFunc(String Function(double) fixFunction) with the same purpose above for the PolarRepresentation and RectRepresentation classes.
+* lib/common/singletons/app_settings.dart:
+  - adjusted the management of the fix value to allow better external control in updating through Realm, avoiding excessive writings.
+* lib/common/widgets/fix_spin_button.dart:
+  - a FixSpinButton object now supports longPress for its adjustment.
+* lib/features/about/about_page.dart:
+  - **added the Privacy Policy and the copy link to the device's clipboard**;
+  - tooltip messages were added to inform about the copy to the clipboard of the links.
+* lib/features/calculator/widgets/button_hub/button_hub.dart:
+  - the filter for repetition of operators was moved to the method expressionBasicFilter(String text);
+  - replaced value.toString() with value.toStringByFunc(_removeTrailingZeros) in preparing the results to be displayed;
+  - added the method String _removeTrailingZeros(double value) to remove trailing zeros from a double if after a decimal point;
+  - adjusted the method memoriesLettersKey so that the memory call is appropriately inserted into the expression;
+  - added the method showStack() to display the statistical value stack;
+  - rearranged some calculator buttons for better user convenience;
+  - added longPress to the statistics stack button to display its content.
+* lib/features/calculator/widgets/button_hub/calc_button.dart:
+  - the CalcButton class was changed to allow the use of longPress.
+* lib/features/calculator/widgets/display/display_widget.dart:
+  - length for changing the font size of the primary display was increased to 64.
+* lib/features/calculator/widgets/update_message/update_message.dart:
+  - adjusted the app launch message.
+* lib/features/settings/settings_page.dart:
+  - another change in the FixSpinButton was the removal of attribute passing. AppSettings is now read directly by the class.
+
+
 ## 2023/12/28b - version: 1.0.4+6:
 
 This update of LabCalc introduces an initial system to detect app updates and inform users about the new features. This system is still in its early stage and will be further improved in future versions. The changes are as follows:
