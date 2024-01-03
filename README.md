@@ -4,6 +4,29 @@ A new Flutter project.
 
 # Commits
 
+## 2024/01/03b - version: 1.0.5+17:
+
+This update of LabCalc marks a significant shift in the app's data storage approach, enhancing the overall stability and security. Key changes in this version include:
+
+* android/app/build.gradle:
+  - Removed "ndk { abiFilters 'armeabi-v7a' }". This key was initially added to resolve the 'couldn't find "libflutter.so"' error. However, after reconsideration, I've replaced Realm with flutter_secure_storage for a more streamlined experience.
+* lib/common/models/app_settings_model.dart:
+  - Adjusted to save the attributes isRadian and truncate.
+  - Added the method Map<String, dynamic> toMap() to generate a map for stored settings.
+  - Introduced the factory method AppSettingsModel.fromMap(Map<String, String> map) for importing a <String, String> map.
+* lib/common/singletons/app_settings.dart:
+  - Updated the methods toggleIsRadians() and toggleTruncate() to refresh the flutter_secure_storage upon changes.
+* lib/common/singletons/settings_repository.dart:
+  - This class has been rewritten to operate with flutter_secure_storage;
+    - Methods init(), _openRealm(), and dispose() are no longer necessary.
+    - Methods Future<void> saveSettings(AppSettingsModel app) and Future<void> loadSettings() have been rewritten.
+* lib/database/model/settings.dart:
+* lib/database/model/settings.g.dart:
+  - These codes are no longer needed and have been removed.
+* lib/features/calculator/widgets/update_message/update_message.dart:
+  - The message has been separated from the body of the updateMessage function for better clarity and maintainability.
+
+
 ## 2024/01/03 - version: 1.0.4+15:
 
 This update of LabCalc focuses on technical enhancements and usability adjustments, particularly regarding compatibility with different platforms and user experience on the About page. The changes are as follows:

@@ -99,10 +99,16 @@ class AppSettings {
   }
 
   bool get isRadians => isRadians$.value;
-  void toggleIsRadians() => isRadians$.value = !isRadians$.value;
+  void toggleIsRadians() {
+    isRadians$.value = !isRadians$.value;
+    updateSettings();
+  }
 
   bool get truncate => truncate$.value;
-  void toggleTruncate() => truncate$.value = !truncate$.value;
+  void toggleTruncate() {
+    truncate$.value = !truncate$.value;
+    updateSettings();
+  }
 
   bool get secondFunc => secondFunc$.value;
   void toggleSecondFunc() => secondFunc$.value = !secondFunc$.value;
@@ -123,7 +129,6 @@ class AppSettings {
     secondFunc$.dispose();
     expressionError$.dispose();
     counter$.dispose();
-    _repository.dispose();
   }
 
   reset([bool testMode = false]) {
@@ -137,7 +142,7 @@ class AppSettings {
     secondFunc$.value = false;
   }
 
-  void loadRealmSettings() {
+  void loadSettings() {
     final AppSettingsModel settings = _repository.settings;
     _isLoading = true;
 
@@ -146,6 +151,8 @@ class AppSettings {
     _intToDeviation(settings.deviation);
     fix$.value = settings.fix;
     _version = settings.version;
+    isRadians$.value = settings.isRadian;
+    truncate$.value = settings.truncate;
 
     _isLoading = false;
   }
@@ -181,6 +188,8 @@ class AppSettings {
       deviation: _deviationToInt(),
       fix: fix,
       version: _version,
+      isRadian: isRadians,
+      truncate: truncate,
     );
   }
 }
