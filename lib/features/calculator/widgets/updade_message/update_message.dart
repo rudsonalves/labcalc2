@@ -5,6 +5,15 @@ import '../../../../common/singletons/app_settings.dart';
 import '../../../../common/themes/colors/app_colors.dart';
 import '../../../../common/themes/styles/app_button_styles.dart';
 
+const message = '''
+This update of LabCalc focuses on technical enhancements and usability 
+adjustments, particularly regarding compatibility with different platforms 
+and user experience on the About page.
+
+A significant change to the app's data storage approach has been implemented, 
+improving overall stability and security.
+''';
+
 void updateMessage(BuildContext context) {
   final app = AppSettings.instance;
 
@@ -20,13 +29,7 @@ void updateMessage(BuildContext context) {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                    'Welcome to LabCalc2, an innovative and powerful Scientific'
-                    ' Calculator designed to meet the needs of professionals'
-                    ' and students in the fields of science and engineering.'
-                    '\n\nLabCalc2 is not just a calculation tool; it\'s an'
-                    ' advanced platform for accurate and reliable uncertainty'
-                    ' analysis.\n\n'),
+                const Text(message),
                 CheckboxListTile(
                   value: checkBox,
                   controlAffinity: ListTileControlAffinity.leading,

@@ -1,6 +1,7 @@
-import 'package:realm/realm.dart';
+import 'dart:developer';
 
-import '../../database/model/settings.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import '../models/app_settings_model.dart';
 
 class SettingsReposiroty {
@@ -11,61 +12,33 @@ class SettingsReposiroty {
   final AppSettingsModel _settings = AppSettingsModel();
   AppSettingsModel get settings => _settings;
 
-  late final Realm _realm;
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
-  void init() {
-    _openRealm();
-  }
-
-  void dispose() {
-    _realm.close();
-  }
-
-  void _openRealm() {
-    // Defines the schema version
-    int schemaVersion = 2; // increase as needed
-
-    final config =
-        Configuration.local([Settings.schema], schemaVersion: schemaVersion);
-    _realm = Realm(config);
-  }
-
-  void saveSettings(AppSettingsModel app) {
-    if (_realm.isClosed) _openRealm();
-
-    Settings? settings = _realm.find<Settings>(1);
-    if (settings == null) {
-      Settings settings = Settings(
-        1,
-        app.themeMode,
-        app.mean,
-        app.deviation,
-        app.fix,
-        app.version,
-      );
-
-      _realm.write(() => _realm.add(settings));
-    } else {
-      _realm.write(() {
-        settings.themeMode = app.themeMode;
-        settings.mean = app.mean;
-        settings.deviation = app.deviation;
-        settings.fix = app.fix;
-        settings.version = app.version;
+  Future<void> saveSettings(AppSettingsModel app) async {
+    try {
+      app.toMap().forEach((key, value) async {
+        await _storage.write(key: key, value: value.toString());
       });
+    } catch (err) {
+      log('SettingsReposiroty.saveSettings: $err');
     }
   }
 
-  void loadSettings() {
-    if (_realm.isClosed) _openRealm();
+  Future<void> loadSettings() async {
+    try {
+      Map<String, String> allValues = await _storage.readAll();
 
-    Settings? settings = _realm.find(1);
-    if (settings != null) {
-      _settings.themeMode = settings.themeMode;
-      _settings.mean = settings.mean;
-      _settings.deviation = settings.deviation;
-      _settings.fix = settings.fix;
-      _settings.version = settings.version;
+      final newSettings = AppSettingsModel.fromMap(allValues);
+
+      _settings.themeMode = newSettings.themeMode;
+      _settings.mean = newSettings.mean;
+      _settings.deviation = newSettings.deviation;
+      _settings.fix = newSettings.fix;
+      _settings.version = newSettings.version;
+      _settings.isRadian = newSettings.isRadian;
+      _settings.truncate = newSettings.truncate;
+    } catch (err) {
+      log('SettingsReposiroty.loadSettings: $err');
     }
   }
 
