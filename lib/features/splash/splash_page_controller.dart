@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../../database/settings_repository.dart';
+import '../../common/singletons/settings_repository.dart';
 import 'splash_page_state.dart';
 
 class SplashPageController extends ChangeNotifier {

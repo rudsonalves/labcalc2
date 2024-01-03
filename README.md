@@ -4,6 +4,22 @@ A new Flutter project.
 
 # Commits
 
+## 2024/01/03 - version: 1.0.4+15:
+
+This update of LabCalc focuses on technical enhancements and usability adjustments, particularly regarding compatibility with different platforms and user experience on the About page. The changes are as follows:
+
+* android/app/build.gradle:
+  - Added the option "ndk { abiFilters 'armeabi-v7a' }" to defaultConfig. This change addresses an issue related to the Realm package that affected compiling the app on 32Bit devices, as discussed in [Flutter app: couldn’t find “libflutter.so”](https://medium.com/codechai/flutter-app-couldnt-find-libflutter-so-c95ad81cbccd).
+* android/app/src/main/AndroidManifest.xml:
+  - Removed direct link calls to the browser. Now, links are copied to the user's clipboard, enhancing security and usability.
+* lib/common/singletons/app_settings.dart:
+  - The file lib/database/settings_repository.dart was moved to the lib/common/singletons folder.
+  - The _openRealm() method was updated to accommodate changes in the database schema that occurred after adding the app version attribute to the table.
+* lib/features/about/about_page.dart:
+  - The _launchUrl method was renamed to _copyUrl and now performs the function of copying URLs to the clipboard.
+  - Made changes to the layout of the About page to enhance presentation and user experience.
+
+
 ## 2023/12/31 - version: 1.0.4+7:
 
 This version of LabCalc introduces significant enhancements, with a special highlight on the inclusion of the Privacy Policy in the About page, meeting Google's requirements. The changes also include improvements in usability and functionality of the app. The changes are as follows:

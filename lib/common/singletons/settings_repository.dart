@@ -1,7 +1,7 @@
 import 'package:realm/realm.dart';
 
-import 'model/settings.dart';
-import '../common/models/app_settings_model.dart';
+import '../../database/model/settings.dart';
+import '../models/app_settings_model.dart';
 
 class SettingsReposiroty {
   SettingsReposiroty._();
@@ -22,7 +22,11 @@ class SettingsReposiroty {
   }
 
   void _openRealm() {
-    LocalConfiguration config = Configuration.local([Settings.schema]);
+    // Defines the schema version
+    int schemaVersion = 2; // increase as needed
+
+    final config =
+        Configuration.local([Settings.schema], schemaVersion: schemaVersion);
     _realm = Realm(config);
   }
 
