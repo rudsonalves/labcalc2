@@ -9,6 +9,7 @@ import '../../common/themes/styles/app_text_styles.dart';
 const pageUrl = 'https://jrblog.com.br/labcalc2/';
 const email = 'alvesdev67@gmail.com';
 const privacyPolicyUrl = 'https://jrblog.com.br/privacy-policy-for-tuxdev67/';
+const double height = 30;
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
@@ -20,18 +21,29 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
-  void _lauchUrl(String url) async {
-    final uri = Uri.parse(url);
+  void _copyUrl(String url) async {
+    // final uri = Uri.parse(url);
 
     // copy link to clipboard
     await Clipboard.setData(ClipboardData(text: url));
 
     // open link in browser
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      debugPrint("URL can't be launched.");
-    }
+    // if (await canLaunchUrl(uri)) {
+    //   await launchUrl(uri);
+    // } else {
+    //   debugPrint("URL can't be launched.");
+    // }
+
+    // Timer _time =  Timer.periodic(
+    //   const Duration(seconds: 2),
+    //   (timer) {
+    //     if (value < maxValue) {
+    //       _increment();
+    //     } else {
+    //       _incrementTimer?.cancel();
+    //     }
+    //   },
+    // );
   }
 
   void _launchMailto() async {
@@ -54,10 +66,10 @@ class _AboutPageState extends State<AboutPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Spacer(),
-            const Text(
+            const SizedBox(height: height),
+            Text(
               'LabCalc',
-              style: AppTextStyle.textStyleTitle,
+              style: AppTextStyle.textStyleBig.copyWith(fontSize: 44),
               textAlign: TextAlign.center,
             ),
             Text(
@@ -67,7 +79,7 @@ class _AboutPageState extends State<AboutPage> {
               ),
               textAlign: TextAlign.center,
             ),
-            const Spacer(),
+            const SizedBox(height: height * 2),
             const Text(
               'Application developed by',
               style: AppTextStyle.textStyleTitle,
@@ -94,14 +106,14 @@ class _AboutPageState extends State<AboutPage> {
                 ],
               ),
             ),
-            const Spacer(),
+            const SizedBox(height: height),
             const Text(
               'LabCalc Mathematical base',
               style: AppTextStyle.textStyleTitle,
               textAlign: TextAlign.center,
             ),
             Tooltip(
-              message: 'Copy the link to the clikboard and open in the browser',
+              message: 'Click to copy the link to the clikboard',
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -111,7 +123,7 @@ class _AboutPageState extends State<AboutPage> {
                   ),
                   const SizedBox(width: 6),
                   TextButton(
-                    onPressed: () => _lauchUrl(pageUrl),
+                    onPressed: () => _copyUrl(pageUrl),
                     child: Text(
                       pageUrl,
                       style: AppTextStyle.textStyleTitle.copyWith(
@@ -122,14 +134,14 @@ class _AboutPageState extends State<AboutPage> {
                 ],
               ),
             ),
-            const Spacer(),
+            const SizedBox(height: height),
             const Text(
               'Privacy Policy',
               style: AppTextStyle.textStyleTitle,
               textAlign: TextAlign.center,
             ),
             Tooltip(
-              message: 'Copy the link to the clikboard and open in the browser',
+              message: 'Click to copy the link to the clikboard',
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -139,7 +151,7 @@ class _AboutPageState extends State<AboutPage> {
                   ),
                   const SizedBox(width: 6),
                   TextButton(
-                    onPressed: () => _lauchUrl(privacyPolicyUrl),
+                    onPressed: () => _copyUrl(privacyPolicyUrl),
                     child: Text(
                       privacyPolicyUrl.replaceAll('icy-for-tuxdev67', '...'),
                       style: AppTextStyle.textStyleTitle.copyWith(
@@ -151,7 +163,7 @@ class _AboutPageState extends State<AboutPage> {
                 ],
               ),
             ),
-            const Spacer(),
+            const SizedBox(height: height),
           ],
         ),
       ),

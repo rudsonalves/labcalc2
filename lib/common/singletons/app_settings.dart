@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../database/settings_repository.dart';
+import 'settings_repository.dart';
 import '../constants/constants.dart';
 import '../models/app_settings_model.dart';
 
