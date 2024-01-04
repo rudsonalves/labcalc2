@@ -6,12 +6,11 @@ import '../../../../common/themes/colors/app_colors.dart';
 import '../../../../common/themes/styles/app_button_styles.dart';
 
 const message = '''
-This update of LabCalc focuses on technical enhancements and usability 
-adjustments, particularly regarding compatibility with different platforms 
-and user experience on the About page.
+This update of LabCalc focuses on technical enhancements and usability adjustments, particularly regarding compatibility with different platforms and user experience on the About page.
 
-A significant change to the app's data storage approach has been implemented, 
-improving overall stability and security.
+A significant change to the app's data storage approach has been implemented, improving overall stability and security.
+
+Our Privacy Policy has been updated. To find out more details, access the page using the button below or the About page.
 ''';
 
 void updateMessage(BuildContext context) {
@@ -45,6 +44,11 @@ void updateMessage(BuildContext context) {
               ],
             ),
             actions: [
+              ElevatedButton(
+                onPressed: () => AppInfo.launchUrl(AppInfo.privacyPolicyUrl),
+                style: AppButtonStyles.primaryButton(context),
+                child: const Text('Privacy Policy (en)'),
+              ),
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 style: AppButtonStyles.primaryButton(context),

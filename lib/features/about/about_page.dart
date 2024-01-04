@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../common/constants/app_info.dart';
 import '../../common/themes/colors/app_colors.dart';
 import '../../common/themes/styles/app_text_styles.dart';
 
-const pageUrl = 'https://jrblog.com.br/labcalc2/';
-const email = 'alvesdev67@gmail.com';
-const privacyPolicyUrl = 'https://jrblog.com.br/privacy-policy-for-tuxdev67/';
 const double height = 30;
 
 class AboutPage extends StatefulWidget {
@@ -21,40 +16,6 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
-  void _copyUrl(String url) async {
-    // final uri = Uri.parse(url);
-
-    // copy link to clipboard
-    await Clipboard.setData(ClipboardData(text: url));
-
-    // open link in browser
-    // if (await canLaunchUrl(uri)) {
-    //   await launchUrl(uri);
-    // } else {
-    //   debugPrint("URL can't be launched.");
-    // }
-
-    // Timer _time =  Timer.periodic(
-    //   const Duration(seconds: 2),
-    //   (timer) {
-    //     if (value < maxValue) {
-    //       _increment();
-    //     } else {
-    //       _incrementTimer?.cancel();
-    //     }
-    //   },
-    // );
-  }
-
-  void _launchMailto() async {
-    Uri url = Uri(
-      scheme: 'mailto',
-      path: email,
-      queryParameters: {'subject': '[LabCalc] - <Your Subject text>'},
-    );
-    await launchUrl(url);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +47,7 @@ class _AboutPageState extends State<AboutPage> {
               textAlign: TextAlign.center,
             ),
             TextButton(
-              onPressed: _launchMailto,
+              onPressed: () => AppInfo.launchMailto(),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -97,7 +58,7 @@ class _AboutPageState extends State<AboutPage> {
                   ),
                   const SizedBox(width: 6),
                   Text(
-                    email,
+                    AppInfo.email,
                     style: AppTextStyle.textStyleTitle.copyWith(
                       color: AppColors.darkPrimary,
                     ),
@@ -123,9 +84,9 @@ class _AboutPageState extends State<AboutPage> {
                   ),
                   const SizedBox(width: 6),
                   TextButton(
-                    onPressed: () => _copyUrl(pageUrl),
+                    onPressed: () => AppInfo.launchUrl(AppInfo.pageUrl),
                     child: Text(
-                      pageUrl,
+                      AppInfo.pageUrl,
                       style: AppTextStyle.textStyleTitle.copyWith(
                         color: AppColors.darkPrimary,
                       ),
@@ -151,9 +112,11 @@ class _AboutPageState extends State<AboutPage> {
                   ),
                   const SizedBox(width: 6),
                   TextButton(
-                    onPressed: () => _copyUrl(privacyPolicyUrl),
+                    onPressed: () =>
+                        AppInfo.launchUrl(AppInfo.privacyPolicyUrl),
                     child: Text(
-                      privacyPolicyUrl.replaceAll('icy-for-tuxdev67', '...'),
+                      AppInfo.privacyPolicyUrl
+                          .replaceAll('com.br/', 'com.br/\n'),
                       style: AppTextStyle.textStyleTitle.copyWith(
                         color: AppColors.darkPrimary,
                       ),

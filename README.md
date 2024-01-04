@@ -4,6 +4,24 @@ A new Flutter project.
 
 # Commits
 
+## 2024/01/04 - version: 1.0.5+18:
+
+This update enhances the functionality related to accessing external resources like the Privacy Policy page and streamlines communication features within the app. Key changes include:
+
+* android/app/src/main/AndroidManifest.xml:
+  - Added permissions to access internet pages through the browser. This is used to access the Privacy Policy page.
+* lib/common/constants/app_info.dart:
+  - Adjusted the AppInfo to include new methods:
+    - static Future<void> launchUrl(String url) for opening a URL in the browser.
+    - static Future<void> copyUrl(String url) to copy a URL to the clipboard.
+    - static Future<void> launchMailto() for email communication.
+* lib/features/about/about_page.dart:
+  - The Privacy Policy page link now opens in the browser for direct access.
+* lib/features/calculator/widgets/update_message/update_message.dart:
+  - Updated the message content.
+  - Added a button linking to the Privacy Policy for easy access.
+
+
 ## 2024/01/03b - version: 1.0.5+17:
 
 This update of LabCalc marks a significant shift in the app's data storage approach, enhancing the overall stability and security. Key changes in this version include:
