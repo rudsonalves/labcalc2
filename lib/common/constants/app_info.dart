@@ -8,7 +8,7 @@ class AppInfo {
 
   static const name = 'labcalc2';
   static const description = 'Laboratory Scientific Calculator';
-  static const version = '1.0.5+18';
+  static const version = '1.0.6+23';
 
   static get pageUrl => 'https://jrblog.com.br/$name/';
   static const email = 'alvesdev67@gmail.com';

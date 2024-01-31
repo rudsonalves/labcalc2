@@ -6,11 +6,9 @@ import '../../../../common/themes/colors/app_colors.dart';
 import '../../../../common/themes/styles/app_button_styles.dart';
 
 const message = '''
-This update of LabCalc focuses on technical enhancements and usability adjustments, particularly regarding compatibility with different platforms and user experience on the About page.
+In addition to some technical improvements and usability adjustments, in this version: a change to the application's data storage approach was implemented, improving overall stability and security; addition of the About page for general information such as version, developer contact and project page; our Privacy Policy has been updated.
 
-A significant change to the app's data storage approach has been implemented, improving overall stability and security.
-
-Our Privacy Policy has been updated. To find out more details, access the page using the button below or the About page.
+To find out more details, access the page using the button below or through the About page.
 ''';
 
 void updateMessage(BuildContext context) {
