@@ -4,6 +4,16 @@ A new Flutter project.
 
 # Commits
 
+## 2024/01/31 - Version: 1.0.6+23:
+
+In this update, we've made a few improvements and added new features to enhance your application experience:
+
+* android/app/src/main/AndroidManifest.xml:
+  - Internet access to visit the privacy policy page.
+* lib/features/calculator/widgets/updade_message/update_message.dart:
+  - Update message upgrades.
+  
+
 ## 2024/01/04 - version: 1.0.5+18:
 
 This update enhances the functionality related to accessing external resources like the Privacy Policy page and streamlines communication features within the app. Key changes include:
