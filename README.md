@@ -4,6 +4,24 @@ A new Flutter project.
 
 # Commits
 
+## 2024/05/06 - version: 1.0.7+25
+
+Privacy Policy Address Corrections and Functional Enhancements
+
+- **Privacy Policy and Developer Page Corrections**:
+  - Corrected the URLs for the privacy policy and developer page in the `measure.dart` to point to the new blog, ensuring compliance and up-to-date information is accessible to the users.
+
+- **Equality Operator Update**:
+  - Updated the equality operator (`==`) in `measure.dart` to accept a non-null parameter, improving the robustness of model comparisons by enforcing type safety.
+
+- **UI Enhancement in About Page**:
+  - Introduced a new method `simpleAddress` in `about_page.dart` to strip 'https://' from URLs displayed on the About page. This adjustment helps in fitting the text neatly on the page, enhancing the visual presentation without compromising the information's integrity.
+
+- **Version Update**:
+  - Incremented the application's version to `1.0.7+25` to mark the introduction of these improvements and fixes.
+
+This commit ensures that the application maintains accurate and user-friendly information display, while also enhancing data handling and UI presentation.
+
 ## 2024/01/31 - Version: 1.0.6+23:
 
 In this update, we've made a few improvements and added new features to enhance your application experience:
