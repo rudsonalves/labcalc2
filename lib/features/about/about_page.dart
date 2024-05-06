@@ -16,6 +16,10 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
+  String simpleAddress(String address) {
+    return address.replaceFirst('https://', '');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +90,7 @@ class _AboutPageState extends State<AboutPage> {
                   TextButton(
                     onPressed: () => AppInfo.launchUrl(AppInfo.pageUrl),
                     child: Text(
-                      AppInfo.pageUrl,
+                      simpleAddress(AppInfo.pageUrl),
                       style: AppTextStyle.textStyleTitle.copyWith(
                         color: AppColors.darkPrimary,
                       ),
@@ -115,8 +119,8 @@ class _AboutPageState extends State<AboutPage> {
                     onPressed: () =>
                         AppInfo.launchUrl(AppInfo.privacyPolicyUrl),
                     child: Text(
-                      AppInfo.privacyPolicyUrl
-                          .replaceAll('com.br/', 'com.br/\n'),
+                      simpleAddress(AppInfo.privacyPolicyUrl
+                          .replaceAll('com.br/', 'com.br/\n')),
                       style: AppTextStyle.textStyleTitle.copyWith(
                         color: AppColors.darkPrimary,
                       ),

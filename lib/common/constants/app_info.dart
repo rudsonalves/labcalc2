@@ -8,11 +8,11 @@ class AppInfo {
 
   static const name = 'labcalc2';
   static const description = 'Laboratory Scientific Calculator';
-  static const version = '1.0.6+23';
+  static const version = '1.0.7+25';
 
-  static get pageUrl => 'https://jrblog.com.br/$name/';
+  static get pageUrl => 'https://rralves.dev.br/en/$name/';
   static const email = 'alvesdev67@gmail.com';
-  static const privacyPolicyUrl = 'https://jrblog.com.br/privacy-policy-en/';
+  static const privacyPolicyUrl = 'https://rralves.dev.br/en/privacy-policy-en/';
   
   static Future<void> launchUrl(String url) async {
     final uri = Uri.parse(url);

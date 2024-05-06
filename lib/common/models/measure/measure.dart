@@ -91,7 +91,7 @@ class Measure {
 
   /// operator ==: override the operator ==
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (other is Measure) {
       return (other.runtimeType == runtimeType) &&
           (other.value == value) &&
