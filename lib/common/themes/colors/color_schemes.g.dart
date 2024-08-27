@@ -1,3 +1,20 @@
+// Copyright (C) 2024 Rudson Alves
+// 
+// This file is part of labcalc2.
+// 
+// labcalc2 is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// labcalc2 is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with labcalc2.  If not, see <https://www.gnu.org/licenses/>.
+
 import 'package:flutter/material.dart';
 
 const lightColorScheme = ColorScheme(
@@ -18,11 +35,9 @@ const lightColorScheme = ColorScheme(
   errorContainer: Color(0xFFFFDAD6),
   onError: Color(0xFFFFFFFF),
   onErrorContainer: Color(0xFF410002),
-  background: Color(0xFFFBFCFF),
-  onBackground: Color(0xFF191C1E),
   surface: Color(0xFFFBFCFF),
   onSurface: Color(0xFF191C1E),
-  surfaceVariant: Color(0xFFDCE3E9),
+  surfaceContainerHighest: Color(0xFFDCE3E9),
   onSurfaceVariant: Color(0xFF41484D),
   outline: Color(0xFF71787D),
   onInverseSurface: Color(0xFFF0F1F3),
@@ -52,11 +67,9 @@ const darkColorScheme = ColorScheme(
   errorContainer: Color(0xFF93000A),
   onError: Color(0xFF690005),
   onErrorContainer: Color(0xFFFFDAD6),
-  background: Color(0xFF191C1E),
-  onBackground: Color(0xFFE1E2E5),
   surface: Color(0xFF191C1E),
   onSurface: Color(0xFFE1E2E5),
-  surfaceVariant: Color(0xFF41484D),
+  surfaceContainerHighest: Color(0xFF41484D),
   onSurfaceVariant: Color(0xFFC0C7CD),
   outline: Color(0xFF8B9297),
   onInverseSurface: Color(0xFF191C1E),

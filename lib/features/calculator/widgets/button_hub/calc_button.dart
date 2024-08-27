@@ -18,7 +18,7 @@ class CalcButton extends StatelessWidget {
 
   CalcButton(
     String label, {
-    Key? key,
+    super.key,
     this.tooltip,
     this.image,
     this.iconData,
@@ -28,8 +28,7 @@ class CalcButton extends StatelessWidget {
     this.fontColor = Colors.black,
     required this.onPress,
     this.onLongPress,
-  })  : keyModel = KeyModel.fromLabel(label),
-        super(key: key);
+  }) : keyModel = KeyModel.fromLabel(label);
 
   @override
   Widget build(BuildContext context) {

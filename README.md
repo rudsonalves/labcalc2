@@ -4,6 +4,79 @@ A new Flutter project.
 
 # Commits
 
+## 2024/08/27 - version: 1.0.10+28
+
+Added GNU General Public License (GPL-3.0) to Project and Updated License Headers
+
+Description:
+
+This commit introduces the following changes:
+
+1. LICENSE File Added:
+   - Added the `LICENSE` file containing the full text of the GNU General Public License, Version 3, 29 June 2007.
+
+2. Updated License Headers:
+   - Updated the license headers in multiple source files to reflect the use of the GPL-3.0 license. These changes include the following files:
+     - `lib/common/constants/app_info.dart`
+     - `lib/common/constants/buttons_label.dart`
+     - `lib/common/constants/constants.dart`
+     - `lib/common/models/app_settings_model.dart`
+     - `lib/common/models/display/display_controller.dart`
+     - `lib/common/models/key_model/key_model.dart`
+     - `lib/common/models/math_expression/function_map.dart`
+     - `lib/common/models/math_expression/math_expression.dart`
+     - `lib/common/models/measure/measure.dart`
+     - `lib/common/models/measure/measure_functions.dart`
+     - `lib/common/models/measure/statistic.dart`
+     - `lib/common/models/measure/vector.dart`
+     - `lib/common/models/memories/app_memories.dart`
+     - `lib/common/models/memories/memory.dart`
+     - `lib/common/singletons/app_settings.dart`
+     - `lib/common/singletons/settings_repository.dart`
+     - `lib/common/themes/colors/app_colors.dart`
+     - `lib/common/themes/colors/color_schemes.g.dart`
+     - `lib/common/themes/styles/app_button_styles.dart`
+     - `lib/common/themes/styles/app_text_styles.dart`
+     - `lib/common/widgets/fix_spin_button.dart`
+     - `lib/features/about/about_page.dart`
+     - `lib/features/calculator/calculator_page.dart`
+     - `lib/features/calculator/widgets/app_drawer.dart`
+     - `lib/features/calculator/widgets/button_hub/button_hub.dart`
+     - `lib/features/calculator/widgets/button_hub/calc_button.dart`
+     - `lib/features/calculator/widgets/button_hub/utilities/create_button.dart`
+     - `lib/features/calculator/widgets/button_hub/utilities/display_utilities.dart`
+     - `lib/features/calculator/widgets/button_hub/utilities/string_edit.dart`
+     - `lib/features/calculator/widgets/dialog_reset/dialog_reset.dart`
+     - `lib/features/calculator/widgets/display/display_widget.dart`
+     - `lib/features/calculator/widgets/status_bar/status_bar_widget.dart`
+     - `lib/features/calculator/widgets/updade_message/update_message.dart`
+     - `lib/features/settings/settings_page.dart`
+     - `lib/features/splash/splash_page.dart`
+     - `lib/features/splash/splash_page_controller.dart`
+     - `lib/features/splash/splash_page_state.dart`
+     - `lib/main.dart`
+     - `lib/main_app.dart`
+
+3. Dependency Updates in `pubspec.lock`:
+   - Updated several dependencies to newer versions. Key updates include:
+     - `crypto` from 3.0.3 to 3.0.5
+     - `ffi` from 2.1.2 to 2.1.3
+     - `leak_tracker` from 10.0.4 to 10.0.5
+     - `leak_tracker_flutter_testing` from 3.0.3 to 3.0.5
+     - `material_color_utilities` from 0.8.0 to 0.11.1
+     - `meta` from 1.12.0 to 1.15.0
+     - `path_provider_android` from 2.2.9 to 2.2.10
+     - `test_api` from 0.7.0 to 0.7.2
+     - `url_launcher_android` from 6.3.8 to 6.3.10
+     - `url_launcher_linux` from 3.1.1 to 3.2.0
+     - `url_launcher_web` from 2.3.1 to 2.3.3
+     - `vm_service` from 14.2.1 to 14.2.4
+     - `web` from 0.5.1 to 1.0.0
+     - `win32` from 5.5.3 to 5.5.4
+
+This commit ensures all source code files are now compliant with the GNU GPL-3.0 and reflects these changes consistently across the entire project.
+
+
 ## 2024/05/06 - version: 1.0.7+25
 
 Privacy Policy Address Corrections and Functional Enhancements
